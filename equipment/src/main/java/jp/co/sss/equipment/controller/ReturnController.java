@@ -46,11 +46,11 @@ public class ReturnController {
 	 */
 	@PostMapping("/returnProcess")
 	public String returnProcess(
-			@RequestParam("equipmentIdList") List<Integer> equipmentIdList,//Listにシリアルナンバーが格納されている
+			@RequestParam(value = "equipmentIdList", required = false)List<Integer> equipmentIdList,//Listにidが格納されている
 			@RequestParam("name") String name,
 			Model model) {
-		if(!equipmentIdList.isEmpty()) {
-		returnService.returnEquipment(equipmentIdList);
+		if(equipmentIdList != null && !equipmentIdList.isEmpty()) {  //チェックが入っている場合
+		returnService.returnEquipment(equipmentIdList); //サービス層でsqlのマッパー呼び出し
 		}
 		System.out.println("equipmentIdList = " + equipmentIdList);
 		List<DetailListViewDto> returnViewList = returnService.returnFindView(name); //備品名を取得する　サービス層で処理
