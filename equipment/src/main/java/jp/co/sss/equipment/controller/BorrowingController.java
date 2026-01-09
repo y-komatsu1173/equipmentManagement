@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import jp.co.sss.equipment.dto.DetailListViewDto;
 import jp.co.sss.equipment.entity.StaffData;
@@ -23,6 +25,7 @@ public class BorrowingController {
 
 	@Autowired
 	IndexService indexService;
+
 	/**
 	 * 貸出画面
 	 * @author 小松原
@@ -30,14 +33,31 @@ public class BorrowingController {
 	 * @param name
 	 * @return　templates/index/returnView 貸出画面
 	 */
-	@GetMapping("borrowingView")
+	@GetMapping("/borrowingView")
 	public String borrowingView(Model model, String name) {
 		List<DetailListViewDto> borrowingList = borrowingService.borrowingFindView(name); //備品名を取得する　サービス層で処理
 		List<DetailListViewDto> detailName = indexService.detailFind(name);//貸出中の備品を取得する
 		List<StaffData> staffList = borrowingService.staffDataFind(); //スタッフ情報を取得する
-			model.addAttribute("detailName", detailName.get(0)); //備品名をひとつ取得し、HTMLに表示させる
-			model.addAttribute("itemDetail", borrowingList);//貸出中の備品をHTMLのテーブルに表示させる
-			model.addAttribute("staffName",staffList);//スタッフ情報をhtmlのドロップダウンに表示させる
-			return "borrowing/borrowingView";//templatesフォルダーのhtmlを表示させる
+		model.addAttribute("detailName", detailName.get(0)); //備品名をひとつ取得し、HTMLに表示させる
+		model.addAttribute("itemDetail", borrowingList);//貸出中の備品をHTMLのテーブルに表示させる
+		model.addAttribute("staffName", staffList);//スタッフ情報をhtmlのドロップダウンに表示させる
+		return "borrowing/borrowingView";//templatesフォルダーのhtmlを表示させる
+	}
+
+	@PostMapping("/borrowingProcess")
+	public String borrowingProcess(
+			@RequestParam(value = "equipmentIdList", required = false) List<Integer> equipmentIdList, // チェックがないと null になる
+			@RequestParam(value="name", required=false) String name,
+			Model model) {
+		if (equipmentIdList != null && !equipmentIdList.isEmpty()) { //チェックが入っている場合
+			//returnService.returnEquipment(equipmentIdList); //サービス層でsqlのマッパー呼び出し
+		}
+		List<DetailListViewDto> borrowingList = borrowingService.borrowingFindView(name); //備品名を取得する　サービス層で処理
+		List<DetailListViewDto> detailName = indexService.detailFind(name);//貸出中の備品を取得する
+		List<StaffData> staffList = borrowingService.staffDataFind(); //スタッフ情報を取得する
+		model.addAttribute("detailName", detailName.get(0)); //備品名をひとつ取得し、HTMLに表示させる
+		model.addAttribute("itemDetail", borrowingList);//貸出中の備品をHTMLのテーブルに表示させる
+		model.addAttribute("staffName", staffList);//スタッフ情報をhtmlのドロップダウンに表示させる
+		return "borrowing/borrowingView";//templatesフォルダーのhtmlを表示させる
 	}
 }
