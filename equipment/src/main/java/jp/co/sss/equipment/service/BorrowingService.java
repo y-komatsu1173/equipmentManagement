@@ -2,7 +2,6 @@ package jp.co.sss.equipment.service;
 
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -43,18 +42,18 @@ public class BorrowingService {
 	 */
 	@Transactional
 	public void borrowingEquipment(
-	        List<Integer> equipmentIdList,
-	        Map<String, String> staffNoMap,
-	        Map<String, String> startDateMap,
-	        Map<String, String> limitDateMap) {
-
-	    for (Integer id : equipmentIdList) {
-	        // HTML で生成される name に合わせて Map から値を取得
-	        Integer staffNo = Integer.valueOf(staffNoMap.get("staffNoMap[" + id + "]"));
-	        LocalDate startDate = LocalDate.parse(startDateMap.get("startDateMap[" + id + "]"));
-	        LocalDate limitDate = LocalDate.parse(limitDateMap.get("limitDateMap[" + id + "]"));
-
-	        borrowingMapper.borrowingUpdate(id, staffNo, startDate, limitDate);
+	    List<Integer> equipmentIdList,
+	    List<Integer> staffNoList,
+	    List<LocalDate> startDateList,
+	    List<LocalDate> limitDateList //コントローラからの引数(HTMLからのデータ)
+	) {
+	    for (int i = 0; i < equipmentIdList.size(); i++) {//チェックの数だけ繰り返す
+	        borrowingMapper.borrowingUpdate(//Mapperを呼び出す
+	            equipmentIdList.get(i), //id
+	            staffNoList.get(i),//社員id
+	            startDateList.get(i),//貸出開始日
+	            limitDateList.get(i)//貸出期限
+	        );  //Listのi番目を一斉に渡しマッパーで処理をする
 	    }
 	}
 }
