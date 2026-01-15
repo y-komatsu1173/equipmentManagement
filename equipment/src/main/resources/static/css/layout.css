@@ -1,0 +1,38 @@
+@charset "UTF-8";
+
+.fc_red {
+	color: crimson;
+}
+
+.front_label_color {
+	background-color: rgb(26, 11, 134);
+	color: White;
+}
+
+.fc_white {
+	color: White
+}
+
+
+.body {
+	max-width: 1280px;
+	margin: auto;
+	padding:100px;
+}
+
+.table-buttons {
+	margin-top: 10px;
+	display: flex;
+	flex-direction: row; /* 横並び */
+	justify-content: flex-end; /* 右寄せ */
+	gap: 8px; /* ボタンの余白 */
+}
+
+.title{
+	background:#fed;
+	color:#321;
+	padding-left:12px;
+	border-left-color:#963; /* 左の枠線の色 */
+	border-left-style:solid; /* 左の枠線の種類 */
+	border-left-width:8px; /* 左の枠線の太さ */
+}
