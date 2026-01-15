@@ -48,12 +48,14 @@ public class BorrowingService {
 	    List<LocalDate> limitDateList //コントローラからの引数(HTMLからのデータ)
 	) {
 	    for (int i = 0; i < equipmentIdList.size(); i++) {//チェックの数だけ繰り返す
+	    	if(startDateList.get(i).isBefore(limitDateList.get(i))) {//貸出開始日が返却日より前の日付か確認
 	        borrowingMapper.borrowingUpdate(//Mapperを呼び出す
 	            equipmentIdList.get(i), //id
 	            staffNoList.get(i),//社員id
 	            startDateList.get(i),//貸出開始日
 	            limitDateList.get(i)//貸出期限
 	        );  //Listのi番目を一斉に渡しマッパーで処理をする
+	    }
 	    }
 	}
 }
