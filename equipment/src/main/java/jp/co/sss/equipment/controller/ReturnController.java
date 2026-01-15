@@ -70,7 +70,9 @@ public class ReturnController {
 			RedirectAttributes redirectAttributes) {
 		if (equipmentIdList != null && !equipmentIdList.isEmpty()) { //チェックが入っている場合
 			returnService.returnEquipment(equipmentIdList); //サービス層でsqlのマッパー呼び出し
-		}
+		}else {
+			redirectAttributes.addFlashAttribute("errorMessage", "チェックが入っていません。");
+			}
 		List<DetailListViewDto> detailNameList = indexService.detailFind(name);
 		if (!detailNameList.isEmpty()) { //備品名の取得
 			redirectAttributes.addFlashAttribute("detailName", detailNameList.get(0));
