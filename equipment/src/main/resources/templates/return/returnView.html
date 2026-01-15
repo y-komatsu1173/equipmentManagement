@@ -3,20 +3,22 @@
 
 <head>
 	<meta charset="UTF-8">
+	<link rel="stylesheet" th:href="@{/css/layout.css}">
 	<title>返却</title>
 </head>
 
-<body>
+<body class="body">
 	<a>備品返却画面</a>
 	<br>
 	<!--/* 備品の名前を表示させる */-->
 	<a th:text="${detailName.equipmentName}"></a>
+	<div class="fc_red" th:text="${errorMessage}"></div>
 	<!--/* ボタンを押下した時にコントローラの/returnProcessが呼び出し */-->
 	<!--/* th:ifでデータが存在しない場合テーブルと返却ボタンが表示されないようにする */-->
 	<form th:action="@{/returnProcess}" method="post" th:if="${itemDetail != null and !#lists.isEmpty(itemDetail)}">
 		<input type="hidden" name="name" th:value="${detailName.equipmentName}">
 		<table border="1">
-			<tr>
+			<tr class="front_label_color">
 				<th>シリアルナンバー</th>
 				<th>使用者</th>
 				<th>貸出開始日</th>
