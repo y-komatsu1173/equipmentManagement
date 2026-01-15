@@ -89,12 +89,15 @@ public class BorrowingController {
 			@RequestParam(value = "name", required = false) String name,
 			RedirectAttributes redirectAttributes) {
 
+		/*バグあり
+		 * 1件でも貸出できてしまうとチェック入れ忘れ及び名前を入れた場合のエラーメッセージは表示されない
+		 */
 		if (equipmentIdList != null && !equipmentIdList.isEmpty()
 			    && staffNoList != null && !staffNoList.isEmpty()
 			    && startDateList != null && !startDateList.isEmpty()
 			    && limitDateList != null && !limitDateList.isEmpty()) {  //全て入力されている場合のみ次の処理へ
 
-			    borrowingService.borrowingEquipment(
+			    borrowingService.borrowingEquipment(  //サービス層の呼び出し
 			        equipmentIdList,
 			        staffNoList,
 			        startDateList,
@@ -104,6 +107,8 @@ public class BorrowingController {
 		        redirectAttributes.addFlashAttribute("staffNoList", staffNoList);
 		        redirectAttributes.addFlashAttribute("startDateList", startDateList);
 		        redirectAttributes.addFlashAttribute("limitDateList", limitDateList);
+		        redirectAttributes.addFlashAttribute("errorMessage", "チェックが入っていません。");
+		        
 		    }
 		List<DetailListViewDto> detailNameList = indexService.detailFind(name);
 		if (!detailNameList.isEmpty()) { //備品名の取得
