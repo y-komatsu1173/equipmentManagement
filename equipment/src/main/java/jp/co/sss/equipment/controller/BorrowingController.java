@@ -1,7 +1,7 @@
 package jp.co.sss.equipment.controller;
 
-import java.time.LocalDate;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -39,7 +39,8 @@ public class BorrowingController {
 	@GetMapping("/borrowingView")
 	public String borrowingView(Model model, String name) {
 		List<DetailListViewDto> detailNameList = indexService.detailFind(name);
-		DetailListViewDto detailName = detailNameList.get(0);;  //備品名の取得
+		DetailListViewDto detailName = detailNameList.get(0);
+		; //備品名の取得
 		model.addAttribute("detailName", detailName); //画面に渡す
 
 		List<DetailListViewDto> borrowingList = borrowingService.borrowingFindView(name);
@@ -52,22 +53,22 @@ public class BorrowingController {
 
 		//シーケンスidが取得できていない
 		//デバッグ
-		int num = 0;
-		for (DetailListViewDto i : detailNameList) {
-			num++;
-			System.out.println("===========" + num + "===========");	
-			System.out.println("===========" + "貸出" + "===========");
-			System.out.println("備品名:" + i.getEquipmentName());
-			System.out.println("シリアル:" + i.getParentStockCode());
-			System.out.println("使用者:" + i.getStaffName());
-			System.out.println("貸出可否:" + i.getRentFlg());
-			System.out.println("貸出開始日:" + i.getStartDate());
-			System.out.println("返却予定日:" + i.getLimitDate());
-			System.out.println("最終所在確認" + i.getConfirmedDate());
-			System.out.println("備考:" + i.getRemarks());
-			System.out.println("シーケンスID: " + i.getEquipmentId());
-			System.out.println("スタッフID:" + i.getStaffNo());
-		}
+		//		int num = 0;
+		//		for (DetailListViewDto i : detailNameList) {
+		//			num++;
+		//			System.out.println("===========" + num + "===========");
+		//			System.out.println("===========" + "貸出" + "===========");
+		//			System.out.println("備品名:" + i.getEquipmentName());
+		//			System.out.println("シリアル:" + i.getParentStockCode());
+		//			System.out.println("使用者:" + i.getStaffName());
+		//			System.out.println("貸出可否:" + i.getRentFlg());
+		//			System.out.println("貸出開始日:" + i.getStartDate());
+		//			System.out.println("返却予定日:" + i.getLimitDate());
+		//			System.out.println("最終所在確認" + i.getConfirmedDate());
+		//			System.out.println("備考:" + i.getRemarks());
+		//			System.out.println("シーケンスID: " + i.getEquipmentId());
+		//			System.out.println("スタッフID:" + i.getStaffNo());
+		//		}
 		return "borrowing/borrowingView";
 	}
 
@@ -78,43 +79,133 @@ public class BorrowingController {
 	 * @param model
 	 * @return
 	 */
+	//	@PostMapping("/borrowingProcess")
+	//	public String borrowingProcess(
+	//			//「value」HTTPリクエストパラメータequipmentIdListをメソッドの引数に入れる  リクエストパラメータの名前
+	//			//「required = false」リクエストパラメータが必須ではないことを示す
+	//			@RequestParam(value = "equipmentIdList", required = false) List<Integer> equipmentIdList,
+	//			@RequestParam List<Integer> staffNoList, //使用者リスト
+	//			@RequestParam List<LocalDate> startDateList, //貸出開始日リスト
+	//			@RequestParam List<LocalDate> limitDateList, //返却予定日リスト
+	//			@RequestParam(value = "name", required = false) String name,
+	//			RedirectAttributes redirectAttributes) {
+	//
+	//		/*バグあり
+	//		 * 1件でも貸出できてしまうとチェック入れ忘れ及び名前を入れた場合のエラーメッセージは表示されない
+	//		 */
+	//		// すべてのリストが存在し、かつ長さが一致している場合のみ更新を許可する
+	//		if (equipmentIdList != null && staffNoList != null && startDateList != null && limitDateList != null
+	//				&& !equipmentIdList.isEmpty()
+	//				&& equipmentIdList.size() == staffNoList.size()
+	//				&& staffNoList.size() == startDateList.size()
+	//				&& startDateList.size() == limitDateList.size()) {  //全て入力されている場合のみ次の処理へ
+	//
+	//				borrowingService.borrowingEquipment(  //サービス層の呼び出し
+	//					equipmentIdList,
+	//					staffNoList,
+	//					startDateList,
+	//					limitDateList);
+	//			} else {
+	//				// 入力が不整合な場合は更新を行わず、入力内容を保持してエラーメッセージを返す
+	//				redirectAttributes.addFlashAttribute("staffNoList", staffNoList);
+	//				redirectAttributes.addFlashAttribute("startDateList", startDateList);
+	//				redirectAttributes.addFlashAttribute("limitDateList", limitDateList);
+	//				redirectAttributes.addFlashAttribute("errorMessage", "入力データの件数が一致していません。チェックと入力欄の数を確認してください。");
+	//				
+	//				
+	//							}
+	//		List<DetailListViewDto> detailNameList = indexService.detailFind(name);
+	//		if (!detailNameList.isEmpty()) { //備品名の取得
+	//			redirectAttributes.addFlashAttribute("detailName", detailNameList.get(0));
+	//		}
+	//		redirectAttributes.addAttribute("name", name);
+	//	    return "redirect:/borrowingView";
+	//	}
+
+	//エラーあり01.02に未入力があると03のデータが合っていても処理されない
 	@PostMapping("/borrowingProcess")
 	public String borrowingProcess(
-			//「value」HTTPリクエストパラメータequipmentIdListをメソッドの引数に入れる  リクエストパラメータの名前
-			//「required = false」リクエストパラメータが必須ではないことを示す
 			@RequestParam(value = "equipmentIdList", required = false) List<Integer> equipmentIdList,
-			@RequestParam List<Integer> staffNoList, //使用者リスト
-			@RequestParam List<LocalDate> startDateList, //貸出開始日リスト
-			@RequestParam List<LocalDate> limitDateList, //返却予定日リスト
-			@RequestParam(value = "name", required = false) String name,
+			@RequestParam Map<String, String> staffNoMap,
+			@RequestParam Map<String, String> startDateMap,
+			@RequestParam Map<String, String> limitDateMap,
+			@RequestParam String name,
 			RedirectAttributes redirectAttributes) {
 
-		/*バグあり
-		 * 1件でも貸出できてしまうとチェック入れ忘れ及び名前を入れた場合のエラーメッセージは表示されない
-		 */
-		if (equipmentIdList != null && !equipmentIdList.isEmpty()
-			    && staffNoList != null && !staffNoList.isEmpty()
-			    && startDateList != null && !startDateList.isEmpty()
-			    && limitDateList != null && !limitDateList.isEmpty()) {  //全て入力されている場合のみ次の処理へ
+		System.out.println("===== 貸出処理データ =====");
 
-			    borrowingService.borrowingEquipment(  //サービス層の呼び出し
-			        equipmentIdList,
-			        staffNoList,
-			        startDateList,
-			        limitDateList);
-			}else {
-		        // チェック入れ忘れ → 入力内容を保持させる
-		        redirectAttributes.addFlashAttribute("staffNoList", staffNoList);
-		        redirectAttributes.addFlashAttribute("startDateList", startDateList);
-		        redirectAttributes.addFlashAttribute("limitDateList", limitDateList);
-		        redirectAttributes.addFlashAttribute("errorMessage", "チェックが入っていません。");
-		        
-		    }
-		List<DetailListViewDto> detailNameList = indexService.detailFind(name);
-		if (!detailNameList.isEmpty()) { //備品名の取得
-			redirectAttributes.addFlashAttribute("detailName", detailNameList.get(0));
+		if (equipmentIdList == null || equipmentIdList.isEmpty()) {//チェックボックスの値がない場合
+			System.out.println("貸出対象なし");
+			redirectAttributes.addAttribute("name", name);
+			return "redirect:/borrowingView";
 		}
+
+		if (staffNoMap == null || staffNoMap.isEmpty()) {
+			System.out.println("使用者情報なし");
+			redirectAttributes.addAttribute("name", name);
+			return "redirect:/borrowingView";
+		}
+
+		for (Integer id : equipmentIdList) {
+			String staffNo = staffNoMap.get("staffNoMap[" + id + "]"); //htmlのnameに合わせてキーを作成
+			if (staffNo == null || staffNo.isBlank()) {
+				System.out.println("使用者未選択 id=" + id);
+				continue;
+//				redirectAttributes.addAttribute("name", name);
+//				return "redirect:/borrowingView";
+			}
+			
+			if(startDateMap.get("startDateMap[" + id + "]") == null || startDateMap.get("startDateMap[" + id + "]").isBlank()) {
+				System.out.println("貸出開始日未入力 id=" + id);
+				continue;
+//				redirectAttributes.addAttribute("name", name);
+//				return "redirect:/borrowingView";
+			}
+			if(limitDateMap.get("limitDateMap[" + id + "]") == null || limitDateMap.get("limitDateMap[" + id + "]").isBlank()) {
+				System.out.println("返却予定日未入力 id=" + id);
+				continue;
+//				redirectAttributes.addAttribute("name", name);
+//				return "redirect:/borrowingView";
+			}
+			if(DateUtil.getToday().isAfter( DateUtil.getToday().parse(startDateMap.get("startDateMap[" + id + "]")))) {
+				System.out.println("貸出開始日が本日より前です id=" + id);
+				continue;
+//				redirectAttributes.addAttribute("name", name);
+//				return "redirect:/borrowingView";
+			}
+			if(DateUtil.getToday().parse(limitDateMap.get("limitDateMap[" + id + "]")).isBefore(DateUtil.getToday().parse(startDateMap.get("startDateMap[" + id + "]")))) {
+				System.out.println("返却予定日が貸出開始日より前です id=" + id);
+				continue;
+//				redirectAttributes.addAttribute("name", name);
+//				return "redirect:/borrowingView";
+			}
+			
+			String staffKey = "staffNoMap[" + id + "]";
+			String startKey = "startDateMap[" + id + "]";
+			String limitKey = "limitDateMap[" + id + "]";
+
+			String staffNo1 = staffNoMap.get(staffKey);
+			String startDate = startDateMap.get(startKey);
+			String limitDate = limitDateMap.get(limitKey);
+
+			System.out.println("------------");
+			System.out.println("シーケンスID : " + id);
+			System.out.println("使用者       : " + staffNo1);
+			System.out.println("貸出開始日   : " + startDate);
+			System.out.println("返却予定日   : " + limitDate);
+			
+			
+		}
+		borrowingService.borrowingEquipment(
+		        equipmentIdList,
+		        staffNoMap,
+		        startDateMap,
+		        limitDateMap);
+
+		System.out.println("備品名 : " + name);
+		System.out.println("===== END =====");
+
 		redirectAttributes.addAttribute("name", name);
-	    return "redirect:/borrowingView";
+		return "redirect:/borrowingView";
 	}
 }
