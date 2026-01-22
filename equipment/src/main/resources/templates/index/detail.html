@@ -2,70 +2,64 @@
 <html xmlns:th="http://www.thymeleaf.org">
 
 <head>
-	<meta charset="UTF-8">
-	<link rel="stylesheet" th:href="@{/css/layout.css}">
-	<title>備品詳細</title>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" th:href="@{/css/layout.css}">
+  <title>備品詳細</title>
 </head>
 
-<div class="table-wrapper">
-
 <body class="body">
-	<a class="title">備品詳細画面</a>
-	<br>
-	<a th:text="${detailName.equipmentName}"></a>
+  <div class="title">備品詳細画面</div>
+  <br>
+  <h2 th:text="${detailName.equipmentName}"></h2>
+  <div>
+  <div class="table-wrapper">
+    <table border="1" class="borrow-table">
+      <colgroup>
+        <col class="col-serial">
+        <col class="col-user">
+        <col class="col-status">
+        <col class="col-start">
+        <col class="col-limit">
+        <col class="col-check-location">
+        <col class="col-remarks">
+      </colgroup>
 
-	<table border="1" class="borrow-table">
-		      <colgroup>
-		        <col class="col-serial">
-		        <col class="col-user">
-				<col class="col-status">
-		        <col class="col-start">
-		        <col class="col-limit">
-				<col class="col-check-location">
-		        <col class="col-remarks">
-		        
-		      </colgroup>
-			  
-		<tr class="front_label_color">
-			<th>シリアルナンバー</th>
-			<th>使用者</th>
-			<th>貸出可否</th>
-			<th>貸出開始日</th>
-			<th>返却予定日</th>
-			<th>最終所在確認日</th>
-			<th>備考</th>
-		</tr>
-		<tr th:each="item : ${itemDetail}">
-			<td class="col-serial" th:text="${item.parentStockCode}"></td>
-			<td class="col-user" th:text="${item.staffName}"></td>
-			<td class="col-user" th:text="${item.rentFlg}"></td>
-			<td class="col-start" th:text="${item.startDate}"></td>
-			<td class="col-limit" th:text="${item.limitDate}"></td>
-			<td class="col-check-location" th:text="${item.confirmedDate}"></td>
-			<td class="col-remarks" th:text="${item.remarks}"></td>
-		</tr>
-	</table>
-	
-	
-	<form id="borrowingView" th:action="@{/borrowingView}" method="get">
-		    <input type="hidden" name="name"
-		           th:value="${detailName.equipmentName}">
-		</form>
+      <tr class="front_label_color">
+        <th>シリアルナンバー</th>
+        <th>使用者</th>
+        <th>貸出可否</th>
+        <th>貸出開始日</th>
+        <th>返却予定日</th>
+        <th>最終所在確認日</th>
+        <th>備考</th>
+      </tr>
 
-	<form id="returnView" th:action="@{/returnView}" method="get">
-	    <input type="hidden" name="name"
-	           th:value="${detailName.equipmentName}">
-	</form>
-	
-	<form id="returnIndex" th:action="@{/index}" method="get">
-	</form>
-	
-	<div class="table-buttons">
-		<button class="borrowingButton" type="submit" form="borrowingView">貸出</button>
-		<button class="returnButton" type="submit" form="returnView">返却</button>
-		<button class="indexReturnButton" type="submit" form="returnIndex">一覧に戻る</button>
-		</div>
-	</body>
+      <tr th:each="item : ${itemDetail}">
+        <td class="col-serial" th:text="${item.parentStockCode}"></td>
+        <td class="col-user" th:text="${item.staffName}"></td>
+        <td class="col-status" th:text="${item.rentFlg}"></td>
+        <td class="col-start" th:text="${item.startDate}"></td>
+        <td class="col-limit" th:text="${item.limitDate}"></td>
+        <td class="col-check-location" th:text="${item.confirmedDate}"></td>
+        <td class="col-remarks" th:text="${item.remarks}"></td>
+      </tr>
+    </table>
+  </div>
+
+  <form id="borrowingView" th:action="@{/borrowingView}" method="get">
+    <input type="hidden" name="name" th:value="${detailName.equipmentName}">
+  </form>
+  <form id="returnView" th:action="@{/returnView}" method="get">
+    <input type="hidden" name="name" th:value="${detailName.equipmentName}">
+  </form>
+  <form id="returnIndex" th:action="@{/index}" method="get"></form>
+
+  <div class="table-buttons">
+    <button class="borrowingButton" type="submit" form="borrowingView">貸出</button>
+    <button class="returnButton" type="submit" form="returnView">返却</button>
+    <button class="indexReturnButton" type="submit" form="returnIndex">一覧に戻る</button>
+  </div>
+  </div>
 </body>
 
 </html>
