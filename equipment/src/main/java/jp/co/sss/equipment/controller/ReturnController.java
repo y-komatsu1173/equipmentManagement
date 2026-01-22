@@ -39,24 +39,6 @@ public class ReturnController {
 		List<DetailListViewDto> detailName = indexService.detailFind(name);//貸出中の備品を取得する
 		model.addAttribute("detailName", detailName.get(0));//備品名をひとつ取得し、HTMLに表示させる
 		model.addAttribute("itemDetail", returnList);//貸出中の備品をHTMLのテーブルに表示させる
-
-		//デバッグ
-		int num = 0;
-		for (DetailListViewDto i : detailName) {
-			num++;
-			System.out.println("===========" + num + "===========");
-			System.out.println("===========" + "返却" + "===========");
-			System.out.println("備品名:" + i.getEquipmentName());
-			System.out.println("シリアル:" + i.getParentStockCode());
-			System.out.println("使用者:" + i.getStaffName());
-			System.out.println("貸出可否:" + i.getRentFlg());
-			System.out.println("貸出開始日:" + i.getStartDate());
-			System.out.println("返却予定日:" + i.getLimitDate());
-			System.out.println("最終所在確認" + i.getConfirmedDate());
-			System.out.println("備考:" + i.getRemarks());
-			System.out.println("シーケンスID: " + i.getEquipmentId());
-			System.out.println("スタッフID:" + i.getStaffNo());
-		}
 		return "return/returnView"; //templatesフォルダーのhtmlを表示させる
 	}
 
@@ -65,19 +47,28 @@ public class ReturnController {
 	 */
 	@PostMapping("/returnProcess")
 	public String returnProcess(
-			@RequestParam(value = "equipmentIdList", required = false) List<Integer> equipmentIdList, //Listにidが格納されている
-			@RequestParam(value = "name", required = false) String name,
-			RedirectAttributes redirectAttributes) {
-		if (equipmentIdList != null && !equipmentIdList.isEmpty()) { //チェックが入っている場合
-			returnService.returnEquipment(equipmentIdList); //サービス層でsqlのマッパー呼び出し
-		}else {
-			redirectAttributes.addFlashAttribute("errorMessage", "チェックが入っていません。");
-			}
-		List<DetailListViewDto> detailNameList = indexService.detailFind(name);
-		if (!detailNameList.isEmpty()) { //備品名の取得
-			redirectAttributes.addFlashAttribute("detailName", detailNameList.get(0));
-		}
-		redirectAttributes.addAttribute("name", name);
+	        @RequestParam(value = "equipmentIdList", required = false) List<Integer> equipmentIdList,
+	        @RequestParam(value = "name", required = false) String name,
+	        RedirectAttributes redirectAttributes) {
+
+	    if (equipmentIdList == null || equipmentIdList.isEmpty()) {
+	        redirectAttributes.addFlashAttribute("errorMessage", "チェックが入っていません。");
+	        redirectAttributes.addAttribute("name", name);
+	        return "redirect:/returnView";
+	    }
+	    
+	    // 返却処理の実行
+	    try {
+	        returnService.returnEquipment(equipmentIdList);
+	        redirectAttributes.addFlashAttribute("updateMessage", "返却処理が完了しました。");
+	        // 失敗時のメッセージ
+	    } catch (IllegalStateException e) {
+	        redirectAttributes.addFlashAttribute( "errorMessage", "他のブラウザで更新されています。返却処理は行えませんでした。");
+	        redirectAttributes.addAttribute("name", name);
+	        return "redirect:/returnView";
+	    }
+
+	    redirectAttributes.addAttribute("name", name);
 	    return "redirect:/returnView";
 	}
 }
