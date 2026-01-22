@@ -28,7 +28,7 @@
 		#{name}, '%')
 		AND rent_flg = '貸出中'
 	</select>
-	
+
 	<!--故障時に使用 -->
 	<update id="rentFlagUpdate" parameterType="java.util.List">
 		UPDATE stock_master
@@ -41,22 +41,24 @@
 		</foreach>
 	</update>
 
+	<!-- 返却処理 -->
 	<update id="stockDataUpdate" parameterType="java.util.List">
 		UPDATE stock_data
 		SET
 		return_date = NOW(),
 		confirmed_date = NOW()
-		WHERE id
-		IN
-		<!-- Listに入っている数だけ繰り返し更新 -->
+		WHERE id IN
 		<foreach item="code" collection="list" open="(" separator=","
 			close=")">
 			#{code}
 		</foreach>
+		AND return_date IS NULL
 	</update>
 
+	<!-- 返却後に新しく貸出可能にする -->
 	<insert id="insertRebornStock" parameterType="int">
-		INSERT INTO stock_data (
+		INSERT INTO
+		stock_data (
 		stock_code,
 		parent_stock_code,
 		staff_no,
