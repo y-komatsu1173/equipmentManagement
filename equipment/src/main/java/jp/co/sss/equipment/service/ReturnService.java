@@ -27,12 +27,16 @@ public class ReturnService {
 	}
 	
 	/**
-	 * 返却時の処理（貸出可否を１に変更）
+	 * 返却時の処理
 	 */
 	@Transactional
 	public void returnEquipment(List<Integer> returnList) {
+		//Listの数を取得
 		//返却処理(返却日、最終確認日の更新)
-		returnMapper.stockDataUpdate(returnList);	
+		 int updateCount = returnMapper.stockDataUpdate(returnList);	
+		 if (updateCount != returnList.size()) {
+		        throw new IllegalStateException("他のブラウザで更新済み");
+		    }
 		//返却されたシリアルナンバーを貸出可能にする
 		for(Integer id : returnList) { //新規登録の為一件ずつforで回す
 			returnMapper.insertRebornStock(id);
