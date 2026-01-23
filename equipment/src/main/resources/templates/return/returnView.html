@@ -27,6 +27,7 @@
 			<form id="returnForm" th:action="@{/returnProcess}" method="post"
 				th:if="${itemDetail != null and !#lists.isEmpty(itemDetail)}">
 
+				<!-- 備品名をhiddenで送信 -->
 				<input type="hidden" name="name" th:value="${detailName.equipmentName}">
 
 				<table border="1" class="borrow-table">
@@ -48,6 +49,7 @@
 						<th>返却</th>
 					</tr>
 
+					<!-- 備品リスト表示 -->
 					<tr th:each="item : ${itemDetail}">
 						<td class="col-serial" th:text="${item.parentStockCode}"></td>
 						<td class="col-user" th:text="${item.staffName}"></td>
@@ -71,10 +73,12 @@
 			貸出中の備品はありません
 		</h4>
 
+		<!-- テーブル下のボタン -->
 		<div class="table-buttons">
 			<button class="returnButton" type="submit" form="returnForm"
 				th:if="${itemDetail != null and !#lists.isEmpty(itemDetail)}">返却</button>
 
+			<!-- 戻るボタン -->
 			<form th:action="@{/detailBack}" method="get">
 				<input type="hidden" name="name" th:value="${detailName.equipmentName}">
 				<button class="returnToTopButton" type="submit">戻る</button>
