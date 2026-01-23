@@ -34,6 +34,7 @@
 					<th>備考</th>
 				</tr>
 
+				<!-- 備品リスト表示 -->
 				<tr th:each="item : ${itemDetail}">
 					<td class="col-serial" th:text="${item.parentStockCode}"></td>
 					<td class="col-user" th:text="${item.staffName}"></td>
@@ -50,17 +51,20 @@
 			</table>
 		</div>
 
+		<!-- ボタンエリア -->
 		<div class="table-buttons">
 			<form th:action="@{/borrowingView}" method="get">
 				<input type="hidden" name="name" th:value="${detailName.equipmentName}">
 				<button class="borrowingButton" type="submit">貸出</button>
 			</form>
 
+			<!-- 返却ボタン -->
 			<form th:action="@{/returnView}" method="get">
 				<input type="hidden" name="name" th:value="${detailName.equipmentName}">
 				<button class="returnButton" type="submit">返却</button>
 			</form>
-
+			
+            <!-- 一覧に戻るボタン -->
 			<form th:action="@{/index}" method="get">
 				<button class="indexReturnButton" type="submit">一覧に戻る</button>
 			</form>
