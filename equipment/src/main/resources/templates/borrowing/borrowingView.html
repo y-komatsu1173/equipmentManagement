@@ -3,19 +3,26 @@
 
 <head>
 	<meta charset="UTF-8">
-	<link rel="stylesheet" th:href="@{/css/layout.css}">
+	<link rel="stylesheet" th:href="@{/css/circulationLayout.css}">
 	<title>貸出</title>
 </head>
 
 <body class="body">
-	<h2>備品貸出画面</h2>
+	<h2 class="title">備品貸出画面</h2>
 	<br>
 	<h2 th:text="${detailName.equipmentName}"></h2>
 
+	<div th:if="${errorMessages != null and errorMessages.size() > 0}">
+		<h4 class="fc_red">以下のエラーが発生しました。</h4>
+		<h4 class="fc_red">更新できませんでした。再度入力してください。</h4>
+	</div>
+
 	<!-- エラーメッセージ表示 -->
-	<div class="fc_red" th:if="${errorMessages}">
-		<ul>
-			<li th:each="msg : ${errorMessages}" th:text="${msg}"></li>
+	<div class="error-box" th:if="${errorMessages}">
+		<ul class="error-list">
+			<li th:each="msg : ${errorMessages}" th:text="${msg}"
+				th:classappend="${msg.startsWith('【') ? 'error-title' : ''}">
+			</li>
 		</ul>
 	</div>
 
@@ -24,82 +31,92 @@
 
 	<!-- 入れ子フォームを避けるため、テーブルとボタンを .table-wrapper に入れる -->
 	<div>
-	<!-- テーブルだけスクロール -->
-	  <div class="table-wrapper">
-	    <form id="borrowForm" th:action="@{/borrowingProcess}" method="post"
-	         th:if="${itemDetail != null and !#lists.isEmpty(itemDetail)}">
-	      <input type="hidden" name="name" th:value="${detailName.equipmentName}">
-	      <table border="1" class="borrow-table">
-						<colgroup>
-							<col class="col-serial">
-							<col class="col-user">
-							<col class="col-start">
-							<col class="col-limit">
-							<col class="col-remarks">
-							<col class="col-check">
-						</colgroup>
+		<!-- テーブルだけスクロール -->
+		<div class="table-wrapper">
+			<form id="borrowForm" th:action="@{/borrowingProcess}" method="post"
+				th:if="${itemDetail != null and !#lists.isEmpty(itemDetail)}">
+				<input type="hidden" name="name" th:value="${detailName.equipmentName}">
+				<table border="1" class="borrow-table">
+					<colgroup>
+						<col class="col-serial">
+						<col class="col-user">
+						<col class="col-start">
+						<col class="col-limit">
+						<col class="col-remarks">
+						<col class="col-check">
+					</colgroup>
 
-						<tr class="front_label_color">
-							<th>シリアルナンバー</th>
-							<th>使用者</th>
-							<th>貸出開始日</th>
-							<th>返却予定日</th>
-							<th>備考</th>
-							<th>貸出</th>
-						</tr>
+					<tr class="front_label_color">
+						<th>シリアルナンバー</th>
+						<th>使用者</th>
+						<th>貸出開始日</th>
+						<th>返却予定日</th>
+						<th>備考</th>
+						<th>貸出</th>
+					</tr>
 
-						<tr th:each="item, stat : ${itemDetail}">
-							<td class="col-serial">
-								<span th:text="${item.parentStockCode}"></span>
-								<input type="hidden" th:name="|serialMap[${item.equipmentId}]|"
-									th:value="${item.parentStockCode}">
-							</td>
+					<!-- 備品リスト表示 -->
+					<tr th:each="item : ${itemDetail}"
+						th:classappend="${errorEquipmentIds != null and errorEquipmentIds.contains(item.equipmentId) ? 'row-error' : 
+					                     (normalEquipmentIds != null and normalEquipmentIds.contains(item.equipmentId) ? 'row-normal' : '')}">
 
-							<td class="col-user">
-								<select th:name="|staffNoMap[${item.equipmentId}]|">
-									<option value="">選択してください</option>
-									<option th:each="staff : ${staffName}" th:value="${staff.staffNo}"
-										th:text="${staff.name}">
-									</option>
-								</select>
-							</td>
+						<td class="col-serial">
+							<span th:text="${item.parentStockCode}"></span>
+							<input type="hidden" th:name="|serialMap[${item.equipmentId}]|"
+								th:value="${item.parentStockCode}">
+						</td>
 
-							<td class="col-start">
-								<input type="date" th:name="|startDateMap[${item.equipmentId}]|" th:value="${today}">
-							</td>
+						<td class="col-user">
+							<select th:name="|staffNoMap[${item.equipmentId}]|">
+								<option value="">選択してください</option>
+								<option th:each="staff : ${staffName}" th:value="${staff.staffNo}"
+									th:text="${staff.name}" th:selected="${prevStaffNoMap != null 
+					                    and prevStaffNoMap[item.equipmentId.toString()] == staff.staffNo.toString()}">
+								</option>
+							</select>
+						</td>
 
-							<td class="col-limit">
-								<input type="date" th:name="|limitDateMap[${item.equipmentId}]|"
-									th:value="${defaultLimit}">
-							</td>
+						<td class="col-start">
+							<input type="date" th:name="|startDateMap[${item.equipmentId}]|" th:value="${prevStartDateMap != null and prevStartDateMap[item.equipmentId.toString()] != null
+					                     ? prevStartDateMap[item.equipmentId.toString()]
+					                     : today}">
+						</td>
 
-							<td class="col-remarks" th:text="${item.remarks}"></td>
+						<td class="col-limit">
+							<input type="date" th:name="|limitDateMap[${item.equipmentId}]|" th:value="${prevLimitDateMap != null and prevLimitDateMap[item.equipmentId.toString()] != null
+					                     ? prevLimitDateMap[item.equipmentId.toString()]
+					                     : defaultLimit}">
+						</td>
 
-							<td class="col-check">
-								<input type="checkbox" name="equipmentIdList" th:value="${item.equipmentId}">
-							</td>
-						</tr>
-					</table>
+						<td class="col-remarks">
+							<div class="scroll-inner">
+								<p th:text="${item.remarks}"></p>
+							</div>
+						</td>
+
+						<td class="col-check">
+							<input type="checkbox" name="equipmentIdList" th:value="${item.equipmentId}" th:checked="${prevEquipmentIdList != null
+					                     and prevEquipmentIdList.contains(item.equipmentId)}">
+						</td>
+					</tr>
+				</table>
 			</form>
 		</div>
-		
-	  <!-- 貸出できる備品がないとき -->
+
+		<!-- 貸出できる備品がないとき -->
 		<h4 class="no-data" th:if="${itemDetail == null or #lists.isEmpty(itemDetail)}">
 			全て貸出中です
 		</h4>
 
-		 <!-- 戻る用フォーム -->
-		<form id="backForm" th:action="@{/detailBack}" method="get">
-		    <input type="hidden" name="name" th:value="${detailName.equipmentName}">
-		  </form>
-
-		  <!-- ボタンはスクロール外 -->
-		  <div class="table-buttons">
-		     <button class="borrowingButton" type="submit" form="borrowForm"
-		       th:if="${itemDetail != null and !#lists.isEmpty(itemDetail)}">貸出</button>
-		     <button class="returnToTopButton" type="submit" form="backForm">戻る</button>
-		   </div>
-		 </div>
+		<div class="table-buttons">
+			<button class="borrowingButton" type="submit" form="borrowForm"
+				th:if="${itemDetail != null and !#lists.isEmpty(itemDetail)}">貸出</button>
+			<form th:action="@{/detailBack}" method="get">
+				<input type="hidden" name="name" th:value="${detailName.equipmentName}">
+				<button class="returnToTopButton" type="submit">戻る</button>
+			</form>
+		</div>
+	</div>
 
 
 
