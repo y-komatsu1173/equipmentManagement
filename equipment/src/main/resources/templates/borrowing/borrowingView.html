@@ -59,10 +59,11 @@
 
 					<!-- 備品リスト表示 -->
 					<!-- エラー行は赤背景、正常行は黄背景 -->
-					<tr th:each="item : ${itemDetail}"
-						th:classappend="${errorEquipmentIds != null and errorEquipmentIds.contains(item.equipmentId) ? 'row-error' : 
-					                     (normalEquipmentIds != null and normalEquipmentIds.contains(item.equipmentId) ? 'row-normal' : '')}">
-
+					<tr th:each="item : ${itemDetail}" th:classappend="
+					        ${errorEquipmentIds != null and errorEquipmentIds.contains(item.equipmentId)} ? 'row-error' :
+					        (${warningEquipmentIds != null and warningEquipmentIds.contains(item.equipmentId)} ? 'row-warning' :
+					        (${normalEquipmentIds != null and normalEquipmentIds.contains(item.equipmentId)} ? 'row-normal' : ''))
+					    ">
 						<!-- シリアルナンバー -->
 						<td class="col-serial">
 							<!-- シリアルナンバー表示 -->
@@ -100,8 +101,8 @@
 					                     ? prevLimitDateMap[item.equipmentId.toString()]
 					                     : defaultLimit}">
 						</td>
-						
-                        <!-- 備考 -->
+
+						<!-- 備考 -->
 						<td class="col-remarks">
 							<div class="scroll-inner">
 								<p th:text="${item.remarks}"></p>
@@ -122,13 +123,13 @@
 		<h4 class="no-data" th:if="${itemDetail == null or #lists.isEmpty(itemDetail)}">
 			全て貸出中です
 		</h4>
-		
-        <!-- テーブル下のボタン -->
+
+		<!-- テーブル下のボタン -->
 		<div class="table-buttons">
 			<!-- 貸出ボタン（貸出できる備品があるときのみ表示） -->
 			<button class="borrowingButton" type="submit" form="borrowForm"
 				th:if="${itemDetail != null and !#lists.isEmpty(itemDetail)}">貸出</button>
-				<!-- 戻るボタン -->
+			<!-- 戻るボタン -->
 			<form th:action="@{/detailBack}" method="get">
 				<input type="hidden" name="name" th:value="${detailName.equipmentName}">
 				<button class="returnToTopButton" type="submit">戻る</button>
@@ -137,54 +138,82 @@
 	</div>
 
 
-
-
 	<script>
-		//画面を読み込み時に実行
+		// 貸出ボタン押下時の確認ダイアログ
 		document.addEventListener("DOMContentLoaded", function () {
 
-			// 貸出ボタン押下時の処理
-			document.getElementById("borrowForm").addEventListener("submit", function (e) {
+			// フォーム要素を取得
+			const form = document.getElementById("borrowForm");
+			// 二重防止フラグ	
+			let alreadyConfirmed = false;
 
-				// 今日の日付を取得し、時分秒ミリ秒を0に設定
+			form.addEventListener("submit", function (e) {
+
+				// ★二重防止
+				if (alreadyConfirmed) return;
+				alreadyConfirmed = true;
+
+				// 今日の日付と1年後の日付を取得
 				const today = new Date();
 				today.setHours(0, 0, 0, 0);
 
-				// 貸出開始日が本日より前の日付があるかどうかのフラグ
-				let isBeforeToday = false;
+				// 1年後の日付を計算
+				const oneYearLater = new Date(today);
+				oneYearLater.setFullYear(oneYearLater.getFullYear() + 1);
 
-				// テーブルの各行をループ処理
+				// チェックされた行の貸出開始日と返却予定日を確認
+				let isBeforeToday = false;
+				let isLimitOverOneYear = false;
+
+				// テーブルの各行をループ
 				document.querySelectorAll("tr").forEach(tr => {
-					// チェックボックスが選択されていない行はスキップ
+					// チェックボックスが選択されているか確認
 					const checkbox = tr.querySelector('input[name="equipmentIdList"]');
+					// チェックされていない場合はスキップ
 					if (!checkbox || !checkbox.checked) return;
 
-					// 貸出開始日の入力フィールドを取得し、値がない場合はスキップ
+					// 貸出開始日と返却予定日の入力フィールドを取得
 					const startInput = tr.querySelector('input[name^="startDateMap"]');
-					if (!startInput || !startInput.value) return;
+					// 返却予定日
+					const limitInput = tr.querySelector('input[name^="limitDateMap"]');
 
-					// 貸出開始日をDateオブジェクトに変換し、本日より前かどうかをチェック
-					const startDate = new Date(startInput.value);
-
-					// 時分秒ミリ秒を0に設定
-					if (startDate < today) {
-						isBeforeToday = true;
+					// 日付をチェック
+					if (startInput && startInput.value) {
+						const startDate = new Date(startInput.value);
+						startDate.setHours(0, 0, 0, 0);
+						if (startDate < today) isBeforeToday = true;
+					}
+					// 返却予定日
+					if (limitInput && limitInput.value) {
+						const limitDate = new Date(limitInput.value);
+						limitDate.setHours(0, 0, 0, 0);
+						if (limitDate >= oneYearLater) isLimitOverOneYear = true;
 					}
 				});
 
-				// YES 
+				// 確認ダイアログ表示
 				if (isBeforeToday) {
-					//confirm(はい・いいえ)
-					const result = confirm("貸出開始日が本日より前ですが、更新しますか？");
-
-					if (!result) {
-						e.preventDefault(); // NO
+					if (!confirm("貸出開始日が本日より前ですが、更新しますか？")) {
+						e.preventDefault();
+						alreadyConfirmed = false; // ★ 戻す
+						return;
 					}
 				}
 
+				// 返却予定日が1年以上先の場合
+				if (isLimitOverOneYear) {
+					if (!confirm(
+						"返却日が1年以上先になっています。\n" +
+						"1年おきに棚卸確認が必要になりますが、よろしいですか？"
+					)) {
+						e.preventDefault();
+						alreadyConfirmed = false; // ★ 戻す
+						return;
+					}
+				}
 			});
-
 		});
+	</script>
 	</script>
 
 
