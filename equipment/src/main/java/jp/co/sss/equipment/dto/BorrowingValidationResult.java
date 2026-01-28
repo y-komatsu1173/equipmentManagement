@@ -5,37 +5,44 @@ import java.util.Set;
 
 public class BorrowingValidationResult {
 
-    private List<String> errorMessages;
-    private Set<Integer> errorEquipmentIds;
-    private Set<Integer> warningEquipmentIds;
-    private Set<Integer> normalEquipmentIds; 
+	/* エラーメッセージ一覧*/
+	private List<String> errorMessages;
 
-    public BorrowingValidationResult(
-        List<String> errorMessages,
-        Set<Integer> errorEquipmentIds,
-        Set<Integer> warningEquipmentIds,
-        Set<Integer> normalEquipmentIds
-    ) {
-        this.errorMessages = errorMessages;
-        this.errorEquipmentIds = errorEquipmentIds;
-        this.warningEquipmentIds = warningEquipmentIds;
-        this.normalEquipmentIds = normalEquipmentIds;
-    }
+	/* 備品ID一覧（エラー）*/
+	private Set<Integer> errorEquipmentIds;
 
+	/* 備品ID一覧（警告） */
+	private Set<Integer> warningEquipmentIds;
 
-    public List<String> getErrorMessages() {
-        return errorMessages;
-    }
+	/* 備品ID一覧（正常） */
+	private Set<Integer> normalEquipmentIds;
 
-    public Set<Integer> getErrorEquipmentIds() {
-        return errorEquipmentIds;
-    }
+	// バリデーション処理の結果をまとめて保持するためのコンストラクタ。
+	// 必須項目をすべて受け取ることで、DTOを常に整合性の取れた状態で生成する。
+	public BorrowingValidationResult(
+			List<String> errorMessages,
+			Set<Integer> errorEquipmentIds,
+			Set<Integer> warningEquipmentIds,
+			Set<Integer> normalEquipmentIds) {
+		this.errorMessages = errorMessages;
+		this.errorEquipmentIds = errorEquipmentIds;
+		this.warningEquipmentIds = warningEquipmentIds;
+		this.normalEquipmentIds = normalEquipmentIds;
+	}
 
-    public Set<Integer> getWarningEquipmentIds() {
-        return warningEquipmentIds;
-    }
+	public List<String> getErrorMessages() {
+		return errorMessages;
+	}
 
-    public Set<Integer> getNormalEquipmentIds() {
-        return normalEquipmentIds;
-    }
+	public Set<Integer> getErrorEquipmentIds() {
+		return errorEquipmentIds;
+	}
+
+	public Set<Integer> getWarningEquipmentIds() {
+		return warningEquipmentIds;
+	}
+
+	public Set<Integer> getNormalEquipmentIds() {
+		return normalEquipmentIds;
+	}
 }
