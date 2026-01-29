@@ -38,52 +38,90 @@
 	z-index: 5;
 	background-color: rgb(26, 11, 134);
 	color: White;
+}
 
+/*シリアルナンバーヘッダー*/
+.col-serial-h {
+	width: 13%;
+	text-align: center !important;
+	padding-left: 10px !important;
 }
 
 /*シリアルナンバー*/
 .col-serial {
-	width: 15%;
+	width: 13%;
 	text-align: left !important;
 	padding-left: 10px !important;
+	background-color: rgb(255, 255, 255);
 }
 
 /*使用者 */
 .col-user {
-	width: 17%;
+	width: 13%;
 	text-align: left !important;
 	padding-left: 10px !important;
 }
 
 /*貸出可否*/
 .col-status {
-	width: 7%;
+	width: 5%;
 	text-align: center;
 }
 
 /*貸出開始日*/
 .col-start {
-	width: 12%;
+	width: 7%;
 	text-align: center;
 }
 
 /*返却予定日*/
 .col-limit {
-	width: 12%;
+	width: 7%;
 	text-align: center;
 }
 
 /*最終所在確認*/
 .col-check-location {
+	width: 8%;
+	text-align: center;
+}
+
+/*接続先シリアル*/
+.col-destination-serial {
 	width: 12%;
 	text-align: center;
 }
 
+/*製品名*/
+.col-product-name {
+	width: 9%;
+	text-align: center;
+}
+
+/*メーカー*/
+.col-manufacturer {
+	width: 3%;
+	text-align: center;
+}
+
+/*分類*/
+.col-category {
+	width: 3%;
+	text-align: center;
+}
+
+/*リース返却日*/
+.col-lease-return-date {
+	width: 9%;
+	text-align: center;
+}
+
+
 /*備考*/
 .col-remarks {
 	width: 25%;
-		text-align: left;
-		padding: 0 !important;
+	text-align: left;
+	padding: 0 !important;
 }
 
 .borrow-table th,
@@ -156,8 +194,9 @@
 .table-wrapper {
 	max-height: 300px;
 	overflow-y: auto;
-	overflow-x: hidden;
-	scrollbar-gutter: stable;
+	overflow-x: auto;
+	white-space: nowrap;
+	/* 折り返し防止*/
 }
 
 /*貸出返却がない時*/
@@ -193,30 +232,54 @@
 }
 
 .borrow-table {
-	width: 100%;
+	width: max-content;
+	min-width: 1600px;
 	border-collapse: collapse;
 }
 
 /* 1行の高さで統一して縦スクロール */
 .col-remarks .scroll-inner {
-    padding: 2px 8px;      
-    height: 1.5em;         
-    overflow-y: auto;     
-    overflow-x: hidden;    
-    white-space: normal;   
-    line-height: 1.5;      
+	padding: 2px 8px;
+	height: 1.5em;
+	overflow-y: auto;
+	overflow-x: hidden;
+	white-space: normal;
+	line-height: 1.5;
+
+	display: flex;
+	width: 90%;
+	margin: 5px;
 }
 
 /* 文字の隙間をリセット */
 .col-remarks .scroll-inner p {
-    margin: 0;
-    word-break: break-all;
+	margin: 0;
+	word-break: break-all;
 }
 
 /* スクロールバー */
 .col-remarks .scroll-inner::-webkit-scrollbar {
-    width: 2px; 
+	width: 2px;
 }
+
 .col-remarks .scroll-inner::-webkit-scrollbar-thumb {
-    background: rgb(0, 0, 0); 
+	background: rgb(0, 0, 0);
+}
+
+/* 左固定：ヘッダー（シリアル） */
+.borrow-table th.col-serial-h {
+	position: sticky;
+	top: 0;
+	left: 0;
+	z-index: 20; /* 一番上 */
+	background-color: rgb(26, 11, 134);
+	color: white;
+}
+
+/* 左固定：データ行（シリアル） */
+.borrow-table td.col-serial {
+	position: sticky;
+	left: 0;
+	z-index: 10;
+	background-color: white;
 }
