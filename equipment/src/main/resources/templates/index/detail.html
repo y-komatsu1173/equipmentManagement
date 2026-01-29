@@ -14,42 +14,100 @@
 	<h2 th:text="${detailName.equipmentName}"></h2>
 	<div class="table-area">
 		<div class="table-wrapper">
-			<table border="1" class="borrow-table">
-				<colgroup>
-					<col class="col-serial">
-					<col class="col-user">
-					<col class="col-status">
-					<col class="col-start">
-					<col class="col-limit">
-					<col class="col-check-location">
-					<col class="col-remarks">
-				</colgroup>
+			<!--- 備品詳細テーブル -->
+			<!-- stockTypeに応じて表示する列を変更 -->
+			<th:block th:with="
+			    hasProduct=${#lists.contains({'1','2','3','8','9'}, detailName.stockType)},
+			    hasDestination=${detailName.stockType == '3'},
+			    hasLease=${#lists.contains({'1','2','3','4','8','9'}, detailName.stockType)}
+			  ">
 
-				<tr class="front_label_color">
-					<th>シリアルナンバー</th>
-					<th>使用者</th>
-					<th>貸出可否</th>
-					<th>貸出開始日</th>
-					<th>返却予定日</th>
-					<th>最終所在確認日</th>
-					<th>備考</th>
-				</tr>
 
-				<!-- 備品リスト表示 -->
-				<tr th:each="item : ${itemDetail}">
-					<td class="col-serial" th:text="${item.parentStockCode}"></td>
-					<td class="col-user" th:text="${item.staffName}"></td>
-					<td class="col-status" th:text="${item.rentFlg}"></td>
-					<td class="col-start" th:text="${item.startDate}"></td>
-					<td class="col-limit" th:text="${item.limitDate}"></td>
-					<td class="col-check-location" th:text="${item.confirmedDate}"></td>
-					<td class="col-remarks">
-						<div class="scroll-inner">
-							<p th:text="${item.remarks}"></p>
-						</div>
-					</td>
-				</tr>
-			</table>
+				<table border="1" class="borrow-table">
+					<colgroup>
+						<col class="col-serial"> <!-- シリアルナンバー -->
+						<col class="col-user"> <!-- 使用者 -->
+						<col class="col-status"> <!-- 貸出可否 -->
+						<col class="col-start"> <!-- 貸出開始日 -->
+						<col class="col-limit">	<!-- 返却予定日 -->
+						<col class="col-check-location"> <!-- 最終所在確認日 -->
+
+						<th:block th:if="${hasProduct}"> <!-- 表示をわける -->
+							<col class="col-product-name">	<!-- 製品名 -->
+							<col class="col-manufacturer">    <!-- メーカー -->
+						</th:block>
+
+						<th:block th:if="${hasDestination}"> <!-- 表示をわける -->
+							<col class="col-destination-serial"> <!-- 接続先PC -->
+						</th:block>
+
+						<th:block th:if="${hasLease}"> <!-- 表示をわける -->
+							<col class="col-category">  <!-- 分類 -->
+							<col class="col-lease-return-date"> <!-- リース返却日 -->
+						</th:block>
+
+						<col class="col-remarks"> <!-- 備考 -->
+					</colgroup>
+
+
+					<tr class="front_label_color">
+						<th class="col-serial-h">シリアルナンバー</th>
+						<th>使用者</th>
+						<th>貸出可否</th>
+						<th>貸出開始日</th>
+						<th>返却予定日</th>
+						<th>最終所在確認日</th>
+
+						<th:block th:if="${hasProduct}">
+							<th>製品名</th>
+							<th>メーカー</th>
+						</th:block>
+
+						<th:block th:if="${hasDestination}">
+							<th>接続先PC</th>
+						</th:block>
+
+						<th:block th:if="${hasLease}">
+							<th>分類</th>
+							<th>リース返却日</th>
+						</th:block>
+
+						<th>備考</th>
+					</tr>
+
+
+					<!-- 備品リスト表示 -->
+					<tr th:each="item : ${itemDetail}"> <!-- itemDetailはコントローラーから渡されるリスト -->
+						<td class="col-serial" th:text="${item.parentStockCode}"></td> <!-- シリアルナンバー -->
+						<td th:text="${item.staffName}"></td> <!-- 使用者 -->
+						<td th:text="${item.rentFlg}"></td> <!-- 貸出可否 -->
+						<td th:text="${item.startDate}"></td> <!-- 貸出開始日 -->
+						<td th:text="${item.limitDate}"></td> <!-- 返却予定日 -->
+						<td th:text="${item.confirmedDate}"></td> <!-- 最終所在確認日 -->
+
+						<th:block th:if="${hasProduct}"> <!-- 表示をわける -->
+							<td th:text="${item.productName}"></td> <!-- 製品名 -->
+							<td th:text="${item.maker}"></td> <!-- メーカー -->
+						</th:block>
+
+						<th:block th:if="${hasDestination}"> <!-- 表示をわける -->
+							<td th:text="${item.destinationSerial}"></td> <!-- 接続先PC -->
+						</th:block>
+
+						<th:block th:if="${hasLease}"> <!-- 表示をわける -->
+							<td th:text="${item.ownershipType}"></td>  <!-- 分類 -->
+							<td th:text="${item.leaseReturnDate}"></td> <!-- リース返却日 -->
+						</th:block>
+
+						<td class="col-remarks">
+							<div class="scroll-inner">
+								<p th:text="${item.remarks}"></p>
+							</div>
+						</td>
+					</tr>
+
+				</table>
+			</th:block>
 		</div>
 
 		<!-- ボタンエリア -->
@@ -64,8 +122,8 @@
 				<input type="hidden" name="name" th:value="${detailName.equipmentName}">
 				<button class="returnButton" type="submit">返却</button>
 			</form>
-			
-            <!-- 一覧に戻るボタン -->
+
+			<!-- 一覧に戻るボタン -->
 			<form th:action="@{/index}" method="get">
 				<button class="indexReturnButton" type="submit">一覧に戻る</button>
 			</form>
