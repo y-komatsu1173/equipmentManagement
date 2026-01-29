@@ -5,18 +5,32 @@
 <mapper namespace="jp.co.sss.equipment.mapper.DetailMapper">
 	<!-- Mapperのメソッド名と一致させる -->
 	<!-- 前がDBで後ろがDTOでASで紐づかせ安定させる -->
+	<!-- 追加機能実装 -->
 	<select id="detailFind"
 		resultType="jp.co.sss.equipment.dto.DetailListViewDto">
 		SELECT
 		equipment_name AS equipmentName,
+		
+		<!-- 追加項目（追加機能） -->
+		stock_type AS stockType,
+		<!-- 追加項目ここまで -->
+		
 		parent_stock_code AS
 		parentStockCode,
 		staff_name AS staffName,
 		rent_flg AS rentFlg,
 		start_date AS startDate,
 		limit_date AS limitDate,
-		confirmed_date AS
-		confirmedDate,
+		
+		<!-- 追加項目（追加機能） -->
+		destination_serial AS destinationSerial,
+		product_name AS productName,
+		maker AS maker,
+		ownership_type AS ownershipType,
+		lease_return_date AS leaseReturnDate,
+		<!-- 追加項目ここまで -->
+		
+		confirmed_date AS confirmedDate,
 		remarks AS remarks,
 		equipment_id AS equipmentId,
 		staff_no
