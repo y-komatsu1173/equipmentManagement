@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<title>備品登録</title>
+</head>
+
+<body>
+	<h1>備品登録</h1>
+	<form th:action="@{/equipmentRegistCheck}" method="post" th:object="${equipmentRegistForm}">
+
+		<!--カテゴリ-->
+		<div class="form">
+			<div class="label">カテゴリ</div>
+			<div class="input">
+				<select th:field="*{categoryId}">
+					<option th:each="category : ${categoryList}" th:value="${category.id}" th:text="${category.name}">
+					</option>
+				</select>
+			</div>
+		</div>
+
+		<!--備品名-->
+		<div class="form">
+			<div class="label">備品名</div>
+			<div class="input">
+				<input type="text" th:field="*{equipmentName}">
+			</div>
+		</div>
+
+		<!--メーカー-->
+		<div class="form">
+			<div class="label">メーカー</div>
+			<div class="input">
+				<input type="text" th:field="*{maker}">
+			</div>
+		</div>
+
+		<!--分類-->
+		<div class="form">
+			<div class="label">分類</div>
+			<div class="input">
+				<select th:field="*{ownershipType}">
+					<option value="1">会社保有</option>
+					<option value="2">リース品</option>
+				</select>
+			</div>
+		</div>
+
+		<!--リース返却日-->
+		<div class="form">
+			<div class="label">リース返却日</div>
+			<div class="input">
+				<input type="date" th:field="*{leaseReturnDate}">
+			</div>
+		</div>
+
+		<!--備考-->
+		<div class="form">
+			<div class="label">備考</div>
+			<div class="input">
+				<input type="text" th:field="*{remarks}">
+			</div>
+
+			<!--貸出フラグ-->
+			<div class="form">
+				<div class="label">貸出可否</div>
+				<div class="input">
+					<select th:field="*{rentFlag}">
+						<option value="0">貸出可能</option>
+						<option value="1">貸出不可</option>
+					</select>
+				</div>
+			</div>
+	</form>
+
+
+</body>
+
+</html>
