@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper
+	namespace="jp.co.sss.equipment.mapper.EquipmentRegistMapper">
+	<select id="categoryFind"
+		resultType="jp.co.sss.equipment.entity.StockTypeMaster">
+		SELECT
+		id AS id,
+		stock_type AS stockType,
+		name AS name,
+		del AS del
+		FROM stock_type_master
+	</select>
+
+
+</mapper>
