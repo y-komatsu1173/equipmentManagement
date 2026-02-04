@@ -1,10 +1,99 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
-</head>
-<body>
 
+<head>
+	<meta charset="UTF-8">
+	<title>登録確認画面</title>
+</head>
+
+<body>
+	<h1>備品登録確認画面</h1>
+	<form id="regist" th:action="@{/equipmentRegistComplete}" method="post" th:object="${equipmentRegistForm}">
+		<!--エラーメッセージの出力-->
+		<p>
+			<span th:each="error:${#fields.detailedErrors()}">
+				<span th:text="${error.message}"></span><br />
+			</span>
+		</p>
+		<table border="1">
+			<tr>
+				<!--カテゴリ-->
+				<th>カテゴリ</th>
+				<td th:text="${categoryName}"></td>
+				<th:hidden th:field="${equipmentRegistForm.categoryId}"></th:hidden>
+			</tr>
+
+			<!--備品名-->
+			<tr>
+				<th>備品名</th>
+				<td th:text="${equipmentRegistForm.equipmentName}"></td>
+			</tr>
+
+			<tr>
+				<th>モデル</th>
+				<td th:text="${equipmentRegistForm.model}"></td>
+			</tr>
+
+			<!--メーカー-->
+			<tr>
+				<th>メーカー</th>
+				<td th:text="${equipmentRegistForm.maker}"></td>
+			</tr>
+
+			<!--分類-->
+			<tr>
+				<th>分類</th>
+				<td th:switch="${equipmentRegistForm.ownershipType}">
+					<span th:case="1">会社保有</span>
+					<span th:case="2">リース品</span>
+				</td>
+			</tr>
+
+			<!--リース返却日-->
+			<tr>
+				<th>リース返却日</th>
+				<td th:text="${equipmentRegistForm.leaseReturnDate}"></td>
+			</tr>
+			<!--備考-->
+			<tr>
+				<th>備考</th>
+				<td th:text="${equipmentRegistForm.remarks}"></td>
+			</tr>
+			<!--貸出可否-->
+			<tr>
+				<th>貸出可否</th>
+				<td th:switch="${equipmentRegistForm.rentFlag}">
+					<span th:case="0">貸出可能</span>
+					<span th:case="1">貸出不可</span>
+				</td>
+		</table>
+	</form>
+
+	<!--登録完了ボタン-->
+	<form th:action="@{/equipmentRegistComplete}" method="post" th:object="${equipmentRegistForm}">
+		<input type="hidden" th:field="*{categoryId}" />
+		<input type="hidden" th:field="*{equipmentName}" />
+		<input type="hidden" th:field="*{model}" />
+		<input type="hidden" th:field="*{maker}" />
+		<input type="hidden" th:field="*{ownershipType}" />
+		<input type="hidden" th:field="*{leaseReturnDate}" />
+		<input type="hidden" th:field="*{remarks}" />
+		<input type="hidden" th:field="*{rentFlag}" />
+		<button class="indexRegisterButton" type="submit">登録</button>
+	</form>
+
+	<!--登録入力画面へ戻る-->
+	<form th:action="@{/equipmentRegistBack}" method="post" th:object="${equipmentRegistForm}">
+		<input type="hidden" th:field="*{categoryId}" />
+		<input type="hidden" th:field="*{equipmentName}" />
+		<input type="hidden" th:field="*{model}" />
+		<input type="hidden" th:field="*{maker}" />
+		<input type="hidden" th:field="*{ownershipType}" />
+		<input type="hidden" th:field="*{leaseReturnDate}" />
+		<input type="hidden" th:field="*{remarks}" />
+		<input type="hidden" th:field="*{rentFlag}" />
+		<button class="indexReturnButton" type="submit">戻る</button>
+	</form>
 </body>
+
 </html>
