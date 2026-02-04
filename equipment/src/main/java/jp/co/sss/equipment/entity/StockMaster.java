@@ -23,11 +23,21 @@ public class StockMaster {
 	/*メーカー*/
 	private String maker;
 
-	/*分類コード*/
+	/*分類コード（カテゴリ）*/
 	private Integer stockType;
 
 	/*貸出可否*/
 	private Boolean rentFlg;
+	
+	/**追加機能
+	 * 分類　会社所有orリース
+	 */
+	private String ownershipType;
+	
+	/**追加機能
+	 * リース返却日
+	 */
+	private String leaseReturnDate;
 
 	/*備考*/
 	private String remarks;
