@@ -19,12 +19,15 @@ public class BeanCopy {
 	 * @return エンティティ
 	 */
 	public static StockMaster copyFormToStockMaster(EquipmentRegistForm equipmentRegistForm) {
-		StockMaster entity = new StockMaster();
-		
+		StockMaster entity = new StockMaster();	
 		entity.setStockType(equipmentRegistForm.getCategoryId());
 		entity.setName(equipmentRegistForm.getEquipmentName());
-		
-		
+		entity.setModel(equipmentRegistForm.getModel());
+		entity.setMaker(equipmentRegistForm.getMaker());
+		entity.setRentFlag(equipmentRegistForm.getRentFlag());
+		entity.setOwnershipType(equipmentRegistForm.getOwnershipType());
+		entity.setLeaseReturnDate(equipmentRegistForm.getLeaseReturnDate());
+		entity.setRemarks(equipmentRegistForm.getRemarks());		
 		return entity;
 	}
 }
