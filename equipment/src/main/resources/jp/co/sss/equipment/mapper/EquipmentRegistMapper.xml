@@ -29,4 +29,59 @@
 		WHERE
 		stock_type = #{categoryId}
 	</select>
+	
+	<!-- idの採番 および　データの追加　シリアル以外-->
+	<insert id="equipmentRegistInsert"
+        parameterType="jp.co.sss.equipment.entity.StockMaster"
+        useGeneratedKeys="true"
+        keyProperty="id">
+
+    INSERT INTO stock_master (
+        name,
+        model,
+        maker,
+        stock_type,
+        rent_flag,
+        ownership_type,
+        lease_return_date,
+        remarks,
+        del
+    ) VALUES (
+        #{name},
+        #{model},
+        #{maker},
+        #{stockType},
+        #{rentFlag},
+        #{ownershipType},
+        #{leaseReturnDate},
+        #{remarks},
+        #{del}
+    )
+</insert>
+
+<!-- データの更新　シリアル以外-->
+<update id="equipmentRegistUpdate"
+        parameterType="jp.co.sss.equipment.entity.StockMaster">
+    UPDATE stock_master
+    SET stock_code = #{stockCode}
+    WHERE id = #{id}
+</update>
+
+<!-- 貸出開始処理 -->
+	<insert id="insertForId"
+    parameterType="jp.co.sss.equipment.entity.StockData"
+    useGeneratedKeys="true"
+    keyProperty="id">
+    INSERT INTO stock_data (del)
+    VALUES ('0')
+</insert>
+
+<update id="equimentBorrowingStartInsert"
+    parameterType="jp.co.sss.equipment.entity.StockData">
+    UPDATE stock_data
+    SET
+        stock_code = #{stockCode},
+        confirmed_date = CURRENT_DATE
+    WHERE id = #{id}
+</update>
 </mapper>
