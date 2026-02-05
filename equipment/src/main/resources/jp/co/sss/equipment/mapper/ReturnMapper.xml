@@ -13,7 +13,7 @@
 		parent_stock_code AS
 		parentStockCode,
 		staff_name AS staffName,
-		rent_flg AS rentFlg,
+		rent_flag AS rentFlag,
 		start_date AS startDate,
 		limit_date AS limitDate,
 		confirmed_date AS
@@ -26,13 +26,13 @@
 		WHERE
 		equipment_name LIKE CONCAT('%',
 		#{name}, '%')
-		AND rent_flg = '貸出中'
+		AND rent_flag = '貸出中'
 	</select>
 
 	<!--故障時に使用 -->
 	<update id="rentFlagUpdate" parameterType="java.util.List">
 		UPDATE stock_master
-		SET rent_flg = 1
+		SET rent_flag = 1
 		WHERE stock_code IN
 		<!-- Listに入っている数だけ繰り返し更新 -->
 		<foreach item="code" collection="list" open="(" separator=","
