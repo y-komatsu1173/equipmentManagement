@@ -40,5 +40,5 @@ public class StockData {
 	private LocalDate confirmedDate;
 	
 	/*削除フラグ*/
-	private Boolean del;
+	private String del;
 }
