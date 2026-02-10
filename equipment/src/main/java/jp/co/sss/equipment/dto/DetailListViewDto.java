@@ -62,4 +62,7 @@ public class DetailListViewDto {
 	
 	/**スタッフid*/
 	private Integer staffNo;
+	
+	/**貸出可否*/
+	private String rentFlag;
 }
