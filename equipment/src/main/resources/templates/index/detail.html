@@ -78,9 +78,11 @@
 
 					<!-- 備品リスト表示 -->
 					<tr th:each="item : ${itemDetail}"> <!-- itemDetailはコントローラーから渡されるリスト -->
-						<td class="col-serial" th:text="${item.parentStockCode}"></td> <!-- シリアルナンバー -->
+						<td><!-- シリアルナンバー -->
+						<a class="col-serial" th:text="${item.parentStockCode}" th:href="@{/individualDetail(serialNo=${item.parentStockCode})}"></a>
+					</td> 
 						<td th:text="${item.staffName}"></td> <!-- 使用者 -->
-						<td th:text="${item.rentFlg}"></td> <!-- 貸出可否 -->
+						<td th:text="${item.rentFlag}"></td> <!-- 貸出可否 -->
 						<td th:text="${item.startDate}"></td> <!-- 貸出開始日 -->
 						<td th:text="${item.limitDate}"></td> <!-- 返却予定日 -->
 						<td th:text="${item.confirmedDate}"></td> <!-- 最終所在確認日 -->
