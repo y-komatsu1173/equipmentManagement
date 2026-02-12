@@ -12,4 +12,9 @@ public interface DetailMapper {
 	//equip_detail_view
 	//詳細の表示
 	List<DetailListViewDto> detailFind(@Param("name") String name);//Mapper.XMLで対応するSQL呼び出したデータをListで返す
+
+	/*
+	 * シリアルナンバーで詳細を取得
+	 */
+	DetailListViewDto serialNoFind(@Param("serialNo") String serialNo);
 }
