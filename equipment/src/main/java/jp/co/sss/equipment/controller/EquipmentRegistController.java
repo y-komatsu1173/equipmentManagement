@@ -19,7 +19,7 @@ import jp.co.sss.equipment.service.EquipmentRegistService;
 import jp.co.sss.equipment.util.EquipmentInputCheck;
 
 /**
- * 備品登録コントローラー
+ * 備品登録コントローラー 
  *
  * @author 小松原
  */
