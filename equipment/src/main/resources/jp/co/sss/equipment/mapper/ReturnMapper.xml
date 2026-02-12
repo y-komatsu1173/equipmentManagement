@@ -47,7 +47,8 @@
 		SET
 		return_date = NOW(),
 		confirmed_date = NOW()
-		WHERE id IN
+		WHERE id
+		IN
 		<foreach item="code" collection="list" open="(" separator=","
 			close=")">
 			#{code}
@@ -55,10 +56,9 @@
 		AND return_date IS NULL
 	</update>
 
-	<!-- 返却後に新しく貸出可能にする -->
+	<!-- 返却後に新しく貸出可能にする　削除済みは不可 -->
 	<insert id="insertRebornStock" parameterType="int">
-		INSERT INTO
-		stock_data (
+		INSERT INTO stock_data (
 		stock_code,
 		parent_stock_code,
 		staff_no,
@@ -69,16 +69,19 @@
 		del
 		)
 		SELECT
-		stock_code,
-		stock_code,
+		sd.stock_code,
+		sd.stock_code,
 		NULL,
 		NULL,
 		NULL,
 		NULL,
 		NOW(),
 		0
-		FROM stock_data
-		WHERE id = #{id}
+		FROM stock_data sd
+		INNER JOIN stock_master sm
+		ON sd.stock_code = sm.stock_code
+		WHERE sd.id = #{id}
+		AND sm.del = 0
 	</insert>
 
 </mapper>
