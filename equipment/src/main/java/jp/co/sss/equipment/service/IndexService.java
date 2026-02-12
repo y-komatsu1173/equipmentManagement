@@ -34,4 +34,11 @@ public class IndexService {
 	public List<DetailListViewDto> detailFind(String name){
 		return detailMapper.detailFind(name);//index.HTMLの検索したい備品をnameとして渡しSQLの検索に使用する
 	}
+	
+	/**
+	 * 個別詳細表示用 シリアル検索
+	 */
+	public DetailListViewDto serialNoFind(String serialNo){
+		return detailMapper.serialNoFind(serialNo);
+	}
 }
