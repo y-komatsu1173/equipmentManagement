@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<title>備品削除確認</title>
+</head>
+
+<body>
+	<h1> 削除確認</h1>
+	<br>
+	<h1>削除しますか?</h1>
+
+	<table border="1">
+		<!--シリアル-->
+		<tr>
+			<th>シリアル</th>
+			<td th:text="${detailName.parentStockCode}"></td>
+		</tr>
+		<!--カテゴリ-->
+		<tr>
+			<th>カテゴリ</th>
+			<td th:text="${detailName.equipmentName}"></td>
+		</tr>
+
+		<!--備品名-->
+		<tr>
+			<th>製品名</th>
+			<td th:text="${detailName.productName}"></td>
+		</tr>
+
+		<!--メーカー-->
+		<tr th:if="${detailName.maker != null and !#strings.isEmpty(detailName.maker)}">
+			<th>メーカー</th>
+			<td th:text="${detailName.maker}"></td>
+		</tr>
+
+		<!--接続先シリアル-->
+		<tr th:if="${detailName.destinationSerial != null and !#strings.isEmpty(detailName.destinationSerial)}">
+			<th>接続先</th>
+			<td th:text="${detailName.destinationSerial}"></td>
+		</tr>
+
+		<!--分類-->
+		<tr>
+			<th>分類</th>
+			<td th:text="${detailName.ownershipType}"></td>
+		</tr>
+
+		<!--リース返却日-->
+		<tr th:if="${detailName.leaseReturnDate != null}">
+			<th>リース返却日</th>
+			<td th:text="${detailName.leaseReturnDate}"></td>
+		</tr>
+
+		<!--備考-->
+		<tr>
+			<th>備考</th>
+			<td th:text="${detailName.remarks}"></td>
+		</tr>
+
+		<!--貸出フラグ-->
+		<tr>
+			<th>貸出可否</th>
+			<td th:text="${detailName.rentFlag}"></td>
+		</tr>
+
+	</table>
+
+	<br>
+
+	<table border="1">
+
+		<tr>
+			<th colspan="2" style="text-align:center;">貸出情報</th>
+		</tr>
+
+		<tr th:if="${#strings.isEmpty(detailName.staffName) 
+		                and detailName.startDate == null
+		                and detailName.limitDate == null}">
+			<td colspan="2">貸出情報なし</td>
+		</tr>
+
+		<!-- 使用者 -->
+		<tr th:if="${detailName.staffName != null}">
+			<th>使用者</th>
+			<td th:text="${detailName.staffName}"></td>
+		</tr>
+
+		<!-- 貸出日 -->
+		<tr th:if="${detailName.startDate != null}">
+			<th>貸出日</th>
+			<td th:text="${detailName.startDate}"></td>
+		</tr>
+
+		<!-- 返却予定日 -->
+		<tr th:if="${detailName.limitDate != null}">
+			<th>返却予定日</th>
+			<td th:text="${detailName.limitDate}"></td>
+		</tr>
+
+		<!-- 最終確認日-->
+		<tr>
+			<th>最終確認日</th>
+			<td th:text="${detailName.confirmedDate}"></td>
+		</tr>
+
+	</table>
+
+	<!--削除完了ボタン-->
+	<form th:action="@{/equipmentDeleteComplete}" method="post">
+	    <input type="hidden"
+	           name="serialNo"
+	           th:value="${detailName.parentStockCode}" />
+	    <button type="submit">削除</button>
+	</form>
+</body>
+
+</html>
