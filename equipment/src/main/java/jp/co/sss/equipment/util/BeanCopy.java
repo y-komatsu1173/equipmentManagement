@@ -1,8 +1,7 @@
 package jp.co.sss.equipment.util;
 
 import jp.co.sss.equipment.entity.StockMaster;
-import jp.co.sss.equipment.form.EquipmentRegistForm;
-import jp.co.sss.equipment.form.EquipmentUpdateForm;
+import jp.co.sss.equipment.form.EquipmentForm;
 
 /**
  * Beanコピー用クラス
@@ -19,7 +18,7 @@ public class BeanCopy {
 	 *            入力された備品分類情報
 	 * @return エンティティ
 	 */
-	public static StockMaster copyFormToStockMaster(EquipmentRegistForm equipmentRegistForm) {
+	public static StockMaster copyFormToStockMaster(EquipmentForm equipmentRegistForm) {
 		StockMaster entity = new StockMaster();	
 		entity.setStockType(equipmentRegistForm.getCategoryId());
 		entity.setName(equipmentRegistForm.getEquipmentName());
@@ -39,8 +38,8 @@ public class BeanCopy {
 	 *            入力された備品分類情報
 	 * @return エンティティ
 	 */
-	public static EquipmentUpdateForm copyDtoToUpdateForm(StockMaster stockMaster) {
-	    EquipmentUpdateForm form = new EquipmentUpdateForm();
+	public static EquipmentForm copyDtoToUpdateForm(StockMaster stockMaster) {
+		EquipmentForm form = new EquipmentForm();
 
 	    form.setCategoryId(stockMaster.getStockType());
 	    form.setEquipmentName(stockMaster.getName());
