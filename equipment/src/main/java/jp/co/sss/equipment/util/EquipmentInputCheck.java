@@ -10,14 +10,14 @@ import org.springframework.stereotype.Component;
 import org.springframework.validation.BindingResult;
 
 import jp.co.sss.equipment.dto.EquipmentInputValidationResult;
-import jp.co.sss.equipment.form.EquipmentRegistForm;
+import jp.co.sss.equipment.form.EquipmentForm;
 
 @Component
 public class EquipmentInputCheck {
 	/*
 	 * 日付nullチェック
 	 */
-	public void leaseNullCheck(EquipmentRegistForm registform) {
+	public void leaseNullCheck(EquipmentForm registform) {
 		if (registform.getLeaseReturnDate().isEmpty()) {
 			registform.setLeaseReturnDate(null);
 		}
@@ -29,7 +29,7 @@ public class EquipmentInputCheck {
 	 * @param registform
 	 * @param result
 	 */
-	public void categoryCheck(@Valid EquipmentRegistForm registform, BindingResult result) {
+	public void categoryCheck(@Valid EquipmentForm registform, BindingResult result) {
 	    String inputType = registform.getInputType();
 
 	    // エラーメッセージ
@@ -53,7 +53,7 @@ public class EquipmentInputCheck {
 	/**
 	 * SIMPLE入力チェック
 	 */
-	private EquipmentInputValidationResult validateSimple(EquipmentRegistForm registform, List<String> rowErrors) {
+	private EquipmentInputValidationResult validateSimple(EquipmentForm registform, List<String> rowErrors) {
 
 		Integer categoryId = registform.getCategoryId();
 		String equipmentName = registform.getEquipmentName();
@@ -80,7 +80,7 @@ public class EquipmentInputCheck {
 	/**
 	 * FULL入力チェック
 	 */
-	private EquipmentInputValidationResult validateFull(EquipmentRegistForm registform, List<String> rowErrors) {
+	private EquipmentInputValidationResult validateFull(EquipmentForm registform, List<String> rowErrors) {
 
 		Integer categoryId = registform.getCategoryId();
 		String equipmentName = registform.getEquipmentName();

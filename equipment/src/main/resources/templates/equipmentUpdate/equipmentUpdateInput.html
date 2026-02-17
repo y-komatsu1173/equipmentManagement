@@ -6,7 +6,7 @@
 </head>
 <body onload="viewChange()">
 	<h1>備品編集</h1>
-	<form id="registForm" th:action="@{/equipmentUpdateCheck}" method="post" th:object="${equipmentUpdateForm}">
+	<form id="registForm" th:action="@{/equipmentUpdateCheck}" method="post" th:object="${equipmentForm}">
 
 		<!-- エラー表示 -->
 		<div th:if="${#fields.hasErrors()}">
@@ -47,13 +47,6 @@
 			</div>
 		</div>
 		
-		<!--接続先-->
-		<div class="form" id="Box8" style="display:none;">
-		    <div class="label">接続先シリアル</div>
-		    <div class="input">
-		        <input type="text" th:field="*{destinationSerial}">
-		    </div>
-		</div>
 
 		<!--メーカー-->
 		<div class="form" id="Box3" style="display:none;">
@@ -115,7 +108,7 @@
 	</form>
 
 	<script>
-		const allBoxes = ['Box1', 'Box2', 'Box3', 'Box4', 'Box5', 'Box6', 'Box7', 'Box8'];
+		const allBoxes = ['Box1', 'Box2', 'Box3', 'Box4', 'Box5', 'Box6', 'Box7'];
 
 		function viewChange() {
 			const id = document.getElementById('categoryId').value;
@@ -125,6 +118,7 @@
 				document.getElementById(box).style.display = 'none';
 			});
 
+			// 未選択
 			if (!id) return;
 
 			if (['4', '5', '6', '7'].includes(id)) {
@@ -132,13 +126,8 @@
 				['Box1', 'Box6', 'Box7'].forEach(box => {
 					document.getElementById(box).style.display = 'block';
 				});
-			} else if (id === '3') {
-				// ★カテゴリ3のときだけ接続先も表示
-				['Box1', 'Box2', 'Box3', 'Box4', 'Box6', 'Box7', 'Box8'].forEach(box => {
-					document.getElementById(box).style.display = 'block';
-				});
 			} else {
-				// その他（接続先なし）
+				// その他
 				['Box1', 'Box2', 'Box3', 'Box4', 'Box6', 'Box7'].forEach(box => {
 					document.getElementById(box).style.display = 'block';
 				});

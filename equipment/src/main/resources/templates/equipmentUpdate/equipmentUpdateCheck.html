@@ -3,12 +3,12 @@
 
 <head>
 	<meta charset="UTF-8">
-	<title>登録確認画面</title>
+	<title>編集確認画面</title>
 </head>
 
 <body>
-	<h1>備品登録確認画面</h1>
-	<form id="regist" th:action="@{/equipmentRegistComplete}" method="post" th:object="${equipmentForm}">
+	<h1>備品編集確認画面</h1>
+	<form id="regist" th:action="@{/equipmentUpdateComplete}" method="post" th:object="${equipmentForm}">
 		<!--エラーメッセージの出力-->
 		<p>
 			<span th:each="error:${#fields.detailedErrors()}">
@@ -75,7 +75,7 @@
 	</form>
 
 	<!--登録完了ボタン-->
-	<form th:action="@{/equipmentRegistComplete}" method="post" th:object="${equipmentForm}">
+	<form th:action="@{/equipmentUpdateComplete}" method="post" th:object="${equipmentForm}">
 		<input type="hidden" th:field="*{categoryId}" />
 		<input type="hidden" th:field="*{equipmentName}" />
 		<input type="hidden" th:field="*{model}" />
@@ -88,7 +88,7 @@
 	</form>
 
 	<!--登録入力画面へ戻る-->
-	<form th:action="@{/equipmentRegistBack}" method="post" th:object="${equipmentForm}">
+	<form th:action="@{/equipmentUpdateBack}" method="post" th:object="${equipmentForm}">
 		<input type="hidden" th:field="*{categoryId}" />
 		<input type="hidden" th:field="*{equipmentName}" />
 		<input type="hidden" th:field="*{model}" />

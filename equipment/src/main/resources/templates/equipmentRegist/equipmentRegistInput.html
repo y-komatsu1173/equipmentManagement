@@ -8,7 +8,7 @@
 
 <body onload="viewChange()">
 	<h1>備品登録</h1>
-	<form id="registForm" th:action="@{/equipmentRegistCheck}" method="post" th:object="${equipmentRegistForm}">
+	<form id="registForm" th:action="@{/equipmentRegistCheck}" method="post" th:object="${equipmentForm}">
 
 		<!-- エラー表示 -->
 		<div th:if="${#fields.hasErrors()}">

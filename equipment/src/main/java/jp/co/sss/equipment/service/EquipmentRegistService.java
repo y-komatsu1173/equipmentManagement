@@ -10,7 +10,7 @@ import org.springframework.validation.BindingResult;
 import jp.co.sss.equipment.entity.StockData;
 import jp.co.sss.equipment.entity.StockMaster;
 import jp.co.sss.equipment.entity.StockTypeMaster;
-import jp.co.sss.equipment.form.EquipmentRegistForm;
+import jp.co.sss.equipment.form.EquipmentForm;
 import jp.co.sss.equipment.mapper.EquipmentRegistMapper;
 import jp.co.sss.equipment.util.BeanCopy;
 import jp.co.sss.equipment.util.EquipmentInputCheck;
@@ -43,7 +43,12 @@ public class EquipmentRegistService {
 		return equipmentRegistMapper.findByCategoryId(categoryId);
 	}
 	
-	public void registCheck(EquipmentRegistForm form, BindingResult result) {
+	/**
+	 * 入力チェック
+	 * @param form
+	 * @param result
+	 */
+	public void registCheck(EquipmentForm form, BindingResult result) {
 
         // 入力タイプ別チェック
 		equipmentInputCheck.categoryCheck(form, result);
@@ -58,7 +63,7 @@ public class EquipmentRegistService {
 	 * 備品登録挿入
 	 */
 	@Transactional
-	public void equipmentRegistInsert(EquipmentRegistForm registform) {
+	public void equipmentRegistInsert(EquipmentForm registform) {
 		// formからentityへコピー
 		StockMaster stockMaster = BeanCopy.copyFormToStockMaster(registform);
 		// 論理削除フラグを0に設定
