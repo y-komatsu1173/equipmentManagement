@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>備品編集</title>
+</head>
+<body onload="viewChange()">
+	<h1>備品編集</h1>
+	<form id="registForm" th:action="@{/equipmentUpdateCheck}" method="post" th:object="${equipmentUpdateForm}">
+
+		<!-- エラー表示 -->
+		<div th:if="${#fields.hasErrors()}">
+			<h4 class="fc_red">以下のエラーが発生しました。</h4>
+			<h4 class="fc_red">更新できませんでした。再度入力してください。</h4>
+		</div>
+		<!-- エラーボックス -->
+		<div class="error-box" th:if="${#fields.hasErrors()}">
+			<ul class="error-list">
+				<li th:each="err : ${#fields.errors('*')}" th:text="${err}"></li>
+			</ul>
+		</div>
+		<!--カテゴリ-->
+		<div class="form">
+			<div class="label">カテゴリ</div>
+			<div class="input">
+				<select th:field="*{categoryId}" onchange="viewChange();">
+					<option value="">選択してください</option>
+					<option th:each="category : ${categoryList}" th:value="${category.id}" th:text="${category.name}">
+					</option>
+				</select>
+			</div>
+		</div>
+
+		<!--備品名-->
+		<div class="form" id="Box1" style="display:none;">
+			<div class="label">備品名</div>
+			<div class="input">
+				<input type="text" th:field="*{equipmentName}">
+			</div>
+		</div>
+
+		<!--モデル-->
+		<div class="form" id="Box2" style="display:none;">
+			<div class="label">モデル</div>
+			<div class="input">
+				<input type="text" th:field="*{model}">
+			</div>
+		</div>
+		
+		<!--接続先-->
+		<div class="form" id="Box8" style="display:none;">
+		    <div class="label">接続先シリアル</div>
+		    <div class="input">
+		        <input type="text" th:field="*{destinationSerial}">
+		    </div>
+		</div>
+
+		<!--メーカー-->
+		<div class="form" id="Box3" style="display:none;">
+			<div class="label">メーカー</div>
+			<div class="input">
+				<input type="text" th:field="*{maker}">
+			</div>
+		</div>
+
+		<!--分類-->
+		<div class="form" id="Box4" style="display:none;">
+			<div class="label">分類</div>
+			<div class="input">
+				<select th:field="*{ownershipType}" id="rentalType" onchange="stockType();">
+					<option value="">選択してください</option>
+					<option value="1">会社保有</option>
+					<option value="2">リース品</option>
+				</select>
+			</div>
+		</div>
+
+		<!--リース返却日-->
+		<div class="form" id="Box5" style="display:none;">
+			<div class="label">リース返却日</div>
+			<div class="input">
+				<input type="date" th:field="*{leaseReturnDate}">
+			</div>
+		</div>
+
+		<!--備考-->
+		<div class="form" id="Box6" style="display:none;">
+			<div class="label">備考</div>
+			<div class="input">
+				<input type="text" th:field="*{remarks}">
+			</div>
+		</div>
+
+		<!--貸出フラグ-->
+		<div class="form" id="Box7" style="display:none;">
+			<div class="label">貸出可否</div>
+			<div class="input">
+				<select th:field="*{rentFlag}">
+					<option value="">選択してください</option>
+					<option value="0">貸出可能</option>
+					<option value="1">貸出不可</option>
+				</select>
+			</div>
+		</div>
+
+		<!--登録ボタン-->
+		<div class="form">
+			<button type="submit" form="registForm">登録確認</button>
+		</div>
+	</form>
+
+	<!--戻るボタン-->
+	<form th:action="@{/index}" method="get">
+		<button class="indexReturnButton" type="submit">一覧に戻る</button>
+	</form>
+
+	<script>
+		const allBoxes = ['Box1', 'Box2', 'Box3', 'Box4', 'Box5', 'Box6', 'Box7', 'Box8'];
+
+		function viewChange() {
+			const id = document.getElementById('categoryId').value;
+
+			// 全部非表示
+			allBoxes.forEach(box => {
+				document.getElementById(box).style.display = 'none';
+			});
+
+			if (!id) return;
+
+			if (['4', '5', '6', '7'].includes(id)) {
+				// 鍵類
+				['Box1', 'Box6', 'Box7'].forEach(box => {
+					document.getElementById(box).style.display = 'block';
+				});
+			} else if (id === '3') {
+				// ★カテゴリ3のときだけ接続先も表示
+				['Box1', 'Box2', 'Box3', 'Box4', 'Box6', 'Box7', 'Box8'].forEach(box => {
+					document.getElementById(box).style.display = 'block';
+				});
+			} else {
+				// その他（接続先なし）
+				['Box1', 'Box2', 'Box3', 'Box4', 'Box6', 'Box7'].forEach(box => {
+					document.getElementById(box).style.display = 'block';
+				});
+			}
+
+			stockType();
+		}
+
+		function stockType() {
+			const rentalSelect = document.getElementById('rentalType');
+			const box4 = document.getElementById('Box4');
+
+			// 分類が表示されていない場合は必ず非表示
+			if (box4.style.display === 'none') {
+				document.getElementById('Box5').style.display = 'none';
+				return;
+			}
+
+			// 未選択 or リース以外
+			if (!rentalSelect || rentalSelect.value !== '2') {
+				document.getElementById('Box5').style.display = 'none';
+				return;
+			}
+
+			// リース品
+			document.getElementById('Box5').style.display = 'block';
+		}
+	</script>
+
+</body>
+</html>
