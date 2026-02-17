@@ -76,17 +76,6 @@ public class EquipmentRegistController {
 		    return "equipmentRegist/equipmentRegistInput";
 		}
 		
-		System.out.println("カテゴリID: " + registform.getCategoryId());
-		System.out.println("カテゴリ名: " + stockTypeMaster.getName());
-		System.out.println("入力タイプ: " + stockTypeMaster.getInputType());
-		System.out.println("備品名: " + registform.getEquipmentName());
-		System.out.println("リース返却日: " + registform.getLeaseReturnDate());
-		System.out.println("メーカー: " + registform.getMaker());
-		System.out.println("型番:" + registform.getModel());
-		System.out.println("型番:" + registform.getLeaseReturnDate());
-		System.out.println("備考: " + registform.getRemarks());
-		System.out.println("貸出可否: " + registform.getRentFlag());
-		
 		//カテゴリ名をモデルにセット
 		model.addAttribute("categoryName", stockTypeMaster.getName());
 		model.addAttribute("equipmentRegistForm", registform);
