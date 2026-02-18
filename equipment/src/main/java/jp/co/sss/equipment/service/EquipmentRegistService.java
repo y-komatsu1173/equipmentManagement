@@ -1,7 +1,5 @@
 package jp.co.sss.equipment.service;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -9,7 +7,6 @@ import org.springframework.validation.BindingResult;
 
 import jp.co.sss.equipment.entity.StockData;
 import jp.co.sss.equipment.entity.StockMaster;
-import jp.co.sss.equipment.entity.StockTypeMaster;
 import jp.co.sss.equipment.form.EquipmentForm;
 import jp.co.sss.equipment.mapper.EquipmentRegistMapper;
 import jp.co.sss.equipment.util.BeanCopy;
@@ -27,21 +24,6 @@ public class EquipmentRegistService {
 
 	@Autowired
 	EquipmentInputCheck equipmentInputCheck;
-	/*
-	 * 備品登録時に使用するDB操作
-	 * カテゴリ検索
-	 */
-	public List<StockTypeMaster> categoryFind() {
-		return equipmentRegistMapper.categoryFind();
-	}
-
-	/*
-	 * 備品登録確認時に使用するDB操作
-	 * カテゴリIDからカテゴリ情報を取得
-	 */
-	public StockTypeMaster categoryFindCheck(Integer categoryId) {
-		return equipmentRegistMapper.findByCategoryId(categoryId);
-	}
 	
 	/**
 	 * 入力チェック
