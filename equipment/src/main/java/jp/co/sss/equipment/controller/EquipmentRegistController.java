@@ -15,6 +15,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import jp.co.sss.equipment.entity.StockTypeMaster;
 import jp.co.sss.equipment.form.EquipmentForm;
+import jp.co.sss.equipment.service.EquipmentCommonService;
 import jp.co.sss.equipment.service.EquipmentRegistService;
 import jp.co.sss.equipment.util.EquipmentInputCheck;
 
@@ -30,6 +31,9 @@ public class EquipmentRegistController {
 
 	@Autowired
 	EquipmentInputCheck equipmentInputCheck;
+	
+	@Autowired
+	EquipmentCommonService equipmentCommonService;
 
 	/**
 	 * 備品入力画面表示
@@ -38,7 +42,7 @@ public class EquipmentRegistController {
 	public String equipmentRegistInput(Model model, @ModelAttribute EquipmentForm form) {
 		//ログイン機能追加後は、セッションチェックを実装
 		//カテゴリの取得
-		List<StockTypeMaster> categoryList = equipmentRegistService.categoryFind();
+		List<StockTypeMaster> categoryList = equipmentCommonService.categoryFind();
 		model.addAttribute("categoryList", categoryList);
 		return "equipmentRegist/equipmentRegistInput";
 	}
@@ -55,7 +59,7 @@ public class EquipmentRegistController {
 		StockTypeMaster stockTypeMaster = null;
 		//カテゴリIDからカテゴリ情報を取得
 		if (registform.getCategoryId() != null) {
-			stockTypeMaster = equipmentRegistService.categoryFindCheck(registform.getCategoryId());
+			stockTypeMaster = equipmentCommonService.categoryFindCheck(registform.getCategoryId());
 
 			//入力タイプをフォームにセット
 			registform.setInputType(stockTypeMaster.getInputType());
@@ -70,7 +74,7 @@ public class EquipmentRegistController {
 		
 		//エラーがある場合、入力画面へ戻る
 		if (result.hasErrors()) {
-		    List<StockTypeMaster> categoryList = equipmentRegistService.categoryFind();
+		    List<StockTypeMaster> categoryList = equipmentCommonService.categoryFind();
 		    model.addAttribute("categoryList", categoryList);
 		    model.addAttribute("equipmentForm", registform);
 		    return "equipmentRegist/equipmentRegistInput";
@@ -89,7 +93,7 @@ public class EquipmentRegistController {
 	@PostMapping("/equipmentRegistBack")
 	public String equipmentRegistBack(@ModelAttribute EquipmentForm registform, Model model) {
 	    //カテゴリの取得
-	    List<StockTypeMaster> categoryList = equipmentRegistService.categoryFind();
+	    List<StockTypeMaster> categoryList = equipmentCommonService.categoryFind();
 	    model.addAttribute("categoryList", categoryList);
 	    model.addAttribute("equipmentForm", registform);
 	    return "equipmentRegist/equipmentRegistInput";
