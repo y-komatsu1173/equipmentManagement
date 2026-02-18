@@ -48,7 +48,6 @@ public class EquipmentUpdateController {
 		model.addAttribute("categoryList", categoryList);
 	    model.addAttribute("equipmentForm", form);
 	    StockMaster updateform =equimentUpdateService.equimentFind(serialNo);
-	    System.out.println(stockMaster);
 		//ログイン機能追加後は、セッションチェックを実装
 		return "equipmentUpdate/equipmentUpdateInput";
 	}
