@@ -47,5 +47,4 @@ public class StockMaster {
 
 	/*削除フラグ*/
 	private String del;
-
 }
