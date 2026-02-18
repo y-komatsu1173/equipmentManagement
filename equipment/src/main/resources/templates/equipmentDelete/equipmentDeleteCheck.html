@@ -109,10 +109,11 @@
 
 	<!--削除完了ボタン-->
 	<form th:action="@{/equipmentDeleteComplete}" method="post">
-	    <input type="hidden"
-	           name="serialNo"
-	           th:value="${detailName.parentStockCode}" />
-	    <button type="submit">削除</button>
+		<input type="hidden" name="serialNo" th:value="${detailName.parentStockCode}" />
+
+		<input type="hidden" name="name" th:value="${categoryName}" />
+
+		<button type="submit">削除</button>
 	</form>
 </body>
 
