@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import jp.co.sss.equipment.dto.DetailListViewDto;
 import jp.co.sss.equipment.dto.EquipListViewDto;
@@ -42,13 +43,14 @@ public class IndexController {
 	 * @return　templates/index/detail 詳細画面
 	 */
 	@GetMapping("/detail")
-	public String detail(Model model, String name) { //String name HTMLから検索したい値を引数として用意
+	public String detail(@RequestParam("name") String name, Model model) { //String name HTMLから検索したい値を引数として用意
 		List<DetailListViewDto> detailList = indexService.detailFind(name);//サービス層のdetailFindメソッドを呼び出し値をリストに返す
 		model.addAttribute("detailName", detailList.get(0)); //備品名が複数取得されるため１つ目だけ採取しHTMLに反映（１つだけのため）
-		model.addAttribute("itemDetail", detailList); 
+		model.addAttribute("itemDetail", detailList);
+		model.addAttribute("categoryName", name);
 		return "index/detail";
 	}
-	
+
 	/**
 	 * 「貸出」「返却」の画面から戻るボタンを押下したとき
 	 */
@@ -56,19 +58,23 @@ public class IndexController {
 	public String detailBack(Model model, String name) { //String name HTMLから検索したい値を引数として用意
 		List<DetailListViewDto> detailList = indexService.detailFind(name);//サービス層のdetailFindメソッドを呼び出し値をリストに返す
 		model.addAttribute("detailName", detailList.get(0)); //備品名が複数取得されるため１つ目だけ採取しHTMLに反映（１つだけのため）
-		model.addAttribute("itemDetail", detailList); 
+		model.addAttribute("itemDetail", detailList);
 		return "index/detail";
 	}
-	
+
 	/**
 	 * 個別詳細画面
 	 */
 	@GetMapping("/individualDetail")
-	public String individualDetail(Model model, String serialNo) {
+	public String individualDetail(Model model, String serialNo, String name) {
+		System.out.println("serialNo = " + serialNo);
+		System.out.println("name = " + name);
+
 		DetailListViewDto detailList = indexService.serialNoFind(serialNo);
 		DetailListViewDto detail = detailList;
 		model.addAttribute("detailName", detailList); //備品名が複数取得されるため１つ目だけ採取しHTMLに反映（１つだけのため）
-		model.addAttribute("itemDetail", detailList); 
+		model.addAttribute("itemDetail", detailList);
+		model.addAttribute("categoryName", name);
 		return "index/individualDetail";
 	}
 }
