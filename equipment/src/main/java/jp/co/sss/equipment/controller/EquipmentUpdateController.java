@@ -15,7 +15,7 @@ import jp.co.sss.equipment.entity.StockMaster;
 import jp.co.sss.equipment.entity.StockTypeMaster;
 import jp.co.sss.equipment.form.EquipmentForm;
 import jp.co.sss.equipment.service.EquimentUpdateService;
-import jp.co.sss.equipment.service.EquipmentRegistService;
+import jp.co.sss.equipment.service.EquipmentCommonService;
 import jp.co.sss.equipment.util.BeanCopy;
 import jp.co.sss.equipment.util.EquipmentInputCheck;
 
@@ -26,9 +26,9 @@ import jp.co.sss.equipment.util.EquipmentInputCheck;
 public class EquipmentUpdateController {
 	@Autowired
 	EquimentUpdateService equimentUpdateService;
-
+	
 	@Autowired
-	EquipmentRegistService equipmentRegistService;
+	EquipmentCommonService equipmentCommonService;
 
 	@Autowired
 	EquipmentInputCheck equipmentInputCheck;
@@ -39,7 +39,7 @@ public class EquipmentUpdateController {
 	@GetMapping("/equipmentUpdateInput")
 	public String equimentUpdateInput(Model model, String serialNo) {
 		//カテゴリーのリストを取得
-		List<StockTypeMaster> categoryList = equipmentRegistService.categoryFind();
+		List<StockTypeMaster> categoryList = equipmentCommonService.categoryFind();
 		//シリアルナンバーから備品情報を取得
 		StockMaster stockMaster = equimentUpdateService.equimentFind(serialNo);
 		//取得した備品情報をフォームクラスにコピー
@@ -65,7 +65,7 @@ public class EquipmentUpdateController {
 		StockTypeMaster stockTypeMaster = null;
 		//カテゴリIDからカテゴリ情報を取得
 		if (updateform.getCategoryId() != null) {
-			stockTypeMaster = equipmentRegistService.categoryFindCheck(updateform.getCategoryId());
+			stockTypeMaster = equipmentCommonService.categoryFindCheck(updateform.getCategoryId());
 
 			//入力タイプをフォームにセット
 			updateform.setInputType(stockTypeMaster.getInputType());
@@ -80,7 +80,7 @@ public class EquipmentUpdateController {
 
 		//エラーがある場合、入力画面へ戻る
 		if (result.hasErrors()) {
-			List<StockTypeMaster> categoryList = equipmentRegistService.categoryFind();
+			List<StockTypeMaster> categoryList = equipmentCommonService.categoryFind();
 			model.addAttribute("categoryList", categoryList);
 			return "equipmentUpdate/equipmentUpdateInput";
 		}
@@ -97,7 +97,7 @@ public class EquipmentUpdateController {
 	@PostMapping("/equipmentUpdateBack")
 	public String equipmentUpdateBack(@ModelAttribute EquipmentForm updateform, Model model) {
 		//カテゴリの取得
-		List<StockTypeMaster> categoryList = equipmentRegistService.categoryFind();
+		List<StockTypeMaster> categoryList = equipmentCommonService.categoryFind();
 		model.addAttribute("categoryList", categoryList);
 		model.addAttribute("equipmentForm", updateform);
 		return "equipmentUpdate/equipmentUpdateInput";
