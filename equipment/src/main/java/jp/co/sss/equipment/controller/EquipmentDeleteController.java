@@ -5,6 +5,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import jp.co.sss.equipment.dto.DetailListViewDto;
 import jp.co.sss.equipment.service.EquimentDeletervice;
@@ -17,7 +18,7 @@ import jp.co.sss.equipment.service.IndexService;
 public class EquipmentDeleteController {
 	@Autowired
 	IndexService indexService;
-	
+
 	@Autowired
 	EquimentDeletervice equimentDeletervice;
 
@@ -25,20 +26,31 @@ public class EquipmentDeleteController {
 	 * 削除確認画面
 	 */
 	@GetMapping("/equipmentDeleteCheck")
-	public String equipmentDeleteCheck(Model model, String serialNo) {
+	public String equipmentDeleteCheck(
+			@RequestParam("serialNo") String serialNo,
+			@RequestParam("name") String name,
+			Model model) {
+
 		DetailListViewDto detailList = indexService.serialNoFind(serialNo);
-		model.addAttribute("detailName", detailList); //備品名が複数取得されるため１つ目だけ採取しHTMLに反映（１つだけのため）
+		model.addAttribute("detailName", detailList);
 		model.addAttribute("itemDetail", detailList);
+		model.addAttribute("categoryName", name); 
 		return "equipmentDelete/equipmentDeleteCheck";
 	}
-	
+
 	/**
 	 * 削除処理　削除完了画面へ遷移
 	 */
 	@PostMapping("/equipmentDeleteComplete")
-	public String equipmentDeleteComplete(String serialNo) {
-		//論理削除処理
-	    equimentDeletervice.deleteBySerialNo(serialNo);
-	    return "equipmentDelete/equipmentDeleteComplete";
+	public String equipmentDeleteComplete(
+			@RequestParam("serialNo") String serialNo,
+			@RequestParam("name") String name,
+			Model model) {
+
+		model.addAttribute("categoryName", name);
+
+		equimentDeletervice.deleteBySerialNo(serialNo);
+
+		return "equipmentDelete/equipmentDeleteComplete";
 	}
 }
