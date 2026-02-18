@@ -2,11 +2,12 @@
 <html xmlns:th="http://www.thymeleaf.org">
 
 <head>
+	<link rel="stylesheet" th:href="@{css/equipmentInptLayput.css}">
 	<meta charset="UTF-8">
 	<title>備品登録</title>
 </head>
 
-<body onload="viewChange()">
+<divbody onload="viewChange()">
 	<h1>備品登録</h1>
 	<form id="registForm" th:action="@{/equipmentRegistCheck}" method="post" th:object="${equipmentForm}">
 
@@ -22,7 +23,7 @@
 			</ul>
 		</div>
 		<!--カテゴリ-->
-		<div class="form">
+		<div class="form form-vertical">
 			<div class="label">カテゴリ</div>
 			<div class="input">
 				<select th:field="*{categoryId}" onchange="viewChange();">
@@ -104,60 +105,67 @@
 	</form>
 
 	<!--戻るボタン-->
-	<form th:action="@{/index}" method="get">
-		<button class="indexReturnButton" type="submit">一覧に戻る</button>
-	</form>
+	<div class="form">
+		<form th:action="@{/index}" method="get">
+			<button class="indexReturnButton" type="submit">一覧に戻る</button>
+		</form>
+		</di>
 
-	<script>
-		const allBoxes = ['Box1', 'Box2', 'Box3', 'Box4', 'Box5', 'Box6', 'Box7'];
+		<script>
+			const allBoxes = ['Box1', 'Box2', 'Box3', 'Box4', 'Box5', 'Box6', 'Box7'];
 
-		function viewChange() {
-			const id = document.getElementById('categoryId').value;
+			function viewChange() {
+				const categorySelect = document.getElementById('categoryId');
+				const id = categorySelect.value;
 
-			// 全部非表示
-			allBoxes.forEach(box => {
-				document.getElementById(box).style.display = 'none';
+				// 全部非表示
+				allBoxes.forEach(box => {
+					document.getElementById(box).style.display = 'none';
+				});
+
+				// カテゴリが選択されていたらBoxを表示
+				if (id) {
+					if (['4', '5', '6', '7'].includes(id)) {
+						['Box1', 'Box6', 'Box7'].forEach(box => {
+							document.getElementById(box).style.display = 'flex';
+						});
+					} else {
+						['Box1', 'Box2', 'Box3', 'Box4', 'Box6', 'Box7'].forEach(box => {
+							document.getElementById(box).style.display = 'flex';
+						});
+					}
+				}
+
+				// 入力済み値に応じてリース日も表示
+				stockType();
+			}
+
+			// ページロード時にBox表示を復元
+			window.addEventListener('DOMContentLoaded', (event) => {
+				viewChange();
 			});
 
-			// 未選択
-			if (!id) return;
+			function stockType() {
+				const rentalSelect = document.getElementById('rentalType');
+				const box4 = document.getElementById('Box4');
 
-			if (['4', '5', '6', '7'].includes(id)) {
-				// 鍵類
-				['Box1', 'Box6', 'Box7'].forEach(box => {
-					document.getElementById(box).style.display = 'block';
-				});
-			} else {
-				// その他
-				['Box1', 'Box2', 'Box3', 'Box4', 'Box6', 'Box7'].forEach(box => {
-					document.getElementById(box).style.display = 'block';
-				});
+				// 分類が表示されていない場合は必ず非表示
+				if (box4.style.display === 'none') {
+					document.getElementById('Box5').style.display = 'none';
+					return;
+				}
+
+				// 未選択 or リース以外
+				if (!rentalSelect || rentalSelect.value !== '2') {
+					document.getElementById('Box5').style.display = 'none';
+					return;
+				}
+
+				// リース品
+				document.getElementById('Box5').style.display = 'flex';
 			}
+		</script>
 
-			stockType();
-		}
-
-		function stockType() {
-			const rentalSelect = document.getElementById('rentalType');
-			const box4 = document.getElementById('Box4');
-
-			// 分類が表示されていない場合は必ず非表示
-			if (box4.style.display === 'none') {
-				document.getElementById('Box5').style.display = 'none';
-				return;
-			}
-
-			// 未選択 or リース以外
-			if (!rentalSelect || rentalSelect.value !== '2') {
-				document.getElementById('Box5').style.display = 'none';
-				return;
-			}
-
-			// リース品
-			document.getElementById('Box5').style.display = 'block';
-		}
-	</script>
-
-</body>
+		</body>
 
 </html>
