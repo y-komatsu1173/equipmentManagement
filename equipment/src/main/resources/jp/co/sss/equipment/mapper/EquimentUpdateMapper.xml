@@ -19,4 +19,23 @@
 		FROM stock_master
         WHERE stock_code = #{serialNo}
 	</select>
+	
+	<!-- データ更新 -->
+<update id="equipmentUpdate"
+        parameterType="jp.co.sss.equipment.entity.StockMaster">
+
+    UPDATE stock_master
+    SET
+        name = #{name},
+        model = #{model},
+        maker = #{maker},
+        stock_type = #{stockType},
+        rent_flag = #{rentFlag},
+        ownership_type = #{ownershipType},
+        lease_return_date = #{leaseReturnDate},
+        remarks = #{remarks},
+        del = #{del}
+    WHERE
+       stock_code = #{stockCode}
+</update>
 </mapper>
