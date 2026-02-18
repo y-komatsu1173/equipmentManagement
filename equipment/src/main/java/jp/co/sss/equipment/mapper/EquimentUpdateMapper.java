@@ -17,4 +17,11 @@ public interface EquimentUpdateMapper {
 	 * 備品編集のためのシリアルナンバーで検索
 	 */
 	StockMaster equimentFind(@Param("serialNo") String serialNo);
+
+	/**
+	 * 備品更新
+	 * @param serialNo
+	 * @return 
+	 */
+	void equipmentUpdate(StockMaster stockMaster);
 }
