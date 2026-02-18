@@ -52,7 +52,6 @@ public class EquipmentRegistController {
 			BindingResult result,
 			RedirectAttributes redirectAttributes,
 			Model model) {
-		
 		StockTypeMaster stockTypeMaster = null;
 		//カテゴリIDからカテゴリ情報を取得
 		if (registform.getCategoryId() != null) {
@@ -65,11 +64,15 @@ public class EquipmentRegistController {
 		//入力チェック
 		equipmentRegistService.registCheck(registform, result);
 
-
+		  if (registform.getCategoryId() == null || stockTypeMaster == null) {
+		        result.rejectValue("categoryId", "error.categoryId", "カテゴリが未選択です");
+		    }
+		
 		//エラーがある場合、入力画面へ戻る
 		if (result.hasErrors()) {
 		    List<StockTypeMaster> categoryList = equipmentRegistService.categoryFind();
 		    model.addAttribute("categoryList", categoryList);
+		    model.addAttribute("equipmentForm", registform);
 		    return "equipmentRegist/equipmentRegistInput";
 		}
 		
