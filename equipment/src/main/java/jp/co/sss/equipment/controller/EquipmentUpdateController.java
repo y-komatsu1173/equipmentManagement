@@ -17,6 +17,7 @@ import jp.co.sss.equipment.form.EquipmentForm;
 import jp.co.sss.equipment.service.EquimentUpdateService;
 import jp.co.sss.equipment.service.EquipmentRegistService;
 import jp.co.sss.equipment.util.BeanCopy;
+import jp.co.sss.equipment.util.EquipmentInputCheck;
 
 /**
  * 備品編集
@@ -28,6 +29,9 @@ public class EquipmentUpdateController {
 	
 	@Autowired
 	EquipmentRegistService equipmentRegistService;
+	
+	@Autowired
+	EquipmentInputCheck equipmentInputCheck;
 
 	/*
 	 * 備品編集入力画面表示
@@ -36,9 +40,6 @@ public class EquipmentUpdateController {
 	public String equimentUpdateInput(Model model, String serialNo) {
 		//カテゴリーのリストを取得
 		List<StockTypeMaster> categoryList = equipmentRegistService.categoryFind();
-		for (StockTypeMaster category : categoryList) {
-			System.out.println(category);
-		}
 		//シリアルナンバーから備品情報を取得
 		StockMaster stockMaster = equimentUpdateService.equimentFind(serialNo);
 		//取得した備品情報をフォームクラスにコピー
@@ -97,5 +98,23 @@ public class EquipmentUpdateController {
 	    model.addAttribute("categoryList", categoryList);
 	    model.addAttribute("equipmentForm", updateform);
 	    return "equipmentUpdate/equipmentUpdateInput";
+	}
+
+	/**
+	 *備品編集完了
+	 */
+	@PostMapping("/equipmentUpdateComplete")
+	public String equipmentUpdateComplete(EquipmentForm updateform, Model model) {
+		// リース返却日のNULLチェック
+	    equipmentInputCheck.leaseNullCheck(updateform);
+
+	    // stockCode 取得
+	    String serialNo = updateform.getStockCode();
+
+	    // 更新処理を Service に委譲
+	    equimentUpdateService.equipmentUpdate(updateform, serialNo);
+	    
+	    model.addAttribute("parentStockCode", updateform.getStockCode());
+	    return "equipmentUpdate/equipmentUpdateComplete";
 	}
 }
