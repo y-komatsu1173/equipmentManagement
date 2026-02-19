@@ -13,11 +13,15 @@
 	color: White
 }
 
-
 .body {
 	max-width: 1920px;
 	margin: auto;
-	padding: 100px;
+}
+
+.borrow-table {
+    width: max-content;
+    min-width: 1600px; 
+    border-collapse: collapse;
 }
 
 .table-buttons {
@@ -30,7 +34,6 @@
 	gap: 8px;
 	/* ボタンの余白 */
 }
-
 
 .borrow-table th {
 	position: sticky;
@@ -115,7 +118,6 @@
 	width: 9%;
 	text-align: center;
 }
-
 
 /*備考*/
 .col-remarks {

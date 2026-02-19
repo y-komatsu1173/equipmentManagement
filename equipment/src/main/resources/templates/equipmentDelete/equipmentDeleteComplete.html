@@ -7,6 +7,7 @@
 </head>
 
 <body>
+	<div th:replace="~{common/layout_4block :: header}"></div>
 	<h1>削除が完了しました</h1>
 	<form th:action="@{/index}" method="get">
 	      <button type="submit">一覧に戻る</button>

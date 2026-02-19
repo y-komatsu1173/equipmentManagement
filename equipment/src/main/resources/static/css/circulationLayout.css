@@ -16,8 +16,7 @@
 
 .body {
 	max-width: 1920px;
-		margin: auto;
-		padding: 0; 
+	margin: auto;
 }
 
 /*貸出一覧テーブルボタンエリア*/
@@ -34,8 +33,8 @@
 
 /*貸出一覧テーブルヘッダー*/
 .borrow-table th {
-	/*position: sticky;
-	top: 0;*/
+	position: sticky;
+	top: 0;
 	z-index: 5;
 	background-color: rgb(26, 11, 134);
 	color: White;
@@ -53,7 +52,7 @@
 .col-user {
 	width: 18%;
 	text-align: left !important;
-	padding-left: 10px ;
+	padding-left: 10px !important;
 }
 
 /*貸出開始日*/
@@ -193,14 +192,19 @@
 /* テーブルエリア*/
 .table-area {
 	max-width: 100%;
+	display: flex;
+	/* Flexbox を有効化 */
+	justify-content: center;
+	/* 水平方向の中央揃え */
 }
+
+
 
 /* 貸出一覧テーブル*/
 .borrow-table {
-    width: 100%;
-    min-width: 1200px;
-    border-collapse: separate;
-    border-spacing: 0;
+	width: max-content;
+	min-width: 1200px;
+	border-collapse: collapse;
 }
 
 /* エラーライン*/
@@ -289,36 +293,3 @@
 	z-index: 10;
 	background-color: white;
 }
-
-/* ヘッダー全体を縦固定 */
-.borrow-table thead th {
-    position: sticky;
-    top: 0;
-    z-index: 15;
-    background-color: rgb(26, 11, 134);
-    color: white;
-}
-
-.table-wrapper {
-    position: relative;
-}
-
-/* テーブル全体は横スクロールできるように */
-.table-wrapper {
-  overflow-x: auto;
-}
-
-/* 左端の列を固定 */
-.borrow-table th:first-child,
-.borrow-table td:first-child {
-  position: sticky;
-  left: 0;
-  background: #fff;   /* 背景必須（透け防止） */
-  z-index: 2;
-}
-
-/* ヘッダーがある場合 */
-.borrow-table th:first-child {
-  z-index: 3;
-}
-

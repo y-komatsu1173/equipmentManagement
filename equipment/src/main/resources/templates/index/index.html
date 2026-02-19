@@ -10,7 +10,8 @@
 <body class="body">
 	<div th:replace="~{common/layout_4block :: header}"></div>
 	<h2 class="title">備品一覧画面</h2>
-	<table border="1">　<!--テーブルの枠を作る-->
+	<div class="table-area">
+	<table border="1" class="detail-table">　<!--テーブルの枠を作る-->
 		<tr class="front_label_color">
 			<th>名称</th>
 			<th>貸代</th>
@@ -30,10 +31,7 @@
 			<td th:text="${item.total}"></td>
 		</tr>
 	</table>
-	<form th:action="@{/equipmentRegistInput}" method="get">
-		<br>
-		<input type="submit" value="備品登録画面へ">
-	</form>
+	</div>
 
 </body>
 

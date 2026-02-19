@@ -8,6 +8,7 @@
 </head>
 
 <body>
+	<div th:replace="~{common/layout_4block :: header}"></div>
 	<div class="center-wrapper">
 		<h1> 備品詳細</h1>
 
@@ -112,23 +113,25 @@
 
 		<!--ボタン-->
 		<div class="button-wrapper">
+			<div class="left-buttons">
 			<!--削除確認画面遷移-->
 			<form th:action="@{/equipmentDeleteCheck}" method="get">
 				<input type="hidden" name="serialNo" th:value="${detailName.parentStockCode}" />
 				<input type="hidden" name="name" th:value="${categoryName}" />
-				<button type="submit">削除</button>
+				<button type="submit" class="commonButton delete-btn">削除</button>
 			</form>
 
 			<!--備品編集画面遷移-->
 			<form th:action="@{/equipmentUpdateInput}">
 				<input type="hidden" name="serialNo" th:value="${detailName.parentStockCode}">
-				<button type="submit">編集</button>
+				<button type="submit" class="commonButton edit-btn">編集</button>
 			</form>
+			</div>
 
 			<!--戻る-->
 			<form th:action="@{/detail}" method="get">
 				<input type="hidden" name="name" th:value="${nameForBack}" />
-				<button type="submit">戻る</button>
+				<button type="submit" class="commonButton back-btn">戻る</button>
 			</form>
 		</div>
 	</div>

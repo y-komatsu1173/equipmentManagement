@@ -8,6 +8,7 @@
 </head>
 
 <divbody onload="viewChange()">
+	<div th:replace="~{common/layout_4block :: header}"></div>
 	<h1>備品登録</h1>
 	<form id="registForm" th:action="@{/equipmentRegistCheck}" method="post" th:object="${equipmentForm}">
 

@@ -8,6 +8,7 @@
 </head>
 
 <body>
+	<div th:replace="~{common/layout_4block :: header}"></div>
 	<div class="center-wrapper">
 		<h1>備品編集確認画面</h1>
 		<form id="regist" th:action="@{/equipmentUpdateComplete}" method="post" th:object="${equipmentForm}">
@@ -81,7 +82,7 @@
 		</form>
 
 		<!--ボタン-->
-		<div class="button-wrapper">
+		<div class="deleteBackWrapper">
 			<!--登録完了ボタン-->
 			<form th:action="@{/equipmentUpdateComplete}" method="post" th:object="${equipmentForm}">
 				<input type="hidden" th:field="*{categoryId}" />
@@ -93,7 +94,7 @@
 				<input type="hidden" th:field="*{remarks}" />
 				<input type="hidden" th:field="*{rentFlag}" />
 				<input type="hidden" th:field="*{stockCode}" />
-				<button class="indexRegisterButton" type="submit">登録</button>
+				<button class="deleteBackButton registComplete" type="submit">登録</button>
 			</form>
 
 			<!--登録入力画面へ戻る-->
@@ -107,7 +108,7 @@
 				<input type="hidden" th:field="*{remarks}" />
 				<input type="hidden" th:field="*{rentFlag}" />
 				<input type="hidden" th:field="*{stockCode}" />
-				<button class="indexReturnButton" type="submit">戻る</button>
+				<button class="deleteBackButton backDetail" type="submit">戻る</button>
 			</form>
 		</div>
 	</div>

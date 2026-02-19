@@ -1,40 +1,48 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" th:fragment="layout(content)">
+
 <head>
-    <meta charset="UTF-8">
-    <title>備品管理システム</title>
-    <link rel="stylesheet" th:href="@{/css/circulationLayout.css}">
-    <style>
-        .main-footer {
-            margin-top: 100px;
-            padding: 80% 0;
-            background-color: #f4f4f4;
-            border-top: 2px solid #ddd;
-            text-align: center;
-        }
-        .content-wrapper {
-            min-height: 70vh; 
-        }
-    </style>
+	<meta charset="UTF-8">
+	<title>備品管理システム</title>
+	<link rel="stylesheet" th:href="@{/css/circulationLayout.css}">
+	<style>
+		.main-footer {
+			margin-top: 100px;
+			padding: 80% 0;
+			background-color: #f4f4f4;
+			border-top: 2px solid #ddd;
+			text-align: center;
+		}
+
+		.content-wrapper {
+			min-height: 70vh;
+		}
+	</style>
 </head>
+
 <body class="body">
 
-    <header>
-        <nav style="background: rgb(4, 50, 255); color: #fff; padding: 15px 20px;">| 
-            <span>備品管理システム</span>
-        </nav>
-    </header>
+	<header>
+		<nav
+			style="background: rgb(4, 50, 255); color: #fff; padding: 15px 20px; display: flex; justify-content: space-between; align-items: center;">
+			<a href="/index" style="color: white; text-decoration: none; font-weight: bold;">備品管理システム</a>
 
-    <article class="content-wrapper">
-        <div th:replace="${content}"></div>
-    </article>
 
-    <footer class="main-footer">
-        <div class="footer-content">
-            <p style="font-size: 1.2rem; font-weight: bold;">備品管理システム管理画面</p>
-            <p style="margin-top: 10px;">&copy; 2026 My Website Equipment Management System</p>
-        </div>
-    </footer>
+		<a th:href="@{/equipmentRegistInput}" style="color: #fff; text-decoration: underline;">備品登録</a>
+		</nav>
+	</header>
+
+	<article class="content-wrapper">
+		<div th:replace="${content}"></div>
+	</article>
+
+	<footer class="main-footer">
+		<div class="footer-content">
+			<p style="font-size: 1.2rem; font-weight: bold;">備品管理システム管理画面</p>
+			<p style="margin-top: 10px;">&copy; 2026 My Website Equipment Management System</p>
+		</div>
+	</footer>
 
 </body>
+
 </html>

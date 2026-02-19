@@ -65,3 +65,101 @@
 	display: flex;
 	justify-content: space-between;
 }
+
+/* ボタン全体ラッパー */
+.button-wrapper {
+    display: flex;
+    justify-content: space-between; /* 左:削除・編集、右:戻る */
+    max-width: 800px;
+    margin: 20px auto; /* 中央寄せ */
+}
+
+/* ボタン全体ラッパー */
+.button-wrapper {
+    display: flex;
+    flex-direction: column; /* 縦に並べる場合 */
+    align-items: flex-start; /* 左寄せ */
+    max-width: 800px;
+    margin: 20px auto;
+    gap: 15px; /* ボタン間の縦スペース増やす */
+}
+
+/* 左側の削除・編集を横並び */
+.left-buttons {
+    display: flex;
+    gap: 15px; /* ボタン間の隙間増やす */
+}
+
+/* 共通ボタンスタイル */
+.commonButton {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 120px;  /* 横幅少し広め */
+    height: 50px;      /* 高さを大きく */
+    padding: 0 25px;   /* 横パディング増やしてボタン幅感アップ */
+    font-family: sans-serif;
+    font-size: 18px;   /* 文字サイズ大きめ */
+    color: white;
+    border: 2px solid rgb(94, 94, 94);
+    cursor: pointer;
+    white-space: nowrap;
+    border-radius: 6px; /* 角丸で柔らかい印象 */
+}
+
+/* 個別カラー */
+.delete-btn { background-color: crimson; }
+.edit-btn   { background-color: orange; }
+.back-btn   { 
+    background-color: green; 
+    min-width: calc(100% - 0px); /* 横いっぱい */
+}
+
+/* ホバー効果 */
+.commonButton:hover {
+    opacity: 0.85;
+}
+
+/* ボタン全体ラッパー */
+.deleteBackWrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 15px; /* ボタン間の縦スペースを少し広げる */
+    max-width: 500px; /* ラッパーも少し広め */
+    margin: 20px auto;
+}
+
+/* 共通ボタンスタイル */
+.deleteBackButton {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;        /* 横いっぱい */
+    height: 50px;       /* 高さを40→50pxに */
+    padding: 0 30px;    /* 左右パディング増やすと幅も広く見える */
+    font-family: sans-serif;
+    font-size: 18px;    /* 文字サイズも少し大きく */
+    color: white;
+    border: 2px solid rgb(94, 94, 94);
+    cursor: pointer;
+    white-space: nowrap;
+    border-radius: 6px; /* 角丸で見た目も柔らかく */
+}
+
+/* 個別カラー */
+.deleteBackButton.deleteComplete {
+    background-color: crimson;
+}
+
+.deleteBackButton.backDetail {
+    background-color: green;
+}
+
+/* ホバー効果 */
+.deleteBackButton:hover {
+    opacity: 0.85;
+}
+
+.deleteBackButton.registComplete {
+    background-color: rgb(19, 42, 201);
+}

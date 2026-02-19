@@ -8,9 +8,9 @@
 </head>
 
 <body>
+	<div th:replace="~{common/layout_4block :: header}"></div>
 	<div class="center-wrapper">
 		<h1> 削除確認</h1>
-		<br>
 		<h1>削除しますか?</h1>
 
 		<table border="1" class="detail-table">
@@ -83,7 +83,7 @@
 			<tr th:if="${#strings.isEmpty(detailName.staffName) 
 		                and detailName.startDate == null
 		                and detailName.limitDate == null}">
-				<td colspan="2">貸出情報なし</td>
+				<td colspan="2" style="text-align:center;">貸出情報なし</td>
 			</tr>
 
 			<!-- 使用者 -->
@@ -113,21 +113,20 @@
 		</table>
 
 		<!--ボタン-->
-		<div class="button-wrapper">
-
+			<div class="deleteBackWrapper">
 			<!--削除完了ボタン-->
 			<form th:action="@{/equipmentDeleteComplete}" method="post">
 				<input type="hidden" name="serialNo" th:value="${detailName.parentStockCode}" />
 
 				<input type="hidden" name="name" th:value="${categoryName}" />
 
-				<button type="submit">削除</button>
+				<button type="submit" class="deleteBackButton deleteComplete">削除</button>
 			</form>
 
 			<!--戻るボタン-->
 			<form th:action="@{/individualDetail}" method="get">
 				<input type="hidden" name="serialNo" th:value="${parentStockCode}" />
-				<button type="submit">詳細に戻る</button>
+				<button type="submit" class="deleteBackButton backDetail">詳細に戻る</button>
 			</form>
 		</div>
 	</div>
