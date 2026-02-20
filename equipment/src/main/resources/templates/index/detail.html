@@ -7,7 +7,7 @@
 	<title>備品詳細</title>
 </head>
 
-<body class="body">
+<divbody class="body">
 	<div th:replace="~{common/layout_4block :: header}"></div>
 	<h2 class="title">備品詳細画面</h2>
 	<br>
@@ -79,14 +79,13 @@
 					<!-- 備品リスト表示 -->
 					<tr th:each="item : ${itemDetail}"> <!-- itemDetailはコントローラーから渡されるリスト -->
 						<!-- シリアルナンバー -->
-							<td class="col-serial">
-							    <a th:text="${item.parentStockCode}"
-							       th:href="@{/individualDetail(
+						<td class="col-serial">
+							<a th:text="${item.parentStockCode}" th:href="@{/individualDetail(
 							            serialNo=${item.parentStockCode},
 							            name=${detailName.equipmentName}
 							       )}">
-							    </a>
-							</td>
+							</a>
+						</td>
 						<td th:text="${item.staffName}"></td> <!-- 使用者 -->
 						<td th:text="${item.rentFlag}"></td> <!-- 貸出可否 -->
 						<td th:text="${item.startDate}"></td> <!-- 貸出開始日 -->
@@ -118,6 +117,7 @@
 			</th:block>
 		</div>
 
+
 		<!-- ボタンエリア -->
 		<div class="table-buttons">
 			<form th:action="@{/borrowingView}" method="get">
@@ -137,6 +137,6 @@
 			</form>
 		</div>
 	</div>
-</body>
+	</body>
 
 </html>

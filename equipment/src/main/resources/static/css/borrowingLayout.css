@@ -13,116 +13,71 @@
 	color: White
 }
 
+
 .body {
 	max-width: 1920px;
 	margin: auto;
 }
 
-.borrow-table {
-    width: max-content;
-    min-width: 1600px; 
-    border-collapse: collapse;
-	margin: 0 20px;   
-}
-
-/* テーブル下のボタンを右寄せ */
+/*貸出一覧テーブルボタンエリア*/
 .table-buttons {
-    display: flex;
-    justify-content: flex-end; /* 右寄せ */
-    margin-top: 10px;
-    padding-right: 0;          /* 余白リセット */
-    gap: 8px;                  /* ボタン間の間隔 */
+	margin-top: 10px;
+	display: flex;
+	flex-direction: row;
+	/* 横並び */
+	justify-content: center;
+	/* 右寄せ */
+	gap: 8px;
+	/* ボタンの余白 */
 }
 
+/*貸出一覧テーブルヘッダー*/
 .borrow-table th {
 	position: sticky;
 	top: 0;
 	z-index: 5;
 	background-color: rgb(26, 11, 134);
 	color: White;
-}
 
-/*シリアルナンバーヘッダー*/
-.col-serial-h {
-	width: 10%;
-	text-align: center !important;
-	padding-left: 10px !important;
 }
 
 /*シリアルナンバー*/
 .col-serial {
-	width: 10% !important;
+	width: 15%;
 	text-align: left !important;
 	padding-left: 10px !important;
-	background-color: rgb(255, 255, 255);
 }
 
 /*使用者 */
 .col-user {
-	width: 11% !important;
+	width: 18%;
 	text-align: left !important;
 	padding-left: 10px !important;
 }
 
-/*貸出可否*/
-.col-status {
-	width: 5%;
-	text-align: center;
-}
-
 /*貸出開始日*/
 .col-start {
-	width: 7%;
+	width: 14%;
 	text-align: center;
 }
 
 /*返却予定日*/
 .col-limit {
-	width: 7%;
-	text-align: center;
-}
-
-/*最終所在確認*/
-.col-check-location {
-	width: 8%;
-	text-align: center;
-}
-
-/*接続先シリアル*/
-.col-destination-serial {
-	width: 12%;
-	text-align: center;
-}
-
-/*製品名*/
-.col-product-name {
-	width: 9%;
-	text-align: center;
-}
-
-/*メーカー*/
-.col-manufacturer {
-	width: 3%;
-	text-align: center;
-}
-
-/*分類*/
-.col-category {
-	width: 3%;
-	text-align: center;
-}
-
-/*リース返却日*/
-.col-lease-return-date {
-	width: 9%;
+	width: 14%;
 	text-align: center;
 }
 
 /*備考*/
 .col-remarks {
-	width: 25%;
+	width: 30%;
 	text-align: left;
 	padding: 0 !important;
+}
+
+/*チェックボックス*/
+.col-check {
+	width: 8%;
+	text-align: center;
 }
 
 .borrow-table th,
@@ -148,11 +103,10 @@
 	/* 左の枠線の太さ */
 }
 
-/* 貸出・返却・戻るボタンの共通の修正 */
+/* 貸出・返却・戻るボタンの共通スタイル */
 .borrowingButton,
 .returnButton,
 .returnToTopButton {
-	background: rgb(20, 115, 255);
 	display: flex;
 	align-items: center;
 	justify-content: center;
@@ -161,24 +115,32 @@
 	height: 36px;
 	padding: 0 20px;
 	white-space: nowrap;
+	overflow-wrap: normal;
+
 	font-family: sans-serif;
 	font-size: 16px;
 	color: rgb(0, 0, 0);
 	border: 2px solid rgb(94, 94, 94);
+	cursor: pointer;
 }
 
-/* 個別カラーの上書き */
+/* 貸出ボタン：青 */
+.borrowingButton {
+	background: rgb(20, 115, 255);
+}
+
+/* 返却ボタン：赤 */
 .returnButton {
 	background: rgb(255, 0, 0);
 }
 
+/* 戻るボタン：緑 */
 .returnToTopButton {
 	background: rgb(3, 187, 0);
 }
 
-/* 一覧戻るボタン */
+/* 一覧戻るボタン*/
 .indexReturnButton {
-	background: rgb(3, 187, 0);
 	display: flex;
 	align-items: center;
 	justify-content: center;
@@ -187,18 +149,22 @@
 	height: 36px;
 	padding: 0 20px;
 	white-space: nowrap;
+	background: rgb(3, 187, 0);
 	font-family: sans-serif;
 	font-size: 16px;
 	color: rgb(0, 0, 0);
 	border: 2px solid rgb(94, 94, 94);
+	cursor: pointer;
 }
 
+/*テーブルのスクロール*/
 .table-wrapper {
-	max-height: 300px;
-	overflow-y: auto;
-	overflow-x: auto;
-	white-space: nowrap;
-	/* 折り返し防止*/
+    max-height: 300px;
+    overflow: auto;      /* 縦横まとめてOK */
+    white-space: nowrap; /* 折り返し防止 */
+    width: 100%;         /* ← ここ超重要 */
+    max-width: 100%;
+    box-sizing: border-box;
 }
 
 /*貸出返却がない時*/
@@ -223,21 +189,67 @@
 	color: blue;
 }
 
+/* テーブルエリア*/
 .table-area {
 	max-width: 100%;
+	display: flex;
+	/* Flexbox を有効化 */
+	justify-content: center;
+	/* 水平方向の中央揃え */
 }
 
-.table-wrapper,
-.table-buttons {
-	width: 100%;
-	box-sizing: border-box;
-}
 
+
+/* 貸出一覧テーブル*/
 .borrow-table {
-	width: max-content;
-	min-width: 1600px;
-	border-collapse: separate;
+    width: max-content;
+    min-width: 1000px; 
+    border-collapse: separate;
 	margin: 0 auto;  
+}
+
+/* エラーライン*/
+.row-error {
+	background-color: rgb(254, 251, 0);
+	border-left: 5px solid #fa8c16;
+}
+
+/* エラーメッセージ全体の枠 */
+.error-box {
+	max-height: 115px;
+	overflow-y: auto;
+	border: 2px solid crimson;
+	background-color: #fff5f5;
+	padding: 8px 12px;
+	margin-bottom: 12px;
+}
+
+/* ulのデフォルト余白リセット */
+.error-list {
+	margin: 0;
+	padding-left: 20px;
+}
+
+/* シリアル行を強調 */
+.error-title {
+	margin-top: 10px;
+	font-weight: bold;
+}
+
+/* 正常な行 */
+.row-normal {
+	background-color: rgb(141, 249, 0);
+	border-left: 5px solid rgb(0, 142, 0);
+}
+
+.row-warning {
+	background-color: rgb(215, 131, 255);
+	border-left: 5px solid rgb(255, 47, 146);
+}
+
+.row-input-not-checked {
+	background-color: #ffd7a8;
+	/* オレンジ系（入力あるのにチェックなし） */
 }
 
 /* 1行の高さで統一して縦スクロール */
@@ -248,10 +260,6 @@
 	overflow-x: hidden;
 	white-space: normal;
 	line-height: 1.5;
-
-	display: flex;
-	width: 90%;
-	margin: 5px;
 }
 
 /* 文字の隙間をリセット */
@@ -270,11 +278,11 @@
 }
 
 /* 左固定：ヘッダー（シリアル） */
-.borrow-table th.col-serial-h {
+.borrow-table th.col-serial {
 	position: sticky;
 	top: 0;
 	left: 0;
-	z-index: 20; /* 一番上 */
+	z-index: 20;
 	background-color: rgb(26, 11, 134);
 	color: white;
 }
@@ -287,26 +295,32 @@
 	background-color: white;
 }
 
-.table-wrapper {
-    width: auto;          /* 親に合わせる */
-    max-width: 100%;      /* 画面幅以上に広がらない */
-    margin: 0 60px;       /* 左右に20pxの余白 */
-    overflow-x: auto;
-    overflow-y: auto;
-    white-space: nowrap;
-    box-sizing: border-box;
+/*使用者セレクト*/
+/* 使用者セレクトおしゃれ化 */
+.col-user select {
+	appearance: none;          /* デフォルト矢印消す */
+	-webkit-appearance: none;
+	-moz-appearance: none;
+
+	width: 100%;
+	height: 32px;
+	padding: 0 32px 0 10px;    /* 右に矢印分の余白 */
+	font-size: 14px;
+	border-radius: 6px;
+	border: 1.5px solid #aaa;
+	background-color: #fff;
+	transition: all 0.2s ease;
+	cursor: pointer;
 }
 
-
-/**追加*/
-.table-wrapper {
-    margin: 0 auto;
-    width: fit-content;
+/* ホバー */
+.col-user select:hover {
+	border-color: rgb(20,115,255);
 }
 
-.table-buttons {
-    width: fit-content;
-    margin: 10px auto 0;
-    display: flex;
-    justify-content: flex-end;
+/* フォーカス */
+.col-user select:focus {
+	outline: none;
+	border-color: rgb(20,115,255);
+	box-shadow: 0 0 0 2px rgba(20,115,255,0.2);
 }

@@ -1,0 +1,83 @@
+@charset "UTF-8";
+
+/* 全体の基本 */
+body {
+    max-width: 1920px;
+    margin: 0 auto;       /* 画面中央 */
+    padding: 0;
+    font-family: Arial, sans-serif;
+    background-color: #f8f9fa;
+}
+
+/* タイトル */
+.title {
+    text-align: center;
+    margin-top: 20px;
+    font-size: 24px;
+    color: #333;
+}
+
+/* テーブルを包む div（スクロール対応＋中央寄せ） */
+.table-wrapper {
+    overflow-x: auto;      /* 横スクロール */
+    padding: 10px;
+    display: block;
+    text-align: center;    /* 子要素を中央寄せ */
+}
+
+/* テーブル本体 */
+table {
+    margin: 0 auto;          /* 横中央寄せ */
+    border-collapse: collapse;
+    table-layout: fixed;      /* 列幅固定 */
+    width: auto;              /* 中身に合わせる */
+    min-width: 600px;         /* 最小幅 */
+}
+
+/* 名称列（最小幅固定＋省略対応） */
+table th:nth-child(1), table td:nth-child(1) {
+    width: 40%;
+    min-width: 180px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+/* 他の列 */
+table th:nth-child(2), table td:nth-child(2) { width: 12%; }
+table th:nth-child(3), table td:nth-child(3) { width: 12%; }
+table th:nth-child(4), table td:nth-child(4) { width: 18%; }
+table th:nth-child(5), table td:nth-child(5) { width: 18%; }
+
+/* ヘッダ行 */
+table thead tr, .front_label_color {
+    background-color: rgb(4, 0, 153); /* 青色 */
+    color: white;
+}
+
+/* セル */
+th, td {
+    border: 1px solid #dee2e6;
+    padding: 8px 12px;
+    text-align: left;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+/* ボタンエリア */
+.table-buttons {
+    margin-top: 10px;
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+}
+
+/* レスポンシブ対応 */
+@media (max-width: 768px) {
+    table {
+        width: 100%;
+        min-width: 0;
+    }
+}
