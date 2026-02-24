@@ -4,11 +4,12 @@
 <head>
 	<meta charset="UTF-8">
 	<link rel="stylesheet" th:href="@{/css/borrowingLayout.css}">
+	<link rel="stylesheet" th:href="@{/css/common.css}">
 	<title>貸出</title>
 </head>
 
 <body class="body">
-	<div th:replace="~{common/layout_4block :: header}"></div>
+	<div th:replace="~{common/layout :: header}"></div>
 	<h2 class="title">備品貸出画面</h2>
 	<br>
 	<h2 th:text="${detailName.equipmentName}"></h2>

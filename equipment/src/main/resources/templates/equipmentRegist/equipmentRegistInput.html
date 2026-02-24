@@ -3,12 +3,13 @@
 
 <head>
 	<link rel="stylesheet" th:href="@{css/equipmentInptLayput.css}">
+	<link rel="stylesheet" th:href="@{/css/common.css}">
 	<meta charset="UTF-8">
 	<title>備品登録</title>
 </head>
 
 <divbody onload="viewChange()">
-	<div th:replace="~{common/layout_4block :: header}"></div>
+	<div th:replace="~{common/layout :: header}"></div>
 	<h1>備品登録</h1>
 	<form id="registForm" th:action="@{/equipmentRegistCheck}" method="post" th:object="${equipmentForm}">
 

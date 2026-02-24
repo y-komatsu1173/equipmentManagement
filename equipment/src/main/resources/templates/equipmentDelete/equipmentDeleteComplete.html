@@ -3,15 +3,16 @@
 
 <head>
 	<meta charset="UTF-8">
+	<link rel="stylesheet" th:href="@{/css/common.css}">
 	<title>削除完了</title>
 </head>
 
 <body>
-	<div th:replace="~{common/layout_4block :: header}"></div>
+	<div th:replace="~{common/layout :: header}"></div>
 	<h1>削除が完了しました</h1>
 	<form th:action="@{/index}" method="get">
-	      <button type="submit">一覧に戻る</button>
-	  </form>
+		<button type="submit">一覧に戻る</button>
+	</form>
 	</form>
 	</div>
 

@@ -3,13 +3,14 @@
 
 <head>
 	<meta charset="UTF-8">
+	<link rel="stylesheet" th:href="@{/css/common.css}">
 	<title>編集完了</title>
 </head>
 
 <body>
-	<div th:replace="~{common/layout_4block :: header}"></div>
+	<div th:replace="~{common/layout :: header}"></div>
 	<h1>備品の編集が完了しました</h1>
-	
+
 	<a th:href="@{/individualDetail(serialNo=${parentStockCode})}">詳細に戻る</a>
 
 </body>

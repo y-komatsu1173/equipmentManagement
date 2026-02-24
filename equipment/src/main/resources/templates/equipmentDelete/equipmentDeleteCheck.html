@@ -4,11 +4,12 @@
 <head>
 	<meta charset="UTF-8">
 	<link rel="stylesheet" th:href="@{/css/equipmentCheck.css}">
+	<link rel="stylesheet" th:href="@{/css/common.css}">
 	<title>備品削除確認</title>
 </head>
 
 <body>
-	<div th:replace="~{common/layout_4block :: header}"></div>
+	<div th:replace="~{common/layout :: header}"></div>
 	<div class="center-wrapper">
 		<h1> 削除確認</h1>
 		<h1>削除しますか?</h1>
@@ -113,7 +114,7 @@
 		</table>
 
 		<!--ボタン-->
-			<div class="deleteBackWrapper">
+		<div class="deleteBackWrapper">
 			<!--削除完了ボタン-->
 			<form th:action="@{/equipmentDeleteComplete}" method="post">
 				<input type="hidden" name="serialNo" th:value="${detailName.parentStockCode}" />

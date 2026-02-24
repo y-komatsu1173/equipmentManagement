@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:fragment="layout(content)">
+
+<head>
+	<meta charset="UTF-8">
+</head>
+
+<body>
+	<header th:fragment="layout-header">
+	  <nav class="main-nav">
+	    <div class="nav-left">
+	      <a href="/index" class="logo">備品管理システム</a>
+	      <a th:if="${session.user != null}" th:href="@{/equipmentRegistInput}" class="nav-link">備品登録</a>
+	    </div>
+	    <div class="nav-right" th:if="${session.user != null}">
+	      <span th:text="${loginUser.name}"></span>さん
+	      <a th:href="@{/logout}" class="nav-link">ログアウト</a>
+	    </div>
+	  </nav>
+	</header>
+
+</body>
+
+</html>
