@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="jp.co.sss.equipment.mapper.EmployeeMapper">
+
+	<!-- TODO ログイン用のIDとパスワード検索 -->
+	<select id="findByEmpIdAndEmpPass"
+		resultType="jp.co.sss.equipment.entity.StaffData">
+		SELECT *
+		FROM staff_data
+		WHERE staff_no = #{empId}
+		AND password = #{empPass}
+		AND del = false
+	</select>
+
+</mapper>
