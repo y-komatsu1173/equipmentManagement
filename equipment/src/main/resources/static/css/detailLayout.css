@@ -16,6 +16,7 @@
 .body {
 	max-width: 1920px;
 	margin: auto;
+	margin-top: 90px;
 }
 
 .borrow-table {

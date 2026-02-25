@@ -17,6 +17,7 @@
 .body {
 	max-width: 1920px;
 	margin: auto;
+	margin-top: 90px;
 }
 
 /*貸出一覧テーブルボタンエリア*/
