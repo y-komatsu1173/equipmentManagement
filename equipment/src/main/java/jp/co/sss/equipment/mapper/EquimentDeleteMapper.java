@@ -1,7 +1,7 @@
 package jp.co.sss.equipment.mapper;
 
 import org.apache.ibatis.annotations.Mapper;
-import org.springframework.data.repository.query.Param;
+import org.apache.ibatis.annotations.Param;
 
 /**
  * 備品削除マッパー

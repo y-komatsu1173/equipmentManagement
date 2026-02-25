@@ -2,6 +2,8 @@ package jp.co.sss.equipment.controller;
 
 import java.util.List;
 
+import jakarta.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -10,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import jp.co.sss.equipment.dto.DetailListViewDto;
 import jp.co.sss.equipment.dto.EquipListViewDto;
+import jp.co.sss.equipment.entity.StaffData;
 import jp.co.sss.equipment.service.IndexService;
 
 /**
@@ -29,9 +32,17 @@ public class IndexController {
 	 * @return　templates/index/index 一覧画面
 	 */
 	@GetMapping("/index") //右のURLを入力するとページが遷移される
-	public String index(Model model) {//メソッド　model→viewに渡すデータ
+	public String index(Model model, HttpSession session) {//メソッド　model→viewに渡すデータ
+		// 未ログインならログイン画面へ
+		if (session.getAttribute("user") == null) {
+			return "redirect:/";
+		}
+
 		List<EquipListViewDto> indexlist = indexService.indexFind();//サービス層のindexFindメソッドを呼び出し値をリストに返す
 		model.addAttribute("items", indexlist);//indexに情報を渡す　”items”をindex.htmlのth:eactに一致させる
+		StaffData user = (StaffData) session.getAttribute("user");
+		model.addAttribute("loginUser", user);
+
 		return "index/index"; //tenmplatsファルダーのindexのindex.htmlが呼出される
 	}
 
@@ -64,17 +75,17 @@ public class IndexController {
 
 	/**
 	 * 個別詳細画面
-	 */	
+	 */
 	@GetMapping("/individualDetail")
 	public String individualDetail(Model model, @RequestParam("serialNo") String serialNo) {
-	    DetailListViewDto detail = indexService.serialNoFind(serialNo);
+		DetailListViewDto detail = indexService.serialNoFind(serialNo);
 
-	    model.addAttribute("detailName", detail);
-	    model.addAttribute("itemDetail", detail);
+		model.addAttribute("detailName", detail);
+		model.addAttribute("itemDetail", detail);
 
-	    // 戻る用に備品名をセット
-	    model.addAttribute("nameForBack", detail.getEquipmentName());
+		// 戻る用に備品名をセット
+		model.addAttribute("nameForBack", detail.getEquipmentName());
 
-	    return "index/individualDetail";
+		return "index/individualDetail";
 	}
 }

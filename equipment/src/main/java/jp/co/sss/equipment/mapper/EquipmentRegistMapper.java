@@ -1,13 +1,9 @@
 package jp.co.sss.equipment.mapper;
 
-import java.util.List;
-
 import org.apache.ibatis.annotations.Mapper;
-import org.springframework.data.repository.query.Param;
 
 import jp.co.sss.equipment.entity.StockData;
 import jp.co.sss.equipment.entity.StockMaster;
-import jp.co.sss.equipment.entity.StockTypeMaster;
 
 /**
  * 備品登録マッパー
