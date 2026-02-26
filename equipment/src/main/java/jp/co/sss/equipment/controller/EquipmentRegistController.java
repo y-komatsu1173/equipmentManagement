@@ -38,7 +38,7 @@ public class EquipmentRegistController {
 	/**
 	 * 備品入力画面表示
 	 */
-	@GetMapping("/equipmentRegistInput")
+	@GetMapping("/equipment/regist/input")
 	public String equipmentRegistInput(Model model, @ModelAttribute EquipmentForm form) {
 		//ログイン機能追加後は、セッションチェックを実装
 		//カテゴリの取得
@@ -50,7 +50,7 @@ public class EquipmentRegistController {
 	/**
 	 * 備品登録確認画面
 	 */
-	@PostMapping("/equipmentRegistCheck")
+	@PostMapping("/equipment/regist/check")
 	public String equipmentRegistCheck(
 			@Valid @ModelAttribute EquipmentForm registform,
 			BindingResult result,
@@ -90,7 +90,7 @@ public class EquipmentRegistController {
 	/**
 	 * 備品登録入力画面へ戻る
 	 */
-	@PostMapping("/equipmentRegistBack")
+	@PostMapping("/equipment/regist/back")
 	public String equipmentRegistBack(@ModelAttribute EquipmentForm registform, Model model) {
 	    //カテゴリの取得
 	    List<StockTypeMaster> categoryList = equipmentCommonService.categoryFind();
@@ -102,7 +102,7 @@ public class EquipmentRegistController {
 	/**
 	 * 備品登録処理
 	 */
-	@PostMapping("/equipmentRegistComplete")
+	@PostMapping("/equipment/regist/complete")
 	public String equipmentRegistComplete(EquipmentForm registform) {
 		//リース返却日のNULLチェック
 		equipmentInputCheck.leaseNullCheck(registform);
