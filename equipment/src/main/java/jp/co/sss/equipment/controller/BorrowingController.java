@@ -38,7 +38,7 @@ public class BorrowingController {
 	 * @param name
 	 * @return　templates/index/returnView 貸出画面
 	 */
-	@GetMapping("/borrowingView")
+	@GetMapping("/borrowing/view")
 	public String borrowingView(Model model, String name) {
 		List<DetailListViewDto> detailNameList = indexService.detailFind(name);
 		DetailListViewDto detailName = detailNameList.get(0);
@@ -62,7 +62,7 @@ public class BorrowingController {
 	 * @param model
 	 * @return
 	 */
-	@PostMapping("/borrowingProcess")
+	@PostMapping("/borrowing/process")
 	public String borrowingProcess(
 	        @RequestParam(value = "equipmentIdList", required = false) List<Integer> equipmentIdList,
 	        @RequestParam Map<String, String> allParams, // 全てのパラメータを受け取る
