@@ -25,7 +25,7 @@ public class EquipmentDeleteController {
 	/**
 	 * 削除確認画面
 	 */
-	@GetMapping("/equipmentDeleteCheck")
+	@GetMapping("/equipment/delete/check")
 	public String equipmentDeleteCheck(
 			@RequestParam("serialNo") String serialNo,
 			@RequestParam("name") String name,
@@ -42,7 +42,7 @@ public class EquipmentDeleteController {
 	/**
 	 * 削除処理　削除完了画面へ遷移
 	 */
-	@PostMapping("/equipmentDeleteComplete")
+	@PostMapping("/equipment/delete/complete")
 	public String equipmentDeleteComplete(
 			@RequestParam("serialNo") String serialNo,
 			@RequestParam("name") String name,
