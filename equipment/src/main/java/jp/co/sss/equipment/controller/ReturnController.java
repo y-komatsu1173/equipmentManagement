@@ -33,7 +33,7 @@ public class ReturnController {
 	 * @param name
 	 * @return　templates/index/returnViw 返却画面
 	 */
-	@GetMapping("/returnView")
+	@GetMapping("/return/view")
 	public String returnView(Model model, String name) {
 		List<DetailListViewDto> returnList = returnService.returnFindView(name); //備品名を取得する　サービス層で処理
 		List<DetailListViewDto> detailName = indexService.detailFind(name);//貸出中の備品を取得する
@@ -45,7 +45,7 @@ public class ReturnController {
 	/**
 	 * 返却処理
 	 */
-	@PostMapping("/returnProcess")
+	@PostMapping("/return/process")
 	public String returnProcess(
 	        @RequestParam(value = "equipmentIdList", required = false) List<Integer> equipmentIdList,
 	        @RequestParam(value = "name", required = false) String name,
