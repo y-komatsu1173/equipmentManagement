@@ -69,6 +69,6 @@ public class ReturnController {
 	    }
 
 	    redirectAttributes.addAttribute("name", name);
-	    return "redirect:/returnView";
+	    return "redirect:/return/view";
 	}
 }
