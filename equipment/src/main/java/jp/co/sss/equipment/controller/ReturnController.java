@@ -54,7 +54,7 @@ public class ReturnController {
 	    if (equipmentIdList == null || equipmentIdList.isEmpty()) {
 	        redirectAttributes.addFlashAttribute("errorMessage", "チェックが入っていません。");
 	        redirectAttributes.addAttribute("name", name);
-	        return "redirect:/returnView";
+	        return "redirect:/return/view";
 	    }
 	    
 	    // 返却処理の実行
@@ -65,7 +65,7 @@ public class ReturnController {
 	    } catch (IllegalStateException e) {
 	        redirectAttributes.addFlashAttribute( "errorMessage", "他のブラウザで更新されています。返却処理は行えませんでした。");
 	        redirectAttributes.addAttribute("name", name);
-	        return "redirect:/returnView";
+	        return "redirect:/return/view";
 	    }
 
 	    redirectAttributes.addAttribute("name", name);
