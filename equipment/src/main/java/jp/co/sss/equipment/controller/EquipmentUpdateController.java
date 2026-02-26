@@ -36,7 +36,7 @@ public class EquipmentUpdateController {
 	/*
 	 * 備品編集入力画面表示
 	 */
-	@GetMapping("/equipmentUpdateInput")
+	@GetMapping("/equipment/update/input")
 	public String equimentUpdateInput(Model model, String serialNo) {
 		//カテゴリーのリストを取得
 		List<StockTypeMaster> categoryList = equipmentCommonService.categoryFind();
@@ -56,7 +56,7 @@ public class EquipmentUpdateController {
 	/*
 	 * 備品編集確認画面
 	 */
-	@PostMapping("/equipmentUpdateCheck")
+	@PostMapping("/equipment/update/check")
 	public String equipmentUpdateCheck(@ModelAttribute("equipmentForm") EquipmentForm updateform,
 			BindingResult result,
 			RedirectAttributes redirectAttributes,
@@ -106,7 +106,7 @@ public class EquipmentUpdateController {
 	/**
 	 *備品編集完了
 	 */
-	@PostMapping("/equipmentUpdateComplete")
+	@PostMapping("/equipment/update/complete")
 	public String equipmentUpdateComplete(EquipmentForm updateform, Model model) {
 		// リース返却日のNULLチェック
 		equipmentInputCheck.leaseNullCheck(updateform);
