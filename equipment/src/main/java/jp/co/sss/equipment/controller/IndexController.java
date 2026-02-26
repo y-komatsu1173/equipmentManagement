@@ -65,7 +65,7 @@ public class IndexController {
 	/**
 	 * 「貸出」「返却」の画面から戻るボタンを押下したとき
 	 */
-	@GetMapping("/detailBack")
+	@GetMapping("/detail/back")
 	public String detailBack(Model model, String name) { //String name HTMLから検索したい値を引数として用意
 		List<DetailListViewDto> detailList = indexService.detailFind(name);//サービス層のdetailFindメソッドを呼び出し値をリストに返す
 		model.addAttribute("detailName", detailList.get(0)); //備品名が複数取得されるため１つ目だけ採取しHTMLに反映（１つだけのため）
@@ -76,7 +76,7 @@ public class IndexController {
 	/**
 	 * 個別詳細画面
 	 */
-	@GetMapping("/individualDetail")
+	@GetMapping("/individual/detail")
 	public String individualDetail(Model model, @RequestParam("serialNo") String serialNo) {
 		DetailListViewDto detail = indexService.serialNoFind(serialNo);
 
