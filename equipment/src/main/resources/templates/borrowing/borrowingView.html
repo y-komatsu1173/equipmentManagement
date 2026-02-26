@@ -36,7 +36,7 @@
 	<div>
 		<!-- テーブルだけスクロール -->
 		<div class="table-wrapper">
-			<form id="borrowForm" th:action="@{/borrowingProcess}" method="post"
+			<form id="borrowForm" th:action="@{/borrowing/process}" method="post"
 				th:if="${itemDetail != null and !#lists.isEmpty(itemDetail)}">
 				<input type="hidden" name="name" th:value="${detailName.equipmentName}">
 				<table border="1" class="borrow-table">
@@ -136,7 +136,7 @@
 			<button class="borrowingButton" type="submit" form="borrowForm"
 				th:if="${itemDetail != null and !#lists.isEmpty(itemDetail)}">貸出</button>
 			<!-- 戻るボタン -->
-			<form th:action="@{/detailBack}" method="get">
+			<form th:action="@{/detail/back}" method="get">
 				<input type="hidden" name="name" th:value="${detailName.equipmentName}">
 				<button class="returnToTopButton" type="submit">戻る</button>
 			</form>

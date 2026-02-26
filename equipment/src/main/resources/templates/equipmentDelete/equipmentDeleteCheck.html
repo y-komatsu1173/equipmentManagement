@@ -116,7 +116,7 @@
 		<!--ボタン-->
 		<div class="deleteBackWrapper">
 			<!--削除完了ボタン-->
-			<form th:action="@{/equipmentDeleteComplete}" method="post">
+			<form th:action="@{/equipment/delete/complete}" method="post">
 				<input type="hidden" name="serialNo" th:value="${detailName.parentStockCode}" />
 
 				<input type="hidden" name="name" th:value="${categoryName}" />
@@ -125,7 +125,7 @@
 			</form>
 
 			<!--戻るボタン-->
-			<form th:action="@{/individualDetail}" method="get">
+			<form th:action="@{/individual/detail}" method="get">
 				<input type="hidden" name="serialNo" th:value="${parentStockCode}" />
 				<button type="submit" class="deleteBackButton backDetail">詳細に戻る</button>
 			</form>

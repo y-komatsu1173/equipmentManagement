@@ -86,7 +86,7 @@
 							<tr th:each="item : ${itemDetail}"> <!-- itemDetailはコントローラーから渡されるリスト -->
 								<!-- シリアルナンバー -->
 								<td class="col-serial">
-									<a th:text="${item.parentStockCode}" th:href="@{/individualDetail(
+									<a th:text="${item.parentStockCode}" th:href="@{/individual/detail(
 							            serialNo=${item.parentStockCode},
 							            name=${detailName.equipmentName}
 							       )}">
@@ -126,13 +126,13 @@
 
 				<!-- ボタンエリア -->
 				<div class="table-buttons">
-					<form th:action="@{/borrowingView}" method="get">
+					<form th:action="@{/borrowing/view}" method="get">
 						<input type="hidden" name="name" th:value="${detailName.equipmentName}">
 						<button class="borrowingButton" type="submit">貸出</button>
 					</form>
 
 					<!-- 返却ボタン -->
-					<form th:action="@{/returnView}" method="get">
+					<form th:action="@{/return/view}" method="get">
 						<input type="hidden" name="name" th:value="${detailName.equipmentName}">
 						<button class="returnButton" type="submit">返却</button>
 					</form>

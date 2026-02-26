@@ -3,7 +3,7 @@
 
 <head>
 	<meta charset="UTF-8">
-	<link rel="stylesheet" th:href="@{css/returnLayout.css}">
+	<link rel="stylesheet" th:href="@{/css/returnLayout.css}">
 	<link rel="stylesheet" th:href="@{/css/common.css}">
 	<title>返却</title>
 </head>
@@ -26,7 +26,7 @@
 	<div class="table-area">
 		<div class="table-wrapper">
 			<!-- 返却用フォーム -->
-			<form id="returnForm" th:action="@{/returnProcess}" method="post"
+			<form id="returnForm" th:action="@{/return/process}" method="post"
 				th:if="${itemDetail != null and !#lists.isEmpty(itemDetail)}">
 
 				<!-- 備品名をhiddenで送信 -->
@@ -81,7 +81,7 @@
 				th:if="${itemDetail != null and !#lists.isEmpty(itemDetail)}">返却</button>
 
 			<!-- 戻るボタン -->
-			<form th:action="@{/detailBack}" method="get">
+			<form th:action="@{/detail/back}" method="get">
 				<input type="hidden" name="name" th:value="${detailName.equipmentName}">
 				<button class="returnToTopButton" type="submit">戻る</button>
 			</form>

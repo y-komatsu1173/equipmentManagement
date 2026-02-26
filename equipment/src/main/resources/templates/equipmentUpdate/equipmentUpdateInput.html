@@ -11,7 +11,7 @@
 <body onload="viewChange()">
 	<div th:replace="~{common/layout :: header}"></div>
 	<h1>備品編集</h1>
-	<form id="registForm" th:action="@{/equipmentUpdateCheck}" method="post" th:object="${equipmentForm}">
+	<form id="registForm" th:action="@{/equipment/update/check}" method="post" th:object="${equipmentForm}">
 
 		<!-- エラー表示 -->
 		<div th:if="${#fields.hasErrors()}">
@@ -110,7 +110,7 @@
 
 	<!--戻るボタン-->
 	<div class="form">
-		<form th:action="@{/individualDetail}" method="get">
+		<form th:action="@{/individual/detail}" method="get">
 			<input type="hidden" name="serialNo"
 				th:value="${equipmentForm.stockCode != null ? equipmentForm.stockCode : detailName.stockCode}" />
 			<button class="indexReturnButton" type="submit">戻る</button>

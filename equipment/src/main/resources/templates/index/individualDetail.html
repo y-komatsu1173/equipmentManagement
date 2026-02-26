@@ -116,14 +116,14 @@
 		<div class="button-wrapper">
 			<div class="left-buttons">
 				<!--削除確認画面遷移-->
-				<form th:action="@{/equipmentDeleteCheck}" method="get">
+				<form th:action="@{/equipment/delete/check}" method="get">
 					<input type="hidden" name="serialNo" th:value="${detailName.parentStockCode}" />
 					<input type="hidden" name="name" th:value="${categoryName}" />
 					<button type="submit" class="commonButton delete-btn">削除</button>
 				</form>
 
 				<!--備品編集画面遷移-->
-				<form th:action="@{/equipmentUpdateInput}">
+				<form th:action="@{/equipment/update/input}">
 					<input type="hidden" name="serialNo" th:value="${detailName.parentStockCode}">
 					<button type="submit" class="commonButton edit-btn">編集</button>
 				</form>
