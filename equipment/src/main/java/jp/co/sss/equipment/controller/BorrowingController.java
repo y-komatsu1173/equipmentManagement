@@ -92,7 +92,7 @@ public class BorrowingController {
 	        redirectAttributes.addFlashAttribute("prevEquipmentIdList", equipmentIdList);
 
 	        redirectAttributes.addAttribute("name", name);
-	        return "redirect:/borrowingView";
+	        return "redirect:/borrowing/view";
 	    }
 
 	    try {
@@ -101,11 +101,11 @@ public class BorrowingController {
 	    } catch (IllegalStateException e) { 
 	        redirectAttributes.addFlashAttribute("errorMessages", List.of("他のブラウザで更新されました。"));
 	        redirectAttributes.addAttribute("name", name);
-	        return "redirect:/borrowingView";
+	        return "redirect:/borrowing/view";
 	    }
 
 	    redirectAttributes.addAttribute("name", name);
-	    return "redirect:/borrowingView";
+	    return "redirect:/borrowing/view";
 	}
 
 	// キーを洗浄する補助メソッド[]をとる
