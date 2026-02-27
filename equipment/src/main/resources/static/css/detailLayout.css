@@ -311,3 +311,15 @@
     display: flex;
     justify-content: flex-end;
 }
+
+/*削除済み*/
+.deleted-row td,
+.deleted-row a {
+  text-decoration: line-through;
+  opacity: 0.55;
+}
+
+/*削除済み*/
+.deleted-row a {
+  pointer-events: none;   /* クリック無効化（リンク飛ばない） */
+}
