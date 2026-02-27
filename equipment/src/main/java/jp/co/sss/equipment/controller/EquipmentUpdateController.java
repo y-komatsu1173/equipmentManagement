@@ -94,7 +94,7 @@ public class EquipmentUpdateController {
 	/**
 	 * 備品登録入力画面へ戻る
 	 */
-	@PostMapping("/equipmentUpdateBack")
+	@PostMapping("/equipment/update/back")
 	public String equipmentUpdateBack(@ModelAttribute EquipmentForm updateform, Model model) {
 		//カテゴリの取得
 		List<StockTypeMaster> categoryList = equipmentCommonService.categoryFind();
