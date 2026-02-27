@@ -30,7 +30,6 @@
 		lease_return_date AS leaseReturnDate,
 		<!-- 追加項目ここまで -->
 		
-		rent_flag AS rentFlag,
 		confirmed_date AS confirmedDate,
 		remarks AS remarks,
 		equipment_id AS equipmentId,
