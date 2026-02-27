@@ -65,4 +65,7 @@ public class DetailListViewDto {
 	
 	/**貸出可否*/
 	private String rentFlag;
+	
+	/**削除*/
+	private Integer delFlag;
 }
