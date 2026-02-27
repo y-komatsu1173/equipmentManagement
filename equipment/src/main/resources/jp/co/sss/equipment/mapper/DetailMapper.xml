@@ -33,6 +33,7 @@
 		confirmed_date AS confirmedDate,
 		remarks AS remarks,
 		equipment_id AS equipmentId,
+		del_flag AS delFlag,
 		staff_no
 		AS staffNo
 		FROM equip_detail_view
