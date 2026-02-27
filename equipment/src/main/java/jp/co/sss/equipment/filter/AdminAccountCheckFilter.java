@@ -57,15 +57,15 @@ public class AdminAccountCheckFilter extends HttpFilter {
 		//フィルター通過のフラグを初期化 true:フィルター通過 false:ログイン画面へ戻す
 				boolean accessFlg = false;
 
-				//TODO  管理者(セッションユーザーのIDが2)の場合、アクセス許可
+				//管理者(セッションユーザーのIDが2)の場合、アクセス許可
 				if (authNo != null && authNo == 2) {
 					accessFlg = true;
-					//TODO  ログインユーザ自身(セッションユーザのIDと変更リクエストの社員IDが一致)の画面はアクセス許可
+					//ログインユーザ自身(セッションユーザのIDと変更リクエストの社員IDが一致)の画面はアクセス許可
 				} else if (staffNo != null && upEmpId != null && staffNo.equals(upEmpId)) {
 					accessFlg = true;
 				}
 
-				//TODO  accessFlgが立っていない場合はログイン画面へリダイレクトし、処理を終了する
+				//accessFlgが立っていない場合はログイン画面へリダイレクトし、処理を終了する
 				if (!accessFlg) {
 					//TODO  レスポンス情報を取得
 					String contextPth = request.getContextPath();
