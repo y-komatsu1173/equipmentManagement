@@ -83,7 +83,9 @@
 
 
 							<!-- 備品リスト表示 -->
-							<tr th:each="item : ${itemDetail}"> <!-- itemDetailはコントローラーから渡されるリスト -->
+							<tr th:each="item : ${itemDetail}"
+								th:classappend="${item.delFlag} == 1 ? 'deleted-row' : ''">
+								<!-- itemDetailはコントローラーから渡されるリスト -->
 								<!-- シリアルナンバー -->
 								<td class="col-serial">
 									<a th:text="${item.parentStockCode}" th:href="@{/individual/detail(
