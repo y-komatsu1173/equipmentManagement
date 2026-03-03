@@ -47,7 +47,6 @@ public class LoginController {
 	 */
 	@PostMapping("/login")
 	public String login(@ModelAttribute LoginForm loginForm, BindingResult result, HttpSession session, Model model) {
-		System.out.println("POST /login 来たで！ username=" + loginForm.getEmpId());
 	    
 		if (result.hasErrors()) {
 			return "login";
@@ -56,19 +55,14 @@ public class LoginController {
 		LoginResult loginResult = loginService.excute(loginForm);
 		//TODO loginResult.isLoginの結果がtrueの場合、ログイン成功でセッションに"user"という名前でセッションにユーザーの情報を登録する
 		if (loginResult.isLogin()) {
-			System.out.println("==== ログインユーザー ====");
-			System.out.println(loginResult.getLoginUser());
-			System.out.println("name: " + loginResult.getLoginUser().getName());
-			System.out.println("=========================");
-
-			//TODO セッションにuser登録
+			//セッションにuser登録
 			session.setAttribute("user", loginResult.getLoginUser());
 
 			// 一覧へリダイレクト
 			return "redirect:/index";
-			//TODO loginResult.isLoginの結果がfalseの場合、loginResult.getErrorMsgメソッドを呼びだし、modelスコープに登録する
+			//loginResult.isLoginの結果がfalseの場合、loginResult.getErrorMsgメソッドを呼びだし、modelスコープに登録する
 		} else {//ログイン失敗時
-			//TODO loginResult.getErrorMsgを呼び出し、メッセージをmodelスコープに登録
+			//loginResult.getErrorMsgを呼び出し、メッセージをmodelスコープに登録
 			model.addAttribute("errMessage", loginResult.getErrorMsg());
 			return "login";
 		}
@@ -80,7 +74,7 @@ public class LoginController {
 	 */
 	@RequestMapping(path = "/logout", method = RequestMethod.GET)
 	public String logout() {
-		//TODO セッションの破棄
+		//セッションの破棄
 		session.invalidate();
 
 		//index.htmlへ遷移
