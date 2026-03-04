@@ -28,17 +28,6 @@
 		AND rent_flag = '可'
 	</select>
 
-	<!--スタッフ情報の取り出し -->
-	<select id="staffFind"
-		resultType="jp.co.sss.equipment.entity.StaffData">
-		SELECT
-		staff_no AS staffNo,
-		name AS name,
-		auth_no AS authNo,
-		del AS del
-		FROM staff_data
-	</select>
-
 	<!-- 最新情報の取得 -->
 	<select id="findById" parameterType="int"
 		resultType="jp.co.sss.equipment.entity.StockData">
