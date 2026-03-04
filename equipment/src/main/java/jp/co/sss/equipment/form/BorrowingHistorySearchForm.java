@@ -4,14 +4,23 @@ import java.time.LocalDate;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
+import lombok.Data;
+
 /**
  * 貸出履歴検索フォーム
  * 画面の絞り込み・並べ替え条件をまとめる
  */
+@Data
 public class BorrowingHistorySearchForm {
 
 	/*シリアルナンバー*/
 	private String stockCode;
+	
+	/*カテゴリ名*/
+	private String categoryName;
+
+	/*製品名*/
+	private String productName;
 	
 	/*使用者(社員番号)*/
 	private Integer staffNo;
