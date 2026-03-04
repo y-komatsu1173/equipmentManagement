@@ -16,6 +16,11 @@
 	         th:href="@{/equipment/regist/input}"
 	         class="nav-link">備品登録</a>
 	    </div>
+		
+		<!-- 貸出履歴 -->
+		<a th:if="${session.user != null and session.user.authNo != 4 and session.user.authNo != 99}"
+		th:href="@{/equipment/history}"
+		     class="nav-link">貸出履歴</a>
 
 	    <!-- 右側（ログイン中のみ表示） -->
 	    <div class="nav-right" th:if="${session.user != null}">
