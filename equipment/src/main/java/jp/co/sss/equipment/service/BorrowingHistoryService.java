@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import jp.co.sss.equipment.dto.BorrowingHistoryDto;
+import jp.co.sss.equipment.form.BorrowingHistorySearchForm;
 import jp.co.sss.equipment.mapper.BorrowingHistoryMapper;
 
 /**
@@ -20,8 +21,8 @@ public class BorrowingHistoryService {
      * 貸出履歴を表示する
      * @return
      */
-    public List<BorrowingHistoryDto> findBorrowingHistory() {
-        return borrowingHistoryMapper.findBorrowingHistory();
+    public List<BorrowingHistoryDto> findBorrowingHistory(BorrowingHistorySearchForm form) {
+        return borrowingHistoryMapper.findBorrowingHistory(form);
     }
 
 }
