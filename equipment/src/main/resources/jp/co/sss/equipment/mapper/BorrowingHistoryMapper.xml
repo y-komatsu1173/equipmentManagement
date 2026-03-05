@@ -36,50 +36,67 @@
 		limit_date,
 		ownership_type,
 		deleted_label
-		FROM borrow_history_view
+		FROM
+		borrow_history_view
 
 		<where>
-			<if test="stockCode != null and stockCode != ''">
-				AND stock_code LIKE CONCAT('%', #{stockCode}, '%')
-			</if>
+  <if test="stockCode != null and stockCode != ''">
+    AND stock_code LIKE CONCAT('%', #{stockCode}, '%')
+  </if>
 
-			<if test="categoryName != null and categoryName != ''">
-				AND category_name LIKE CONCAT('%', #{categoryName}, '%')
-			</if>
+  <if test="categoryName != null and categoryName != ''">
+    AND category_name LIKE CONCAT('%', #{categoryName}, '%')
+  </if>
 
-			<if test="productName != null and productName != ''">
-				AND product_name LIKE CONCAT('%', #{productName}, '%')
-			</if>
+  <if test="productName != null and productName != ''">
+    AND product_name LIKE CONCAT('%', #{productName}, '%')
+  </if>
 
-			<if test="staffName != null and staffName != ''">
-				AND staffName LIKE CONCAT('%', #{staffName}, '%')
-			</if>
+  <if test="staffName != null and staffName != ''">
+    AND staffName LIKE CONCAT('%', #{staffName}, '%')
+  </if>
 
-			<if test="fromDate != null">
-				AND start_date &gt;= #{fromDate}
-			</if>
+  <if test="fromDate != null">
+    AND start_date &gt;= #{fromDate}
+  </if>
 
-			<if test="toDate != null">
-				AND start_date &lt;= #{toDate}
-			</if>
+  <if test="toDate != null">
+    AND start_date &lt;= #{toDate}
+  </if>
 
-			<!-- 返却日検索 -->
-			<if test="returnFromDate != null">
-				AND return_date &gt;= #{returnFromDate}
-			</if>
+  <if test="returnFromDate != null">
+    AND return_date &gt;= #{returnFromDate}
+  </if>
 
-			<if test="returnToDate != null">
-				AND return_date &lt;= #{returnToDate}
-			</if>
+  <if test="returnToDate != null">
+    AND return_date &lt;= #{returnToDate}
+  </if>
 
-			<if test="ownershipType != null and ownershipType != ''">
-				AND ownership_type = #{ownershipType}
-			</if>
+  <!-- 分類（チェックボックス複数） -->
+  <if test="ownershipTypes != null and ownershipTypes.size() > 0">
+    AND ownership_type IN
+    <foreach collection="ownershipTypes" item="t" open="(" separator="," close=")">
+      #{t}
+    </foreach>
+  </if>
 
-			<if test="includeDeleted != null and includeDeleted == false">
-				AND (deleted_label IS NULL OR deleted_label = '')
-			</if>
-		</where>
+  <!--  削除（チェックボックス複数） -->
+  <if test="deletedStatuses != null and deletedStatuses.size() > 0">
+    AND (
+      <foreach collection="deletedStatuses" item="d" separator=" OR ">
+        <choose>
+          <when test="d == '未削除'">
+            (deleted_label IS NULL OR deleted_label = '')
+          </when>
+          <otherwise>
+            (deleted_label = '削除')
+          </otherwise>
+        </choose>
+      </foreach>
+    )
+  </if>
+
+</where>
 
 		<!-- デフォルト返却日DESC＋動的ソート -->
 		ORDER BY
