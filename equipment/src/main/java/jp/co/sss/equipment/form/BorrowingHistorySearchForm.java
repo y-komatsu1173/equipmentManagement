@@ -1,6 +1,7 @@
 package jp.co.sss.equipment.form;
 
 import java.time.LocalDate;
+import java.util.List;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -55,5 +56,11 @@ public class BorrowingHistorySearchForm {
 	
 	/*並び順*/
 	private String sortDir;
+	
+	/*["会社所有", "リース"]*/
+	private List<String> ownershipTypes; 
+	
+	/*["未削除", "削除済み"]*/
+	private List<String> deletedStatuses;
 	
 }
