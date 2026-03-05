@@ -22,8 +22,8 @@ public class BorrowingHistorySearchForm {
 	/*製品名*/
 	private String productName;
 	
-	/*使用者(社員番号)*/
-	private Integer staffNo;
+	/*使用者名*/
+	private String staffName;
 	
 	/*貸出日*/
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
@@ -32,6 +32,14 @@ public class BorrowingHistorySearchForm {
 	/* 貸出日To*/
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private LocalDate toDate;
+	
+	/*返却日*/
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	private LocalDate returnFromDate;
+	
+	/*返却日To*/
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	private LocalDate returnToDate;
 	
 	/*カテゴリ*/
 	private String categoryId;
@@ -43,9 +51,9 @@ public class BorrowingHistorySearchForm {
 	private Boolean includeDeleted;
 	
 	/*並び替え*/
-	private String sortKey = "startDate";
+	private String sortKey;
 	
 	/*並び順*/
-	private String sortDir = "desc";
+	private String sortDir;
 	
 }
