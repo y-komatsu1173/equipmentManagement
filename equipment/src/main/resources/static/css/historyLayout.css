@@ -1,0 +1,208 @@
+@charset "UTF-8";
+
+/* 画面全体：左右余白 + 最大幅 + 縮小時は自然に詰まる */
+.page{
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 16px 24px;
+  box-sizing: border-box;
+}
+
+.page-title{ margin: 8px 0 16px; }
+
+/* ===== 検索（折りたたみ） ===== */
+.filter{
+  border: 1px solid #cfd6e6;
+  border-radius: 10px;
+  background: #f7f9ff;
+  margin: 0 0 16px;
+  overflow: hidden;
+}
+
+.filter__summary{
+  cursor: pointer;
+  list-style: none;
+  padding: 12px 14px;
+  font-weight: 700;
+  background: #eef3ff;
+  border-bottom: 1px solid #cfd6e6;
+}
+
+.filter__summary::-webkit-details-marker{ display:none; }
+
+.filter__form{ padding: 12px 14px 14px; }
+
+.filter__row{
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.filter__row--actions{ justify-content: space-between; }
+
+/* ===== フィールド（ラベル＋入力） ===== */
+/* 基本：ラベルと入力を横並びで固定（ラベルが折れない） */
+.field{
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: nowrap;
+}
+
+/* 日付レンジ等：中身だけは折り返し許可したい時に使う */
+.field--wrap{ flex-wrap: wrap; }
+
+.label{
+  font-weight: 700;
+  white-space: nowrap;
+  min-width: 70px; /* ラベル幅を揃える */
+}
+
+.range{
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.range__sep{ white-space: nowrap; }
+
+/* 入力系：狭い時は縮む（flexでも縮むように） */
+.input{
+  min-width: 170px;
+  max-width: 100%;
+  padding: 8px 10px;
+  border: 1px solid #b9c3dd;
+  border-radius: 6px;
+  box-sizing: border-box;
+  background: #fff;
+  flex: 1 1 auto; /* これがあると綺麗に詰まる */
+}
+
+/* ===== ボタン類 ===== */
+.btns{
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.btn{
+  display: inline-block;
+  padding: 10px 14px;
+  border-radius: 8px;
+  border: 1px solid #3a5bdc;
+  background: #fff;
+  color: #1d2f7a;
+  font-weight: 700;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.btn--primary{
+  background: #2f66ff;
+  border-color: #2f66ff;
+  color: #fff;
+}
+
+.btn--ghost{
+  border-color: #9db0ff;
+  color: #2f66ff;
+}
+
+.btn--back{
+  background: #6aa84f;
+  border-color: #6aa84f;
+  color: #fff;
+  padding: 12px 18px;
+}
+
+/* ===== チェックボックス群（会社所有/リース/未削除/削除済み） ===== */
+.quick{
+  display: flex;
+  gap: 18px;
+  flex-wrap: wrap;
+  margin-top: 6px;
+}
+
+.check-group{
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  padding: 6px 0;
+}
+
+.check-title{
+  font-weight: 800;
+  white-space: nowrap;
+}
+
+.check{
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 12px;
+  border: 1px solid #9db0ff;
+  border-radius: 999px;
+  background: #fff;
+  cursor: pointer;
+  user-select: none;
+}
+
+.check input{ transform: translateY(1px); }
+
+/* ===== テーブル：カード風 + スクロール枠 ===== */
+.table-card{
+  border: 1px solid #cfd6e6;
+  border-radius: 10px;
+  background: #fff;
+  overflow: hidden;
+}
+
+/* 縦横スクロール */
+.table-scroll{
+  max-height: 460px;
+  overflow: auto;
+}
+
+/* 画面が狭い時は横スクロール */
+.history-table{
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: auto;
+  min-width: 980px;
+}
+
+.history-table th,
+.history-table td{
+  border: 1px solid #d7def1;
+  padding: 10px 10px;
+  white-space: nowrap;
+}
+
+/* ヘッダー固定 */
+.history-table thead th{
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  background: #0b2a7a;
+  color: #fff;
+}
+
+/* 見やすさ */
+.history-table tbody tr:nth-child(even){ background: #f6f8ff; }
+
+/* 画面下 */
+.footer-actions{
+  margin-top: 16px;
+  display: flex;
+  justify-content: center;
+}
+
+.empty{
+  margin: 12px 0;
+  font-weight: 700;
+}
