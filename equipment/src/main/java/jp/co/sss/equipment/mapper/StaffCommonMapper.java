@@ -16,4 +16,9 @@ public interface StaffCommonMapper {
 	 * 使用者・社員名の取得
 	 */
 	List<StaffData> staffFind();
+	
+	/*
+	 * 個別詳細検索
+	 */
+	StaffData staffFindIndividual(Integer staffNo);
 }

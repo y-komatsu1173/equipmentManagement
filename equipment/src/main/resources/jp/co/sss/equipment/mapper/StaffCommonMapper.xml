@@ -9,8 +9,23 @@
 		SELECT
 		staff_no AS staffNo,
 		name AS name,
+		password AS
+		password,
 		auth_no AS authNo,
 		del AS del
 		FROM staff_data
+	</select>
+
+	<!-- スタッフ情報１件のみ -->
+	<select id="staffFindIndividual"
+		resultType="jp.co.sss.equipment.entity.StaffData">
+		SELECT
+		staff_no AS staffNo,
+		name AS name,
+		password AS password,
+		auth_no AS authNo,
+		del AS del
+		FROM staff_data
+		WHERE staff_no = #{staffNo}
 	</select>
 </mapper>

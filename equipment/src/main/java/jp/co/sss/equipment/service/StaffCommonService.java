@@ -23,4 +23,12 @@ public class StaffCommonService {
 	public List<StaffData> staffDataFind() {
 		return staffCommonMapper.staffFind();//マッパーの処理を返す
 	}
+	
+	/*
+	 * スタッフ個別詳細
+	 */
+	public StaffData staffFindIndividual(Integer staffNo) {
+		return staffCommonMapper.staffFindIndividual(staffNo);
+	}
+	
 }

@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<title>Insert title here</title>
+</head>
+
+<body>
+	<table border="1">
+		<tr>
+			<th>ID</th>
+			<td th:text="${staff.staffNo}"></td>
+		</tr>
+
+		<tr>
+			<th>名前</th>
+			<td th:text="${staff.name}"></td>
+		</tr>
+
+		<tr>
+			<th>権限</th>
+			<td th:text="${staff.authNo}"></td>
+		</tr>
+	</table>
+
+</body>
+
+</html>

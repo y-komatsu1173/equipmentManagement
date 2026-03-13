@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<title>社員一覧</title>
+</head>
+
+<body>
+	<table border="1">
+		<tr>
+			<th>詳細</th>
+			<th>ID</th>
+			<th>名前</th>
+			<th>権限</th>
+		</tr>
+		
+		<tr th:each="staff : ${staffList}">
+			<td>
+				<a th:href="@{/user/detail/{staffNo}(staffNo=${staff.staffNo})}">
+					詳細
+				</a>
+			</td>
+			<td th:text="${staff.staffNo}"></td>
+			<td th:text="${staff.name}"></td>
+			<td th:text="${staff.authNo}"></td>
+		</tr>
+	</table>
+
+</body>
+
+</html>

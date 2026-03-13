@@ -49,7 +49,8 @@ public class AuthorityCheckFilter extends HttpFilter {
 		boolean isAdminUrl = path.startsWith("/equipment/regist") ||
 				path.startsWith("/equipment/update") ||
 				path.startsWith("/equipment/delete") ||
-				path.startsWith("/equipment/history");
+				path.startsWith("/equipment/history") ||
+				path.startsWith("/user");
 
 		// 操作URLの定義
 		boolean isOperateUrl = path.startsWith("/borrowing/view") ||
