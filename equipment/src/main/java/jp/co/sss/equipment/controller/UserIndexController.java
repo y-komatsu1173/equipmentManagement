@@ -27,11 +27,8 @@ public class UserIndexController {
 	 */
 	@GetMapping("/user/index")
 	public String userView(Model model) {
+		//ユーザー情報の取得
 		List<StaffData> staffList = staffCommonService.staffDataFind();
-		
-		for(StaffData i:staffList) {
-			System.out.println(i);
-		}
 		model.addAttribute("staffList", staffList);
 		return "user/userView";
 	}
@@ -41,13 +38,9 @@ public class UserIndexController {
 	 */
 	@GetMapping("/user/detail/{staffNo}")
 	public String userDetail(@PathVariable Integer staffNo, Model model) {
-
+		//ユーザーの個別詳細を取得
 	    StaffData staffData = staffCommonService.staffFindIndividual(staffNo);
-
 	    model.addAttribute("staff", staffData);
-
-	    System.out.println(staffData);
-
 	    return "user/detail";
 	}
 
