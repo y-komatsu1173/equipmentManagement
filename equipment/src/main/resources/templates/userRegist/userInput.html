@@ -10,6 +10,11 @@
 	<form th:action="@{/user/regist/check}" method="post" th:object="${userRegistForm}">
 
 		<div>
+			ID
+			<input type="text" th:field="*{staffNo}">
+		</div>
+
+		<div>
 			社員名
 			<input type="text" th:field="*{name}">
 		</div>
