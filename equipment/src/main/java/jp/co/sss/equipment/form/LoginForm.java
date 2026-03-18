@@ -1,53 +1,26 @@
 package jp.co.sss.equipment.form;
 
-import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
+import lombok.Data;
+
+/**
+ * ログインフォーム
+ */
+
+@Data
 public class LoginForm {
+	
 	/** 社員ID */
-	@NotNull
-	@Max(99999)
+	@NotNull(message = "IDを入力してください")
+	//@Max(value = 99999, message = "IDは5桁以内で入力してください")
 	private Integer empId;
+	
 	/** パスワード */
-	@NotBlank
-	@Size(max = 16)
+	@NotBlank(message = "パスワードを入力してください")
+	@Size(max = 16, message = "パスワードは16文字以内で入力してください")
 	private String empPass;
 
-	/**
-	 * 社員IDの取得
-	 *
-	 * @return 社員ID
-	 */
-	public Integer getEmpId() {
-		return empId;
-	}
-
-	/**
-	 * 社員IDのセット
-	 *
-	 * @param empId 社員ID
-	 */
-	public void setEmpId(Integer empId) {
-		this.empId = empId;
-	}
-
-	/**
-	 * パスワードの取得
-	 *
-	 * @return パスワード
-	 */
-	public String getEmpPass() {
-		return empPass;
-	}
-
-	/**
-	 * パスワードのセット
-	 *
-	 * @param empPass パスワード
-	 */
-	public void setEmpPass(String empPass) {
-		this.empPass = empPass;
-	}
 }
