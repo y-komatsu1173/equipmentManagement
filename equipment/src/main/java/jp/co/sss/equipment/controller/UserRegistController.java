@@ -16,6 +16,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import jp.co.sss.equipment.entity.AuthMaster;
 import jp.co.sss.equipment.form.UserRegistForm;
 import jp.co.sss.equipment.service.StaffCommonService;
+import jp.co.sss.equipment.service.UserRegistService;
 
 /**
  * ユーザー登録
@@ -24,6 +25,9 @@ import jp.co.sss.equipment.service.StaffCommonService;
 public class UserRegistController {
 	@Autowired
 	StaffCommonService staffCommonService;
+	
+	@Autowired
+	UserRegistService userRegistService;
 
 	/**
 	 * ユーザー登録画面
@@ -79,7 +83,7 @@ public class UserRegistController {
 	@PostMapping("user/regist/complete")
 	public String registComplete(UserRegistForm registform) {
 		//ユーザー登録処理
-		staffCommonService.userRegistInsert(registform);
+		userRegistService.userRegistInsert(registform);
 		return "userRegist/complete";
 	}
 	
