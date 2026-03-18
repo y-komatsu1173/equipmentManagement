@@ -10,25 +10,31 @@
 	<form th:action="@{/user/regist/check}" method="post" th:object="${userRegistForm}">
 
 		<div>
+			<div th:if="${#fields.hasErrors('staffNo')}" th:errors="*{staffNo}" style="color:red"></div>
 			ID
 			<input type="text" th:field="*{staffNo}">
+
 		</div>
 
 		<div>
+			<div th:if="${#fields.hasErrors('name')}" th:errors="*{name}" style="color:red"></div>
 			社員名
 			<input type="text" th:field="*{name}">
+
 		</div>
 
 		<div>
+			<div th:if="${#fields.hasErrors('auth')}" th:errors="*{auth}" style="color:red"></div>
 			権限
 			<select th:field="*{auth}">
 				<option value="">選択してください</option>
-				<option th:each="auth : ${authList}" th:value="${auth.authNo}" th:text="${auth.authName}">
-				</option>
+				<option th:each="auth : ${authList}" th:value="${auth.authNo}" th:text="${auth.authName}"></option>
 			</select>
+
 		</div>
 
 		<div>
+			<div th:if="${#fields.hasErrors('password')}" th:errors="*{password}" style="color:red"></div>
 			パスワード
 			<input type="password" th:field="*{password}">
 		</div>
