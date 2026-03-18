@@ -67,6 +67,8 @@ public class UserRegistController {
 		}
 		//ユーザー登録情報をセッションに保存
 		model.addAttribute("userRegistForm", registform);
+		
+		System.out.println(registform);
 
 		return "userRegist/check";
 	}
@@ -75,8 +77,9 @@ public class UserRegistController {
 	 * 登録処理(完了画面)
 	 */
 	@PostMapping("user/regist/complete")
-	public String registComplete() {
-		
+	public String registComplete(UserRegistForm registform) {
+		//ユーザー登録処理
+		staffCommonService.userRegistInsert(registform);
 		return "userRegist/complete";
 	}
 	
