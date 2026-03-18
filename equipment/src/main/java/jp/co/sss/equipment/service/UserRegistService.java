@@ -19,10 +19,10 @@ import jp.co.sss.equipment.util.BeanCopy;
 public class UserRegistService {
 	@Autowired
 	UserRegistMapper userRegistMapper;
-	
+
 	@Autowired
 	StaffCommonMapper staffCommonMapper;
-	
+
 	/**
 	 *ユーザー登録処理
 	 */
@@ -33,7 +33,7 @@ public class UserRegistService {
 		//論理削除フラグを0に
 		staffData.setDel("0");
 		//登録
-		userRegistMapper.userRegistInsert(staffData);		
+		userRegistMapper.userRegistInsert(staffData);
 	}
 
 	/**
@@ -42,12 +42,14 @@ public class UserRegistService {
 	 * @return
 	 */
 	public boolean idCheck(Integer staffNo) {
+		//ユーザーの取得
 		List<StaffData> staffData = staffCommonMapper.staffFind();
-		 for (StaffData staff : staffData) {
-		        if (staff.getStaffNo().equals(staffNo)) {
-		            return true; // 重複あり
-		        }
-		    }
-		    return false; // 重複なし
+		//idの一致検索
+		for (StaffData staff : staffData) {
+			if (staff.getStaffNo().equals(staffNo)) {
+				return true; // 重複あり
+			}
+		}
+		return false; // 重複なし
 	}
 }
