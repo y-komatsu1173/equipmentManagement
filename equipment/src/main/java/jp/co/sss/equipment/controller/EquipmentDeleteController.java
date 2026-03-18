@@ -30,7 +30,8 @@ public class EquipmentDeleteController {
 			@RequestParam("serialNo") String serialNo,
 			@RequestParam("name") String name,
 			Model model) {
-
+		
+		//シリアルナンバーから備品の詳細情報を取得
 		DetailListViewDto detailList = indexService.serialNoFind(serialNo);
 		model.addAttribute("detailName", detailList);
 		model.addAttribute("itemDetail", detailList);
@@ -50,6 +51,7 @@ public class EquipmentDeleteController {
 
 		model.addAttribute("categoryName", name);
 
+		//シリアルナンバーから備品の詳細情報を取得
 		equimentDeletervice.deleteBySerialNo(serialNo);
 
 		return "equipmentDelete/equipmentDeleteComplete";
