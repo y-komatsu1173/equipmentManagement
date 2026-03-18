@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- mapperインターフェスと修飾名を一致させる -->
+<mapper namespace="jp.co.sss.equipment.mapper.UserRegistMapper">
+<!-- ユーザー登録処理 -->
+	<insert id="userRegistInsert"
+		parameterType="jp.co.sss.equipment.entity.StaffData">
+		INSERT INTO staff_data (
+		staff_no,
+		name,
+		password,
+		auth_no,
+		del
+		) VALUES (
+		#{staffNo},
+		#{name},
+		#{password},
+		#{authNo},
+		#{del}
+		)
+	</insert>
+	
+	</mapper>
