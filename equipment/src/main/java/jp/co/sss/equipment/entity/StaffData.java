@@ -23,5 +23,5 @@ public class StaffData {
 	private Integer authNo;
 
 	/*削除フラグ*/
-	private Boolean del;
+	private String del;
 }
