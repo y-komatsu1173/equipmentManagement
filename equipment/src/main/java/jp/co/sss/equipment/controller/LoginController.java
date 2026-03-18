@@ -1,6 +1,7 @@
 package jp.co.sss.equipment.controller;
 
 import jakarta.servlet.http.HttpSession;
+import jakarta.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -46,7 +47,7 @@ public class LoginController {
 	 * ログイン処理
 	 */
 	@PostMapping("/login")
-	public String login(@ModelAttribute LoginForm loginForm, BindingResult result, HttpSession session, Model model) {
+	public String login(@Valid @ModelAttribute LoginForm loginForm, BindingResult result, HttpSession session, Model model) {
 	    
 		if (result.hasErrors()) {
 			return "login";
