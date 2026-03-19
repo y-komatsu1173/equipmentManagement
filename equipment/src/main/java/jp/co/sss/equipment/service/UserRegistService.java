@@ -29,7 +29,7 @@ public class UserRegistService {
 	@Transactional
 	public void userRegistInsert(UserRegistForm registform) {
 		//formからentityへコピー
-		StaffData staffData = BeanCopy.userCopyForm(registform);
+		StaffData staffData = BeanCopy.userCopyEntity(registform);
 		//論理削除フラグを0に
 		staffData.setDel("0");
 		//登録
