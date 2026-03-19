@@ -3,7 +3,7 @@
 
 <head>
 	<meta charset="UTF-8">
-	<title>Insert title here</title>
+	<title>ユーザー詳細</title>
 </head>
 
 <body>
@@ -23,6 +23,15 @@
 			<td th:text="${staff.authNo}"></td>
 		</tr>
 	</table>
+	
+	<a th:href = "@{/user/update/input/{staffNo}(staffNo=${staff.staffNo})}">
+		<button type = "button">編集</button>
+	</a>
+	
+	<a th:href = "@{/user/index}">
+		<button type ="button">戻る</button>
+		
+	</a>
 
 </body>
 
