@@ -13,7 +13,9 @@ public class EquipmentInputValidationResult {
 	/* エラーメッセージ一覧*/
 	private List<String> errorMessages;
 
+	// コンストラクタ
 	public EquipmentInputValidationResult(
+			// エラーメッセージのリストを受け取る
 			List<String> errorMessages) {
 		this.errorMessages = errorMessages;
 	}
