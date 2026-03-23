@@ -50,6 +50,21 @@ public class StaffCommonService {
 		return staffCommonMapper.authFindById(authNo);
 	}
 	
-	
+	/**
+	 * IDの重複チェック
+	 * @param staffNo
+	 * @return
+	 */
+	public boolean idCheck(Integer staffNo) {
+		//ユーザーの取得
+		List<StaffData> staffData = staffCommonMapper.staffFind();
+		//idの一致検索
+		for (StaffData staff : staffData) {
+			if (staff.getStaffNo().equals(staffNo)) {
+				return true; // 重複あり
+			}
+		}
+		return false; // 重複なし
+	}
 	
 }
