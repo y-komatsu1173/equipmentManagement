@@ -9,15 +9,23 @@
 <body>
 	<h1>ユーザー編集画面</h1>
 
-	<form th:action="@{/user/update/check}" th:object="${userRegistForm}" method="post">
+	<form th:action="@{/user/update/check}" th:object="${userForm}" method="post">
 
-		<!-- 元のIDを保持 -->
 		<input type="hidden" th:field="*{oldStaffNo}">
+		<input type="hidden" th:field="*{auth}">
 
-		<div>
+		<!-- 自分のときだけID編集可能 -->
+		<div th:if="${session.user.staffNo == userForm.oldStaffNo}">
 			<label for="staffNo">ID</label>
 			<input type="text" id="staffNo" th:field="*{staffNo}">
 			<div th:if="${#fields.hasErrors('staffNo')}" th:errors="*{staffNo}" style="color:red"></div>
+		</div>
+
+		<!-- 自分以外のときはID表示のみ -->
+		<div th:if="${session.user.staffNo != userForm.oldStaffNo}">
+			<label>ID</label>
+			<span th:text="*{staffNo}"></span>
+			<input type="hidden" th:field="*{staffNo}">
 		</div>
 
 		<div>
@@ -26,22 +34,40 @@
 			<div th:if="${#fields.hasErrors('name')}" th:errors="*{name}" style="color:red"></div>
 		</div>
 
-		<div>
-			<label for="password">パスワード</label>
+		<!-- 自分のときだけパスワード変更可能 -->
+		<div th:if="${session.user.staffNo == userForm.oldStaffNo}">
+			<label for="currentPassword">現在のパスワード</label>
+			<input type="password" id="currentPassword" th:field="*{currentPassword}">
+			<div th:if="${#fields.hasErrors('currentPassword')}" th:errors="*{currentPassword}" style="color:red"></div>
+		</div>
+
+		<div th:if="${session.user.staffNo == userForm.oldStaffNo}">
+			<label for="password">新しいパスワード</label>
 			<input type="password" id="password" th:field="*{password}">
 			<div th:if="${#fields.hasErrors('password')}" th:errors="*{password}" style="color:red"></div>
 		</div>
 
-		<div>
+		<!-- 権限1,2だけ編集可能 -->
+		<div th:if="${session.user.authNo == 1 or session.user.authNo == 2}">
 			<label for="auth">権限</label>
 			<select id="auth" th:field="*{auth}">
 				<option value="">-- 権限を選択してください --</option>
-				<option th:each="auth : ${authList}"
-						th:value="${auth.authNo}"
-						th:text="${auth.authName}">
+				<option th:each="authItem : ${authList}"
+						th:value="${authItem.authNo}"
+						th:text="${authItem.authName}">
 				</option>
 			</select>
 			<div th:if="${#fields.hasErrors('auth')}" th:errors="*{auth}" style="color:red"></div>
+		</div>
+
+		<!-- それ以外は表示のみ -->
+		<div th:if="${session.user.authNo != 1 and session.user.authNo != 2}">
+			<label>権限</label>
+			<span th:each="authItem : ${authList}"
+			      th:if="${authItem.authNo == userForm.auth}"
+			      th:text="${authItem.authName}">
+			</span>
+			<input type="hidden" th:field="*{auth}">
 		</div>
 
 		<div>
