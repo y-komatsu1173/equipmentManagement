@@ -20,17 +20,17 @@
 
 		<tr>
 			<th>権限</th>
-			<td th:text="${staff.authNo}"></td>
+			<td th:text="${staff.authName}"></td>
 		</tr>
 	</table>
-	
-	<a th:href = "@{/user/update/input/{staffNo}(staffNo=${staff.staffNo})}">
-		<button type = "button">編集</button>
+
+	<a th:href="@{/user/update/input/{staffNo}(staffNo=${staff.staffNo})}">
+		<button type="button">編集</button>
 	</a>
-	
-	<a th:href = "@{/user/index}">
-		<button type ="button">戻る</button>
-		
+
+	<a th:href="@{/user/index}">
+		<button type="button">戻る</button>
+
 	</a>
 
 </body>
