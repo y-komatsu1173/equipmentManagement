@@ -22,6 +22,8 @@ public class AdminAccountCheckFilter extends HttpFilter {
 
 		//URIと送信方法を取得
 		String requestURI = request.getRequestURI();
+		String contextPath = request.getContextPath();
+		String path = requestURI.substring(contextPath.length());
 		String requestMethod = request.getMethod();
 
 		//完了画面はフィルターを追加
@@ -31,54 +33,60 @@ public class AdminAccountCheckFilter extends HttpFilter {
 		}
 
 		//セッションユーザー情報を取得
-		HttpSession session = request.getSession();
+		HttpSession session = request.getSession(false);
+		if (session == null || session.getAttribute("user") == null) {
+			response.sendRedirect(contextPath + "/");
+			return;
+		}
+
 		StaffData staffData = (StaffData) session.getAttribute("user");
+		Integer loginStaffNo = staffData.getStaffNo();
+		Integer authNo = staffData.getAuthNo();
 
-		//セッションユーザーのIDと権限の変数を初期化
-		Integer staffNo = null;
-		Integer authNo = null;
+		Integer targetStaffNo = null;
 
-		//セッションユーザーがnullでない場合
-		if (staffData != null) {
-			//セッションユーザからID、権限を取得して変数に代入
-			staffNo = staffData.getStaffNo();
-			authNo = staffData.getAuthNo();
+		// POSTのform送信時
+		String staffNoParam = request.getParameter("staffNo");
+		if (staffNoParam != null && !staffNoParam.isBlank()) {
+			targetStaffNo = Integer.valueOf(staffNoParam);
+		}
+		// GET /user/detail/{staffNo} のとき
+		else if (path.startsWith("/user/detail/")) {
+			String[] parts = path.split("/");
+			targetStaffNo = Integer.valueOf(parts[3]);
+		}
+		// GET /user/update/input/{staffNo}
+		else if (path.startsWith("/user/update/input/")) {
+			String[] parts = path.split("/");
+			targetStaffNo = Integer.valueOf(parts[4]);
 		}
 
-		//更新対象の社員IDをリクエストから取得
-		String upEmpIdStr = request.getParameter("staffNo");
-		Integer upEmpId = null;
+		boolean accessFlg = false;
 
-		//社員IDがnullでない場合
-		if (upEmpIdStr != null) {
-			//社員IDを整数型に変換
-			upEmpId = Integer.valueOf(upEmpIdStr);
+		// 管理者なら許可
+		if (authNo != null && authNo == 2) {
+			accessFlg = true;
 		}
-		//フィルター通過のフラグを初期化 true:フィルター通過 false:ログイン画面へ戻す
-				boolean accessFlg = false;
+		// 本人なら許可
+		else if (loginStaffNo != null && targetStaffNo != null && loginStaffNo.equals(targetStaffNo)) {
+			accessFlg = true;
+		}
 
-				//管理者(セッションユーザーのIDが2)の場合、アクセス許可
-				if (authNo != null && authNo == 2) {
-					accessFlg = true;
-					//ログインユーザ自身(セッションユーザのIDと変更リクエストの社員IDが一致)の画面はアクセス許可
-				} else if (staffNo != null && upEmpId != null && staffNo.equals(upEmpId)) {
-					accessFlg = true;
-				}
+		if (!accessFlg) {
+			response.sendRedirect(contextPath + "/");
+			return;
+		}
+		
+		System.out.println("=== AdminAccountCheckFilter ===");
+		System.out.println("requestURI=" + requestURI);
+		System.out.println("path=" + path);
+		System.out.println("requestMethod=" + requestMethod);
+		System.out.println("staffNoParam=" + staffNoParam);
+		System.out.println("loginStaffNo=" + loginStaffNo);
+		System.out.println("authNo=" + authNo);
+		System.out.println("targetStaffNo=" + targetStaffNo);
+		System.out.println("accessFlg=" + accessFlg);
 
-				//accessFlgが立っていない場合はログイン画面へリダイレクトし、処理を終了する
-				if (!accessFlg) {
-					//TODO  レスポンス情報を取得
-					String contextPth = request.getContextPath();
-
-					//TODO  ログイン画面へリダイレクト
-					response.sendRedirect(contextPth + "/");
-
-					//処理を終了
-					return;
-				}
-
-				chain.doFilter(request, response);
-				return;
-
-			}
+		chain.doFilter(request, response);
+	}
 }
