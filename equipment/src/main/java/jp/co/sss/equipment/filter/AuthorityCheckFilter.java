@@ -44,13 +44,23 @@ public class AuthorityCheckFilter extends HttpFilter {
 		StaffData user = (StaffData) session.getAttribute("user");
 		// 権限番号を取得
 		int authNo = user.getAuthNo();
+		
+		//個人詳細は弾かない
+		boolean myDetailUrl = path.startsWith("/user/detail/");
+		boolean myUpdateInputUrl = path.startsWith("/user/update/input/");
+		boolean myUpdateCheckUrl = path.equals("/user/update/check");
+		boolean myUpdateCompleteUrl = path.equals("/user/update/complete");
+
+		boolean isMyUserUrl = myDetailUrl || myUpdateInputUrl || myUpdateCheckUrl || myUpdateCompleteUrl;
+
 
 		// 管理者URLと操作URLの定義
 		boolean isAdminUrl = path.startsWith("/equipment/regist") ||
 				path.startsWith("/equipment/update") ||
 				path.startsWith("/equipment/delete") ||
 				path.startsWith("/equipment/history") ||
-				path.startsWith("/user");
+				(path.startsWith("/user") && !isMyUserUrl);
+
 
 		// 操作URLの定義
 		boolean isOperateUrl = path.startsWith("/borrowing/view") ||
