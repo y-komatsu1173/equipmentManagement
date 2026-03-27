@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<link rel="stylesheet" th:href="@{/css/common.css}">
+	<link rel="stylesheet" th:href="@{/css/user/userInputLayout.css}">
+	<title>社員情報入力</title>
+</head>
+
+<body>
+	<header>
+		<div th:replace="~{common/header :: layout-header}"></div>
+	</header>
+
+	<main>
+		<h1>社員情報入力</h1>
+
+		<div class="form-area">
+			<form th:action="@{/user/regist/check}" method="post" th:object="${userRegistForm}">
+
+				<div class="form-row">
+					<div th:if="${#fields.hasErrors('staffNo')}" th:errors="*{staffNo}" class="error-message"></div>
+					<label for="staffNo">ID</label>
+					<input type="text" id="staffNo" th:field="*{staffNo}">
+				</div>
+
+				<div class="form-row">
+					<div th:if="${#fields.hasErrors('name')}" th:errors="*{name}" class="error-message"></div>
+					<label for="name">社員名</label>
+					<input type="text" id="name" th:field="*{name}">
+				</div>
+
+				<div class="form-row">
+					<div th:if="${#fields.hasErrors('auth')}" th:errors="*{auth}" class="error-message"></div>
+					<label for="auth">権限</label>
+					<select id="auth" th:field="*{auth}">
+						<option value="">選択してください</option>
+						<option th:each="auth : ${authList}" th:value="${auth.authNo}" th:text="${auth.authName}"></option>
+					</select>
+				</div>
+
+				<div class="form-row">
+					<div th:if="${#fields.hasErrors('password')}" th:errors="*{password}" class="error-message"></div>
+					<label for="password">パスワード</label>
+					<input type="password" id="password" th:field="*{password}">
+				</div>
+
+				<div class="button-area">
+					<button type="submit">確認</button>
+					<a th:href="@{/user/index}">
+						<button type="button">戻る</button>
+					</a>
+				</div>
+
+			</form>
+		</div>
+	</main>
+</body>
+</html>

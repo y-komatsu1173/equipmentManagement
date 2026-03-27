@@ -1,0 +1,55 @@
+@charset "UTF-8";
+
+body {
+	margin: 0;
+	padding: 0;
+	font-family: sans-serif;
+	background-color: #f8f9fb;
+}
+
+main {
+	width: 600px;
+	margin: 40px auto;
+}
+
+h1, h2 {
+	text-align: center;
+	margin-bottom: 30px;
+}
+
+.confirm-area {
+	background-color: #fff;
+	border: 1px solid #ccc;
+	border-radius: 8px;
+	padding: 30px;
+}
+
+.confirm-row {
+	display: flex;
+	border-bottom: 1px solid #eee;
+	padding: 14px 0;
+	align-items: center;
+}
+
+.confirm-label {
+	width: 140px;
+	font-weight: bold;
+}
+
+.confirm-value {
+	flex: 1;
+}
+
+.button-area {
+	display: flex;
+	gap: 12px;
+	justify-content: center;
+	margin-top: 30px;
+}
+
+.button-area button {
+	min-width: 120px;
+	padding: 10px 20px;
+	font-size: 16px;
+	cursor: pointer;
+}

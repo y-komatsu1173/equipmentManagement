@@ -3,10 +3,18 @@
 
 <head>
 	<meta charset="UTF-8">
+	<link rel="stylesheet" th:href="@{/css/user/userView.css}">
+	<link rel="stylesheet" th:href="@{/css/common.css}">
 	<title>社員一覧</title>
 </head>
 
 <body>
+	<header>
+			<div th:replace="~{common/header :: layout-header}"></div>
+		</header>
+		
+		<h1>ユーザー一覧</h1>
+		
 	<table border="1">
 		<tr>
 			<th>詳細</th>
