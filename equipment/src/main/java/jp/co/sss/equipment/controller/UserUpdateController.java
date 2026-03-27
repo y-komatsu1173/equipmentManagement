@@ -54,7 +54,7 @@ public class UserUpdateController {
 		UserForm form = BeanCopy.userCopyForm(staffData);
 		model.addAttribute("userForm", form);
 
-		return "userUpdate/input";
+		return "userUpdate/userUpdateInput";
 	}
 
 	/**
@@ -74,7 +74,7 @@ public class UserUpdateController {
 
 		// 入力エラー
 		if (result.hasErrors()) {
-			return "userUpdate/input";
+			return "userUpdate/userUpdateInput";
 		}
 
 		// 元のIDと変更後IDを比較
@@ -83,7 +83,7 @@ public class UserUpdateController {
 				updateForm.getStaffNo())) {
 
 			result.rejectValue("staffNo", null, "このIDはすでに使用されています");
-			return "userUpdate/input";
+			return "userUpdate/userUpdateInput";
 		}
 		
 		// ログインユーザー取得
@@ -95,19 +95,19 @@ public class UserUpdateController {
 		// パスワード変更不可チェック
 		if (passwordCheck.isPasswordChangeNotAllowed()) {
 			result.rejectValue("password", null, "自分以外のパスワードは変更できません");
-			return "userUpdate/input";
+			return "userUpdate/userUpdateInput";
 		}
 
 		// 現在のパスワード未入力チェック
 		if (passwordCheck.isCurrentPasswordRequired()) {
 			result.rejectValue("currentPassword", null, "現在のパスワードを入力してください");
-			return "userUpdate/input";
+			return "userUpdate/userUpdateInput";
 		}
 
 		// 現在のパスワード一致チェック
 		if (passwordCheck.isCurrentPasswordInvalid()) {
 			result.rejectValue("currentPassword", null, "現在のパスワードが違います");
-			return "userUpdate/input";
+			return "userUpdate/userUpdateInput";
 		}
 
 		// 権限IDから権限情報を取得
@@ -120,7 +120,7 @@ public class UserUpdateController {
 		
 		System.out.println("完了確認画面");
 		System.out.println(updateForm);
-		return "userUpdate/check";
+		return "userUpdate/userUpdateCheck";
 	}
 
 	/**
@@ -143,6 +143,6 @@ public class UserUpdateController {
 			StaffData newLoginUser = staffCommonService.staffFindIndividual(updateForm.getStaffNo());
 			session.setAttribute("user", newLoginUser);
 		}
-		return "userUpdate/complete";
+		return "userUpdate/userUpdateComplete";
 	}
 }
