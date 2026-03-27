@@ -36,7 +36,9 @@
 					<label for="auth">権限</label>
 					<select id="auth" th:field="*{auth}">
 						<option value="">選択してください</option>
-						<option th:each="auth : ${authList}" th:value="${auth.authNo}" th:text="${auth.authName}"></option>
+						<option th:each="auth : ${authList}"
+								th:value="${auth.authNo}"
+								th:text="${auth.authName}"></option>
 					</select>
 				</div>
 
@@ -48,9 +50,7 @@
 
 				<div class="button-area">
 					<button type="submit">確認</button>
-					<a th:href="@{/user/index}">
-						<button type="button">戻る</button>
-					</a>
+					<a th:href="@{/user/index}">戻る</a>
 				</div>
 
 			</form>
