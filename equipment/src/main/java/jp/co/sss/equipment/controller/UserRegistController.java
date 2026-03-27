@@ -46,7 +46,7 @@ public class UserRegistController {
 	 */
 	@PostMapping("user/regist/check")
 	public String registCheck(
-			@Valid @ModelAttribute UserForm registform,
+			@Valid @ModelAttribute("userRegistForm") UserForm registform,
 			BindingResult result,
 			RedirectAttributes redirectAttributes,
 			Model model) {
@@ -54,8 +54,13 @@ public class UserRegistController {
 		List<AuthMaster> authList = staffCommonService.authFind();
 		model.addAttribute("authList", authList);
 
-		// 入力チェック
-		if (result.hasErrors() || staffCommonService.idCheck(registform.getStaffNo())) {
+		// 入力チェックエラーがある場合
+		if (result.hasErrors()) {
+			return "userRegist/userRegistInput";
+		}
+
+		// ID重複チェック
+		if (staffCommonService.idCheck(registform.getStaffNo())) {
 			result.rejectValue("staffNo", null, "このIDはすでに使用されています");
 			return "userRegist/userRegistInput";
 		}
