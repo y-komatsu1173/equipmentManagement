@@ -38,7 +38,7 @@ public class UserRegistController {
 		List<AuthMaster> authList = staffCommonService.authFind();
 		model.addAttribute("authList", authList);
 		model.addAttribute("userRegistForm", new UserForm());
-		return "userRegist/userInput";
+		return "userRegist/userRegistInput";
 	}
 	
 	/**
@@ -57,7 +57,7 @@ public class UserRegistController {
 		// 入力チェック
 		if (result.hasErrors() || staffCommonService.idCheck(registform.getStaffNo())) {
 			result.rejectValue("staffNo", null, "このIDはすでに使用されています");
-			return "userRegist/userInput";
+			return "userRegist/userRegistInput";
 		}
 		
 		
@@ -72,7 +72,7 @@ public class UserRegistController {
 		//ユーザー登録情報をセッションに保存
 		model.addAttribute("userRegistForm", registform);
 
-		return "userRegist/check";
+		return "userRegist/userRegistCheck";
 	}
 	
 	/*
@@ -82,7 +82,7 @@ public class UserRegistController {
 	public String registComplete(UserForm registform) {
 		//ユーザー登録処理
 		userRegistService.userRegistInsert(registform);
-		return "userRegist/complete";
+		return "userRegist/userRegistComplete";
 	}
 	
 }
