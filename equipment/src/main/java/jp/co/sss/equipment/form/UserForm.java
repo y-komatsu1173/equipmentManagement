@@ -29,8 +29,6 @@ public class UserForm {
     private String currentPassword;
 
     /** パスワード */
-    @NotBlank(message = "パスワードを入力してください")
-//    @Size(min = 8, max = 16, message = "パスワードは8〜16文字で入力してください")
     private String password;
     
     /**編集時の元のID*/
