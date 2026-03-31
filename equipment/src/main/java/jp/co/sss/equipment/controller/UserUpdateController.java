@@ -116,7 +116,7 @@ public class UserUpdateController {
 			model.addAttribute("authMaster", authMaster);
 		}
 
-		model.addAttribute("userRegistForm", updateForm);
+		model.addAttribute("userForm", updateForm);
 		
 		System.out.println("完了確認画面");
 		System.out.println(updateForm);
