@@ -17,4 +17,11 @@ public class PasswordCheckDto {
 	
 	/**現在のパスワードとの一致チェック*/
 	private boolean currentPasswordInvalid;
+	
+	/** 確認パスワード未入力 */
+	private boolean checkPasswordRequired;
+	
+	/** 確認パスワード不一致 */
+	private boolean checkPasswordInvalid;
+
 }
