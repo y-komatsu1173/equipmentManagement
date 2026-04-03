@@ -10,11 +10,11 @@
 
 <body>
 	<header>
-			<div th:replace="~{common/header :: layout-header}"></div>
-		</header>
-		
-		<h1>ユーザー詳細</h1>
-		
+		<div th:replace="~{common/header :: layout-header}"></div>
+	</header>
+
+	<h1>ユーザー詳細</h1>
+
 	<table border="1">
 		<tr>
 			<th>ID</th>
@@ -32,14 +32,20 @@
 		</tr>
 	</table>
 
-	<a th:href="@{/user/update/input/{staffNo}(staffNo=${staff.staffNo})}">
-		<button type="button">編集</button>
-	</a>
+	<div class="button-area">
+		<a th:href="@{/user/update/input/{staffNo}(staffNo=${staff.staffNo})}">
+			<button type="button" class="edit-btn">編集</button>
+		</a>
 
-	<a th:href="@{/user/index}">
-		<button type="button">戻る</button>
+		<a th:if="${session.user.staffNo != staff.staffNo}"
+		   th:href="@{/user/delete/view/{staffNo}(staffNo=${staff.staffNo})}">
+			<button type="button" class="delete-btn">削除</button>
+		</a>
 
-	</a>
+		<a th:href="@{/user/index}">
+			<button type="button" class="back-btn">戻る</button>
+		</a>
+	</div>
 
 </body>
 

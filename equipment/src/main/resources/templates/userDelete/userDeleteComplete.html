@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<link rel="stylesheet" th:href="@{/css/common.css}">
+	<link rel="stylesheet" th:href="@{/css/user/completeLayout.css}">
+	<title>削除完了</title>
+</head>
+
+<body>
+	<header>
+		<div th:replace="~{common/header :: layout-header}"></div>
+	</header>
+
+	<div class="complete-page">
+		<h1>ユーザー削除が完了しました</h1>
+
+		<a th:href="@{/user/index}" class="back-link">一覧へ戻る</a>
+	</div>
+</body>
+
+</html>

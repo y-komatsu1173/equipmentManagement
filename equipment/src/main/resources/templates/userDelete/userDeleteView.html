@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<link rel="stylesheet" th:href="@{/css/common.css}">
+	<link rel="stylesheet" th:href="@{/css/user/userDetail.css}">
+	<title>ユーザー削除確認</title>
+</head>
+
+<body>
+	<div th:replace="~{common/layout :: header}"></div>
+
+	<main class="delete-container">
+		<h1>ユーザー削除確認</h1>
+
+		<table class="delete-table">
+			<tr>
+				<th>ID</th>
+				<td th:text="${staff.staffNo}"></td>
+			</tr>
+			<tr>
+				<th>名前</th>
+				<td th:text="${staff.name}"></td>
+			</tr>
+			<tr>
+				<th>権限</th>
+				<td th:text="${staff.authName}"></td>
+			</tr>
+		</table>
+
+		<p class="warning-message">このユーザーを削除しますか？</p>
+
+		<div class="button-area">
+			<form th:action="@{/user/delete/complete}" method="post">
+				<input type="hidden" name="staffNo" th:value="${staff.staffNo}">
+				<button type="submit" class="delete-btn">削除</button>
+			</form>
+
+			<a th:href="@{/user/detail/{staffNo}(staffNo=${staff.staffNo})}" class="back-btn">
+				戻る
+			</a>
+		</div>
+	</main>
+</body>
+
+</html>

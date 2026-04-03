@@ -50,6 +50,12 @@
 					<input type="password" id="password" th:field="*{password}">
 					<div th:if="${#fields.hasErrors('password')}" th:errors="*{password}" class="error-message"></div>
 				</div>
+				
+				<div class="form-row" th:if="${session.user.staffNo == userForm.oldStaffNo}">
+					<label for="checkPassword">新パスワード確認</label>
+					<input type="password" id="checkPassword" th:field="*{checkPassword}">
+					<div th:if="${#fields.hasErrors('checkPassword')}" th:errors="*{checkPassword}" class="error-message"></div>
+				</div>
 
 				<div class="form-row" th:if="${session.user.authNo == 1 or session.user.authNo == 2}">
 					<label for="auth">権限</label>
