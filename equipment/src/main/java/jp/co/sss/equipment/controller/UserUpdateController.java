@@ -65,8 +65,7 @@ public class UserUpdateController {
 			@Valid @ModelAttribute("userForm") UserForm updateForm,
 			BindingResult result,
 			Model model,
-			HttpSession session
-			) {
+			HttpSession session) {
 
 		// 権限情報の取得
 		List<AuthMaster> authList = staffCommonService.authFind();
@@ -85,7 +84,7 @@ public class UserUpdateController {
 			result.rejectValue("staffNo", null, "このIDはすでに使用されています");
 			return "userUpdate/userUpdateInput";
 		}
-		
+
 		// ログインユーザー取得
 		StaffData loginUser = (StaffData) session.getAttribute("user");
 
@@ -110,6 +109,8 @@ public class UserUpdateController {
 			return "userUpdate/userUpdateInput";
 		}
 
+
+
 		// 権限IDから権限情報を取得
 		if (updateForm.getAuth() != null) {
 			AuthMaster authMaster = staffCommonService.authFindById(updateForm.getAuth());
@@ -117,7 +118,7 @@ public class UserUpdateController {
 		}
 
 		model.addAttribute("userForm", updateForm);
-		
+
 		System.out.println("完了確認画面");
 		System.out.println(updateForm);
 		return "userUpdate/userUpdateCheck";
@@ -131,13 +132,13 @@ public class UserUpdateController {
 			HttpSession session) {
 		//更新処理
 		userUpdateService.userUpdate(updateForm);
-		
+
 		//ログインユーザー取得
 		StaffData loginUser = (StaffData) session.getAttribute("user");
-		
+
 		System.out.println("完了画面");
 		System.out.println(updateForm);
-			
+
 		// 自分自身を更新したならセッション更新
 		if (loginUser != null && loginUser.getStaffNo().equals(updateForm.getOldStaffNo())) {
 			StaffData newLoginUser = staffCommonService.staffFindIndividual(updateForm.getStaffNo());
