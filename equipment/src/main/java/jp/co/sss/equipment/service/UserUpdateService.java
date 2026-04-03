@@ -63,7 +63,19 @@ public class UserUpdateService {
 			dto.setCurrentPasswordInvalid(true);
 		}
 
-		return dto;
+		// 確認パスワード未入力
+				if (form.getCheckPassword() == null || form.getCheckPassword().isEmpty()) {
+					dto.setCheckPasswordRequired(true);
+				}
+
+				// 確認パスワード不一致
+				else if (!form.getPassword().equals(form.getCheckPassword())) {
+					dto.setCheckPasswordInvalid(true);
+				}
+
+				return dto;
 	}
+	
+	
 
 }
