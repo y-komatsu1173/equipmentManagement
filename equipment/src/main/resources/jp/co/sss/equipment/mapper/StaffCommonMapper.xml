@@ -14,6 +14,7 @@
 		auth_no AS authNo,
 		del AS del
 		FROM staff_data
+		WHERE del = 0
 	</select>
 
 	<!-- スタッフ情報１件のみ -->
