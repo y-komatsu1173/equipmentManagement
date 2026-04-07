@@ -58,6 +58,20 @@ public class UserUpdateController {
 	}
 
 	/**
+	 * 入力画面に戻る
+	 */
+	@PostMapping("/user/update/input")
+	public String updateBack(
+			@ModelAttribute("userForm") UserForm userForm,
+			Model model) {
+
+		model.addAttribute("userForm", userForm);
+		model.addAttribute("authList", staffCommonService.authFind());
+
+		return "userUpdate/userUpdateInput";
+	}
+
+	/**
 	 * 編集確認画面
 	 */
 	@PostMapping("/user/update/check")
@@ -108,8 +122,6 @@ public class UserUpdateController {
 			result.rejectValue("currentPassword", null, "現在のパスワードが違います");
 			return "userUpdate/userUpdateInput";
 		}
-
-
 
 		// 権限IDから権限情報を取得
 		if (updateForm.getAuth() != null) {
