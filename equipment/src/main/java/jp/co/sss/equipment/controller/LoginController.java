@@ -58,6 +58,12 @@ public class LoginController {
 		if (loginResult.isLogin()) {
 			//セッションにuser登録
 			session.setAttribute("user", loginResult.getLoginUser());
+			
+			 int authNo = loginResult.getLoginUser().getAuthNo();
+			//権限者の場合
+			  if (authNo != 99) {
+		            return "topMenu";
+		        }
 
 			// 一覧へリダイレクト
 			return "redirect:/index";
