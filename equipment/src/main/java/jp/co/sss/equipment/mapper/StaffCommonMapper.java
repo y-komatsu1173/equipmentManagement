@@ -35,5 +35,9 @@ public interface StaffCommonMapper {
 	 */
 	AuthMaster authFindById(Integer authNo);
 	
+	/*
+	 * ID検索・重複チェック
+	 */
+	List<StaffData> allIdFind();
 	
 }
