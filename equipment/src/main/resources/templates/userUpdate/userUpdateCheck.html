@@ -51,7 +51,15 @@
 				</div>
 			</form>
 
-			<form th:action="@{/user/update/input/{staffNo}(staffNo=${userForm.staffNo})}" method="get">
+			<!--戻る-->
+			<form th:action="@{/user/update/input}" method="post" th:object="${userForm}">
+				<input type="hidden" th:field="*{staffNo}">
+				<input type="hidden" th:field="*{name}">
+				<input type="hidden" th:field="*{auth}">
+				<input type="hidden" th:field="*{oldStaffNo}">
+				<input type="hidden" th:field="*{password}">
+				<input type="hidden" th:field="*{currentPassword}">
+
 				<div class="button-area">
 					<button type="submit">戻る</button>
 				</div>
