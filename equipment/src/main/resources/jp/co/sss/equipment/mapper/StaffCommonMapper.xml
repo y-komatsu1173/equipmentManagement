@@ -57,5 +57,18 @@
 		FROM auth_master
 		WHERE auth_no = #{authNo}
 	</select>
+	
+		<!--スタッフ情報の取り出し -->
+	<select id="allIdFind"
+		resultType="jp.co.sss.equipment.entity.StaffData">
+		SELECT
+		staff_no AS staffNo,
+		name AS name,
+		password AS
+		password,
+		auth_no AS authNo,
+		del AS del
+		FROM staff_data
+	</select>
 
 </mapper>
