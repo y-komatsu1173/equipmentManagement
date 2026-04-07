@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<link rel="stylesheet" th:href="@{/css/common.css}">
+	<link rel="stylesheet" th:href="@{/css/equipment/search.css}">
+	<title>備品検索</title>
+</head>
+
+<body>
+	<div th:replace="~{common/layout :: header}"></div>
+
+	<main class="search-page">
+		<h1>備品検索</h1>
+
+		<form th:action="@{/equipment/search/view}" method="get" th:object="${searchForm}" class="search-form">
+			<div class="form-row">
+				<label>シリアル番号</label>
+				<input type="text" th:field="*{stockCode}">
+			</div>
+
+			<div class="form-row">
+				<label>備品名</label>
+				<input type="text" th:field="*{name}">
+			</div>
+
+			<div class="form-row">
+				<label>カテゴリ</label>
+				<select th:field="*{stockType}">
+					<option value="">-- 選択してください --</option>
+					<option th:each="type : ${categoryList}" th:value="${type.stockType}" th:text="${type.name}">
+					</option>
+				</select>
+			</div>
+
+			<div class="form-row">
+				<label>状態</label>
+				<select th:field="*{status}">
+					<option value="">-- 選択してください --</option>
+					<option value="rent">貸出中</option>
+					<option value="stock">在庫</option>
+				</select>
+			</div>
+
+			<div class="form-row">
+				<label>所有区分</label>
+				<select th:field="*{ownershipType}">
+					<option value="">-- 選択してください --</option>
+					<option value="1">会社保有</option>
+					<option value="2">リース品</option>
+				</select>
+			</div>
+
+			<div class="button-area">
+				<button type="submit">検索</button>
+			</div>
+		</form>
+
+		<div th:if="${resultList != null}" class="search-result">
+			<h2>検索結果</h2>
+
+			<p class="no-result" th:if="${#lists.isEmpty(resultList)}">
+				検索結果はありません
+			</p>
+
+			<div class="table-container" th:if="${not #lists.isEmpty(resultList)}">
+				<table class="result-table">
+					<tr>
+						<th>シリアル番号</th>
+						<th>備品名</th>
+						<th>カテゴリ</th>
+						<th>状態</th>
+						<th>所有区分</th>
+					</tr>
+
+					<tr th:each="item : ${resultList}">
+						<td>
+							<a th:text="${item.stockCode}"
+							   th:href="@{/individual/detail(serialNo=${item.stockCode})}">
+							</a>
+						</td>
+						<td th:text="${item.name}"></td>
+						<td th:text="${item.categoryName}"></td>
+						<td th:text="${item.statusName}"></td>
+						<td th:text="${item.ownershipTypeName}"></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+	</main>
+
+</body>
+
+</html>
