@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+ <mapper namespace="jp.co.sss.equipment.mapper.EquipmentSearchMapper">
+ 
+ <select id="search" parameterType="jp.co.sss.equipment.form.EquipmentSearchForm"
+        resultType="jp.co.sss.equipment.dto.EquipmentSearchDto">
+
+    SELECT
+        sm.stock_code AS stockCode,
+        sm.name AS name,
+        stm.name AS categoryName,
+        CASE
+            WHEN sd.staff_no IS NOT NULL AND sd.return_date IS NULL THEN '貸出中'
+            ELSE '在庫'
+        END AS statusName,
+        CASE
+            WHEN sm.ownership_type = 1 THEN '会社保有'
+            WHEN sm.ownership_type = 2 THEN 'リース品'
+            ELSE ''
+        END AS ownershipTypeName
+    FROM stock_master sm
+    INNER JOIN stock_type_master stm
+        ON sm.stock_type = stm.stock_type
+    LEFT JOIN stock_data sd
+        ON sm.stock_code = sd.stock_code
+        AND sd.return_date IS NULL
+        AND sd.del = false
+    <where>
+        sm.del = false
+
+        <if test="stockCode != null and stockCode != ''">
+            AND sm.stock_code LIKE CONCAT('%', #{stockCode}, '%')
+        </if>
+
+        <if test="name != null and name != ''">
+            AND sm.name LIKE CONCAT('%', #{name}, '%')
+        </if>
+
+        <if test="stockType != null">
+            AND sm.stock_type = #{stockType}
+        </if>
+
+        <if test="status == 'rent'">
+            AND sd.staff_no IS NOT NULL
+        </if>
+
+        <if test="status == 'stock'">
+            AND sd.staff_no IS NULL
+        </if>
+
+        <if test="ownershipType != null">
+            AND sm.ownership_type = #{ownershipType}
+        </if>
+
+    </where>
+    ORDER BY sm.stock_code
+</select>
+
+</mapper>
