@@ -24,4 +24,8 @@ public class EquipmentSearchDto {
     /**リース分別*/
     private String ownershipTypeName;
     
+    /**棚卸しで使用*/
+    /**棚卸し用確認フラグ*/
+    private boolean checked;
+    
 }
