@@ -31,9 +31,11 @@ public class InventoryController {
 	@GetMapping("equipment/inventory")
 	public String inventoryView(@ModelAttribute("searchForm") EquipmentSearchForm form,
 	        Model model) {
-
+		
+		// カテゴリのリストを取得してモデルに追加
 	    model.addAttribute("categoryList", equipmentCommonService.categoryFind());
 
+	    // いずれかの検索条件が入力されているかをチェック
 	    boolean hasCondition =
 	            (form.getStockCode() != null && !form.getStockCode().isBlank()) ||
 	            (form.getName() != null && !form.getName().isBlank()) ||
@@ -41,6 +43,7 @@ public class InventoryController {
 	            (form.getStatus() != null && !form.getStatus().isBlank()) ||
 	            form.getOwnershipType() != null;
 
+	    // いずれかの検索条件が入力されている場合に検索を実行
 	    if (hasCondition) {
 	        List<EquipmentSearchDto> resultList = equipmentSearchService.search(form);
 	        model.addAttribute("resultList", resultList);
