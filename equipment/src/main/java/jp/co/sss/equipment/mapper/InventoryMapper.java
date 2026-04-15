@@ -8,4 +8,10 @@ import org.apache.ibatis.annotations.Mapper;
 @Mapper
 public interface InventoryMapper {
 
+	/**
+	 * 最終確認日の更新
+	 * @param stockCode
+	 */
+	void updateConfirmDate(String stockCode);
+
 }
