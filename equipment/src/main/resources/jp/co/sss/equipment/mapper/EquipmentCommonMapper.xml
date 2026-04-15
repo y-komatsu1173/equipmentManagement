@@ -2,9 +2,10 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <!-- mapperインターフェスと修飾名を一致させる -->
-<mapper namespace="jp.co.sss.equipment.mapper.EquipmentCommonMapper">
+<mapper
+	namespace="jp.co.sss.equipment.mapper.EquipmentCommonMapper">
 
-<!-- 在庫種別マスタ全件取得 -->
+	<!-- 在庫種別マスタ全件取得 -->
 	<select id="categoryFind"
 		resultType="jp.co.sss.equipment.entity.StockTypeMaster">
 		SELECT
@@ -16,7 +17,7 @@
 		FROM stock_type_master
 	</select>
 
-<!-- カテゴリ名検索 -->
+	<!-- カテゴリ名検索 -->
 	<select id="findByCategoryId"
 		resultType="jp.co.sss.equipment.entity.StockTypeMaster">
 		SELECT
@@ -30,5 +31,24 @@
 		WHERE
 		stock_type = #{categoryId}
 	</select>
-	
-	</mapper>
+
+	<!-- 備品全取得（棚卸し用） -->
+	<select id="equipmentAllFind" parameterType="java.lang.Integer"
+		resultType="jp.co.sss.equipment.dto.EquipmentSearchDto">
+
+		SELECT
+		parent_stock_code AS stockCode,
+		product_name AS name,
+		equipment_name AS categoryName,
+		rent_flag AS statusName,
+		confirmed_date AS confirmedDate,
+		ownership_type AS ownershipTypeName
+		FROM equip_detail_view
+		WHERE del_flag = 0
+		<if test="_parameter != null">
+			AND stock_type = #{value}
+		</if>
+		ORDER BY parent_stock_code
+
+	</select>
+</mapper>
