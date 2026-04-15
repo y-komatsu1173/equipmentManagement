@@ -1,10 +1,97 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
+
 <head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
+	<meta charset="UTF-8">
+	<title>棚卸し</title>
 </head>
+
 <body>
+
+	<h1>棚卸し</h1>
+
+	<p>棚卸日：<span th:text="${#temporals.format(T(java.time.LocalDate).now(), 'yyyy/MM/dd')}"></span></p>
+
+	<form th:action="@{/equipment/inventory}" method="get" th:object="${searchForm}">
+		<div>
+			<label>シリアル：</label>
+			<input type="text" th:field="*{stockCode}">
+		</div>
+
+		<div>
+			<label>備品名：</label>
+			<input type="text" th:field="*{name}">
+		</div>
+
+		<div>
+			<label>カテゴリ：</label>
+			<select th:field="*{stockType}">
+				<option value="">--選択--</option>
+				<option th:each="c : ${categoryList}"
+					th:value="${c.stockType}"
+					th:text="${c.name}">
+				</option>
+			</select>
+		</div>
+
+		<div>
+			<label>状態：</label>
+			<select th:field="*{status}">
+				<option value="">--選択--</option>
+				<option value="在庫">在庫</option>
+				<option value="貸出中">貸出中</option>
+			</select>
+		</div>
+
+		<div>
+			<label>所有区分：</label>
+			<select th:field="*{ownershipType}">
+				<option value="">--選択--</option>
+				<option value="1">会社所有</option>
+				<option value="2">リース</option>
+			</select>
+		</div>
+
+		<button type="submit">検索</button>
+		<button type="reset">クリア</button>
+	</form>
+
+	<hr>
+
+	<form th:action="@{/inventory/check}" method="post" th:object="${inventoryForm}">
+		<table border="1">
+			<tr>
+				<th>確認</th>
+				<th>シリアル</th>
+				<th>備品名</th>
+				<th>カテゴリ</th>
+				<th>状態</th>
+				<th>所有区分</th>
+			</tr>
+
+			<tr th:each="item, stat : *{inventoryList}">
+				<td>
+					<input type="checkbox" th:field="*{inventoryList[__${stat.index}__].checked}">
+				</td>
+
+				<td>
+					<span th:text="${item.stockCode}"></span>
+					<input type="hidden" th:field="*{inventoryList[__${stat.index}__].stockCode}">
+				</td>
+
+				<td th:text="${item.name}"></td>
+				<td th:text="${item.categoryName}"></td>
+				<td th:text="${item.statusName}"></td>
+				<td th:text="${item.ownershipTypeName}"></td>
+			</tr>
+		</table>
+
+		<p th:if="${inventoryForm != null}">
+			対象件数：<span th:text="${#lists.size(inventoryForm.inventoryList)}"></span>
+		</p>
+
+		<button type="submit">更新確認</button>
+	</form>
 
 </body>
 </html>
