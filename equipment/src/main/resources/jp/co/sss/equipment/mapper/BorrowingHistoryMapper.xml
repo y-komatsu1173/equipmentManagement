@@ -101,6 +101,10 @@
 				)
 			</if>
 
+			<if test="staffNo != null">
+				AND staff_no = #{staffNo}
+			</if>
+
 		</where>
 
 		<!-- デフォルト返却日DESC＋動的ソート -->
