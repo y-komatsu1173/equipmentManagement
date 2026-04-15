@@ -1,12 +1,30 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
 
 <head>
 	<meta charset="UTF-8">
+	<link rel="stylesheet" th:href="@{/css/common.css}">
 	<title>棚卸完了</title>
 </head>
 
 <body>
+	<div th:replace="~{common/layout :: header}"></div>
+
+	<main class="complete-container">
+		<h1>棚卸完了</h1>
+
+		<p>棚卸し処理が正常に完了しました。</p>
+
+		<div class="button-area">
+			<a th:href="@{/equipment/inventory}">
+				棚卸し画面へ戻る
+			</a>
+
+			<a th:href="@{/index}">
+				メニューへ戻る
+			</a>
+		</div>
+	</main>
 
 </body>
 
