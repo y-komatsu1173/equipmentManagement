@@ -18,11 +18,14 @@ public class EquipmentSearchDto {
     /**カテゴリ*/
     private String categoryName;
     
-    /**貸出画面*/
+    /**貸出状態*/
     private String statusName;
     
     /**リース分別*/
     private String ownershipTypeName;
+    
+    /**最終所在確認*/
+	private String confirmedDate;
     
     /**棚卸しで使用*/
     /**棚卸し用確認フラグ*/
