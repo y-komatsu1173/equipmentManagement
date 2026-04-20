@@ -21,10 +21,10 @@
 
 				<input type="hidden" th:field="*{oldStaffNo}">
 
-				<div class="form-row" th:if="${session.user.staffNo == userForm.oldStaffNo}">
-					<label for="staffNo">ID</label>
-					<input type="text" id="staffNo" th:field="*{staffNo}">
-					<div th:if="${#fields.hasErrors('staffNo')}" th:errors="*{staffNo}" class="error-message"></div>
+				<div class="form-row">
+				    <label>ID</label>
+				    <span th:text="*{staffNo}"></span>
+				    <input type="hidden" th:field="*{staffNo}" />
 				</div>
 
 				<div class="form-row" th:if="${session.user.staffNo != userForm.oldStaffNo}">
