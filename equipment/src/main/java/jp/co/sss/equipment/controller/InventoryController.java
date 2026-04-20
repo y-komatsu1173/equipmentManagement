@@ -64,6 +64,8 @@ public class InventoryController {
 	    model.addAttribute("resultList", resultList);
 	    model.addAttribute("inventoryForm", inventoryForm);
 
+	    System.out.println(resultList);
+
 	    return "inventory/inventoryView";
 	}
 
