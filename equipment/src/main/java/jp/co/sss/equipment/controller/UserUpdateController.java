@@ -90,15 +90,12 @@ public class UserUpdateController {
 			return "userUpdate/userUpdateInput";
 		}
 
-		// 元のIDと変更後IDを比較
-		if (staffCommonService.isDuplicateStaffNo(
-				updateForm.getOldStaffNo(),
-				updateForm.getStaffNo())) {
-
-			result.rejectValue("staffNo", null, "このIDはすでに使用されています");
-			return "userUpdate/userUpdateInput";
+		// ID変更チェック
+		if (!updateForm.getOldStaffNo().equals(updateForm.getStaffNo())) {
+		    result.rejectValue("staffNo", null, "IDは変更できません");
+		    return "userUpdate/userUpdateInput";
 		}
-
+		
 		// ログインユーザー取得
 		StaffData loginUser = (StaffData) session.getAttribute("user");
 
