@@ -78,6 +78,7 @@ public class BeanCopy {
 		form.setOldStaffNo(staffData.getStaffNo());
 		form.setStaffNo(staffData.getStaffNo());
 		form.setName(staffData.getName());
+		form.setMail(staffData.getMail());
 		form.setPassword(staffData.getPassword());
 		form.setAuth(staffData.getAuthNo());
 		return form;
