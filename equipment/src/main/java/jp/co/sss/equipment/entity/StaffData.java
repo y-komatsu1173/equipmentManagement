@@ -18,6 +18,9 @@ public class StaffData {
 	
 	/*パスワード*/
 	private String password;
+	
+	/*メールアドレス*/
+	private String mail;
 
 	/*権限*/
 	private Integer authNo;
