@@ -9,6 +9,7 @@
 		SET
 		staff_no = #{staffNo},
 		name = #{name},
+		mail = #{mail},
 		auth_no = #{auth},
 		password =
 		#{password}
