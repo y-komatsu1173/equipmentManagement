@@ -58,7 +58,8 @@
 
 	<!-- 返却後に新しく貸出可能にする　削除済みは不可 -->
 	<insert id="insertRebornStock" parameterType="int">
-		INSERT INTO stock_data (
+		INSERT INTO
+		stock_data (
 		stock_code,
 		parent_stock_code,
 		staff_no,
@@ -78,10 +79,35 @@
 		NOW(),
 		0
 		FROM stock_data sd
-		INNER JOIN stock_master sm
+		INNER JOIN
+		stock_master sm
 		ON sd.stock_code = sm.stock_code
 		WHERE sd.id = #{id}
-		AND sm.del = 0
+		AND
+		sm.del = 0
 	</insert>
+
+	<!--返却期限が過ぎた備品を取得 -->
+	<select id="equipmentReturnOver"
+		resultType="jp.co.sss.equipment.dto.DetailListViewDto">
+		SELECT
+		edv.equipment_name AS equipmentName,
+		edv.parent_stock_code AS parentStockCode,
+		edv.staff_name AS staffName,
+		edv.rent_flag AS rentFlag,
+		edv.start_date AS startDate,
+		edv.limit_date AS limitDate,
+		edv.confirmed_date AS confirmedDate,
+		edv.remarks AS remarks,
+		edv.equipment_id AS equipmentId,
+		edv.staff_no AS staffNo,
+		sd.mail AS mail
+		FROM equip_detail_view edv
+		JOIN staff_data sd
+		ON edv.staff_no = sd.staff_no
+		WHERE
+		edv.rent_flag = '貸出中'
+		AND edv.limit_date &lt; CURDATE()
+	</select>
 
 </mapper>
