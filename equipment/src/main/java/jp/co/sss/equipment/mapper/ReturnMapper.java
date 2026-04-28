@@ -23,4 +23,7 @@ public interface ReturnMapper {
 	
 	//貸出可能のする 返却されたシリアルナンバーを新しくid生成
 	void insertRebornStock(Integer id);
+	
+	//期限切れの備品を取得
+	List<DetailListViewDto> equipmentReturnOver();
 }
