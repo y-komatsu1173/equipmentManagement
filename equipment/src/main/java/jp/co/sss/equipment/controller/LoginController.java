@@ -17,6 +17,7 @@ import jp.co.sss.equipment.form.LoginForm;
 import jp.co.sss.equipment.service.IndexService;
 import jp.co.sss.equipment.service.LoginResult;
 import jp.co.sss.equipment.service.LoginService;
+import jp.co.sss.equipment.service.OtpAuthService;
 
 /**
  * ログイン処理
@@ -31,6 +32,9 @@ public class LoginController {
 
 	@Autowired
 	IndexService indexService;
+	
+	@Autowired
+	OtpAuthService otpAuthService;
 
 	/**
 	 * ログイン画面の表示
