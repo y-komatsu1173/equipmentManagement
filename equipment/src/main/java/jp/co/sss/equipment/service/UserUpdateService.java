@@ -17,17 +17,25 @@ public class UserUpdateService {
 
 	@Autowired
 	UserUpdateMapper userUpdateMapper;
-	
+
 	@Autowired
 	StaffCommonMapper staffCommonMapper;
+
 	/**
 	 * 更新処理
 	 * @param updateForm
 	 */
 	public int userUpdate(UserForm updateForm) {
+
+		// 新しいパスワードが未入力なら、DBの既存パスワードを保持する
+		if (updateForm.getPassword() == null || updateForm.getPassword().isBlank()) {
+			StaffData dbUser = staffCommonMapper.staffFindIndividual(updateForm.getOldStaffNo());
+			updateForm.setPassword(dbUser.getPassword());
+		}
+
 		return userUpdateMapper.userUpdate(updateForm);
 	}
-	
+
 	/**
 	 * パスワードチェック
 	 * @param form
@@ -64,18 +72,16 @@ public class UserUpdateService {
 		}
 
 		// 確認パスワード未入力
-				if (form.getCheckPassword() == null || form.getCheckPassword().isEmpty()) {
-					dto.setCheckPasswordRequired(true);
-				}
+		if (form.getCheckPassword() == null || form.getCheckPassword().isEmpty()) {
+			dto.setCheckPasswordRequired(true);
+		}
 
-				// 確認パスワード不一致
-				else if (!form.getPassword().equals(form.getCheckPassword())) {
-					dto.setCheckPasswordInvalid(true);
-				}
+		// 確認パスワード不一致
+		else if (!form.getPassword().equals(form.getCheckPassword())) {
+			dto.setCheckPasswordInvalid(true);
+		}
 
-				return dto;
+		return dto;
 	}
-	
-	
 
 }
