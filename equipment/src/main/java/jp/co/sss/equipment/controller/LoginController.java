@@ -96,4 +96,13 @@ public class LoginController {
 		//index.htmlへ遷移
 		return "redirect:/";
 	}
+	
+	/**
+	 * ワンタイムパスコード入力画面
+	 */
+	@PostMapping("oneTime")
+	public String onetime() {
+		return "onetime";
+	}
+	
 }
