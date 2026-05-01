@@ -38,7 +38,7 @@ public class OtpAuthService {
 	 * OTPを生成しDBへ保存
 	 * 再送時は上書き更新
 	 */
-	public void issueOtp(String staffNo, String mail) {
+	public void issueOtp(Integer staffNo, String mail) {
 		
 		//6桁のOTPを生成
 		String otp = String.valueOf(100000 + rand.nextInt(900000));
@@ -77,10 +77,10 @@ public class OtpAuthService {
 	/**
 	 *入力されたOTPを検証
 	 */
-	public boolean verifyOtp(String staffNo, String inputOtp) {
+	public boolean verifyOtp(Integer integer, String inputOtp) {
 		
 		//OTPの取得
-		OtpAuth otpAuth = otpAuthMapper.findByStaffNo(staffNo);
+		OtpAuth otpAuth = otpAuthMapper.findByStaffNo(integer);
 		
 		if(otpAuth == null) {
 			return false;
@@ -102,12 +102,12 @@ public class OtpAuthService {
 		
 		if(match) {
 			//認証成功後は再利用防止のため削除
-			otpAuthMapper.delete(staffNo);
+			otpAuthMapper.delete(integer);
 			return true;
 		}
 		
 		//認証失敗時は回数を増やす
-		otpAuthMapper.incrementAttempt(staffNo);
+		otpAuthMapper.incrementAttempt(integer);
 		return false;
 	}
 	
