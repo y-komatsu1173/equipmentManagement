@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<title>ワンタイムパスコード入力</title>
+</head>
+
+<body>
+
+	<h2>ワンタイムパスコード入力</h2>
+
+	<!-- エラーメッセージ -->
+	<div style="color:red;" th:if="${error}" th:text="${error}"></div>
+
+	<form th:action="@{/otpCheck}" method="post">
+		<label>コード：</label>
+		<input type="text" name="otp" required>
+		<button type="submit">認証</button>
+	</form>
+
+</body>
+
+</html>
