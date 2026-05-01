@@ -12,7 +12,7 @@ import lombok.Data;
 public class OtpAuth {
 
 	/** ユーザーID(社員番号) */
-	private String staffNo;
+	private Integer staffNo;
 	
 	/** OPTのハッシュ値 */
 	private String otpHash;
