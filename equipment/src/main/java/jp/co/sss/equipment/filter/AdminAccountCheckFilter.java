@@ -32,6 +32,26 @@ public class AdminAccountCheckFilter extends HttpFilter {
 			return;
 		}
 
+		//完了画面はフィルターを追加
+		if (requestURI.contains("/complete") && requestMethod.equals("GET")) {
+		    chain.doFilter(request, response);
+		    return;
+
+		}
+
+	
+		if (path.equals("/")
+		        || path.equals("/login")
+		        || path.equals("/logout")
+		        || path.equals("/oneTime")
+		        || path.equals("/otpCheck")
+		        || path.startsWith("/css/")
+		        || path.startsWith("/js/")
+		        || path.startsWith("/images/")) {
+		    chain.doFilter(request, response);
+		    return;
+
+		}
 		//セッションユーザー情報を取得
 		HttpSession session = request.getSession(false);
 		if (session == null || session.getAttribute("user") == null) {
