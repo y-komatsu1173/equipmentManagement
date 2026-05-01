@@ -14,7 +14,7 @@ public interface OtpAuthMapper {
 	/**
 	 * ユーザーIDで取得
 	 */
-	OtpAuth findByStaffNo(@Param("staffNo")String staffNo);
+	OtpAuth findByStaffNo(@Param("staffNo")Integer staffNo);
 	
 	/**
 	 * 登録
@@ -29,10 +29,10 @@ public interface OtpAuthMapper {
 	/**
 	 * 削除
 	 */
-	int delete(@Param("staffNo")String staffNo);
+	int delete(@Param("staffNo")Integer staffNo);
 	
 	/**
 	 * 始業回数インクリメント
 	 */
-	int incrementAttempt(@Param("staffNo")String staffNo);
+	int incrementAttempt(@Param("staffNo")Integer staffNo);
 }
