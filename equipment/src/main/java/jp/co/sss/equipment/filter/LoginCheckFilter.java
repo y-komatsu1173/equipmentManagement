@@ -20,13 +20,19 @@ public class LoginCheckFilter extends HttpFilter {
 	public void doFilter(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
 			throws IOException, ServletException {
 
+//		String uri = request.getRequestURI();
+//		String ctx = request.getContextPath();
+//		String path = request.getRequestURI();
 		String uri = request.getRequestURI();
 		String ctx = request.getContextPath();
-		String path = request.getRequestURI();
+		String path = uri.substring(ctx.length());
 
 		//ログインページを外す
 		if (path.equals("/")
 				|| path.equals("/login")
+				 || path.equals("/logout")
+				|| path.equals("/oneTime")
+				|| path.equals("/otpCheck")
 				|| path.startsWith("/css/")
 				|| path.startsWith("/js/")
 				|| path.startsWith("/images/")) {
