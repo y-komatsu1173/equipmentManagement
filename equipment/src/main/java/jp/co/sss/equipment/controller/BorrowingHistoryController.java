@@ -55,8 +55,6 @@ public class BorrowingHistoryController {
 		List<StockTypeMaster> categoryList = equipmentCommonService.categoryFind();
 
 		//履歴確認
-		
-
 		model.addAttribute("historyList", historyList);
 		model.addAttribute("categoryList", categoryList);
 		model.addAttribute("form", form);
