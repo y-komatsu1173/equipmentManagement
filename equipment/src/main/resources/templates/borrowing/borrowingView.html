@@ -105,7 +105,12 @@
 								<input type="date" th:name="|limitDateMap[${item.equipmentId}]|" th:value="${prevLimitDateMap != null and prevLimitDateMap[item.equipmentId.toString()] != null
 					                     ? prevLimitDateMap[item.equipmentId.toString()]
 					                     : defaultLimit}">
+
+								<!-- リース返却日をServiceへ送る -->
+								<input type="hidden" th:name="|leaseReturnDate[${item.equipmentId}]|"
+									th:value="${item.leaseReturnDate}">
 							</td>
+
 
 							<!-- 備考 -->
 							<td class="col-remarks">
