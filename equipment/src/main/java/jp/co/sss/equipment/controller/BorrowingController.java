@@ -1,6 +1,5 @@
 package jp.co.sss.equipment.controller;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -28,7 +27,7 @@ import jp.co.sss.equipment.util.DateUtil;
 public class BorrowingController {
 	@Autowired //DIの導入
 	BorrowingService borrowingService;
-	
+
 	@Autowired
 	StaffCommonService staffCommonService;
 
@@ -68,66 +67,49 @@ public class BorrowingController {
 	 */
 	@PostMapping("/borrowing/process")
 	public String borrowingProcess(
-	        @RequestParam(value = "equipmentIdList", required = false) List<Integer> equipmentIdList,
-	        @RequestParam Map<String, String> allParams, // 全てのパラメータを受け取る
-	        @RequestParam String name,
-	        RedirectAttributes redirectAttributes) {
+			@RequestParam(value = "equipmentIdList", required = false) List<Integer> equipmentIdList,
+			@RequestParam Map<String, String> allParams, // 全てのパラメータを受け取る
+			@RequestParam String name,
+			RedirectAttributes redirectAttributes) {
 
-	    // キーを "prefix[ID]" から "ID" だけに変換する
-	    Map<String, String> staffNoMap = extractIdMap(allParams, "staffNoMap");
-	    Map<String, String> startDateMap = extractIdMap(allParams, "startDateMap");
-	    Map<String, String> limitDateMap = extractIdMap(allParams, "limitDateMap");
-	    Map<String, String> serialMap = extractIdMap(allParams, "serialMap");
+		// キーを "prefix[ID]" から "ID" だけに変換する
+		Map<String, String> staffNoMap = borrowingService.extractIdMap(allParams, "staffNoMap");
+		Map<String, String> startDateMap = borrowingService.extractIdMap(allParams, "startDateMap");
+		Map<String, String> limitDateMap = borrowingService.extractIdMap(allParams, "limitDateMap");
+		Map<String, String> serialMap = borrowingService.extractIdMap(allParams, "serialMap");
 
-	    //サービス層でのバリデーション
-	    BorrowingValidationResult result = borrowingService.validateBorrowing(
-	            equipmentIdList, serialMap, staffNoMap, startDateMap, limitDateMap);
+		//サービス層でのバリデーション
+		BorrowingValidationResult result = borrowingService.validateBorrowing(
+				equipmentIdList, serialMap, staffNoMap, startDateMap, limitDateMap);
 
-	    // エラーがある場合、リダイレクトしてエラーメッセージを表示
-	    if (!result.getErrorMessages().isEmpty()) {
-	        redirectAttributes.addFlashAttribute("errorMessages", result.getErrorMessages());
-	        redirectAttributes.addFlashAttribute("errorEquipmentIds", result.getErrorEquipmentIds());
-	        redirectAttributes.addFlashAttribute("normalEquipmentIds", result.getNormalEquipmentIds());
-	        redirectAttributes.addFlashAttribute("warningEquipmentIds", result.getWarningEquipmentIds());
-	        // 入力値を保持
-	        redirectAttributes.addFlashAttribute("prevStaffNoMap", staffNoMap);
-	        redirectAttributes.addFlashAttribute("prevStartDateMap", startDateMap);
-	        redirectAttributes.addFlashAttribute("prevLimitDateMap", limitDateMap);
-	        redirectAttributes.addFlashAttribute("prevEquipmentIdList", equipmentIdList);
+		// エラーがある場合、リダイレクトしてエラーメッセージを表示
+		if (!result.getErrorMessages().isEmpty()) {
+			redirectAttributes.addFlashAttribute("errorMessages", result.getErrorMessages());
+			redirectAttributes.addFlashAttribute("errorEquipmentIds", result.getErrorEquipmentIds());
+			redirectAttributes.addFlashAttribute("normalEquipmentIds", result.getNormalEquipmentIds());
+			redirectAttributes.addFlashAttribute("warningEquipmentIds", result.getWarningEquipmentIds());
+			// 入力値を保持
+			redirectAttributes.addFlashAttribute("prevStaffNoMap", staffNoMap);
+			redirectAttributes.addFlashAttribute("prevStartDateMap", startDateMap);
+			redirectAttributes.addFlashAttribute("prevLimitDateMap", limitDateMap);
+			redirectAttributes.addFlashAttribute("prevEquipmentIdList", equipmentIdList);
 
-	        redirectAttributes.addAttribute("name", name);
-	        return "redirect:/borrowing/view";
-	    }
+			redirectAttributes.addAttribute("name", name);
+			return "redirect:/borrowing/view";
+		}
 
-	    try {
-	    	//貸出処理の実行
-	        borrowingService.borrowingEquipment(equipmentIdList, staffNoMap, startDateMap, limitDateMap);
-	        redirectAttributes.addFlashAttribute("updateMessage", "貸出処理が完了しました。");
-	    } catch (IllegalStateException e) { 
-	    	//エラーが発生した場合の処理
-	        redirectAttributes.addFlashAttribute("errorMessages", List.of("他のブラウザで更新されました。"));
-	        redirectAttributes.addAttribute("name", name);
-	        return "redirect:/borrowing/view";
-	    }
+		try {
+			//貸出処理の実行
+			borrowingService.borrowingEquipment(equipmentIdList, staffNoMap, startDateMap, limitDateMap);
+			redirectAttributes.addFlashAttribute("updateMessage", "貸出処理が完了しました。");
+		} catch (IllegalStateException e) {
+			//エラーが発生した場合の処理
+			redirectAttributes.addFlashAttribute("errorMessages", List.of("他のブラウザで更新されました。"));
+			redirectAttributes.addAttribute("name", name);
+			return "redirect:/borrowing/view";
+		}
 
-	    redirectAttributes.addAttribute("name", name);
-	    return "redirect:/borrowing/view";
-	}
-
-	// キーを洗浄する補助メソッド[]をとる
-	//→@RequestParam Map<String, String> allParamsで受け取ったパラメータの中から、特定のプレフィックスを持つキーを抽出し、ID部分だけをキーとして新しいマップを作成するため
-	private Map<String, String> extractIdMap(Map<String, String> params, String prefix) {
-	    // 結果を格納するマップ
-		Map<String, String> resultMap = new HashMap<>();
-	    // 全てのパラメータをループ
-	    params.forEach((k, v) -> {
-	    	// prefix + "[" で始まるキーを探す
-	        if (k.startsWith(prefix + "[")) {
-	        	// キーからID部分を抽出して新しいマップに追加
-	            String id = k.substring(prefix.length() + 1, k.length() - 1);
-	            resultMap.put(id, v);
-	        }
-	    });
-	    return resultMap;
+		redirectAttributes.addAttribute("name", name);
+		return "redirect:/borrowing/view";
 	}
 }
