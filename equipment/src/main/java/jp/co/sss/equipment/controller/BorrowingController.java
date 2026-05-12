@@ -77,10 +77,11 @@ public class BorrowingController {
 		Map<String, String> startDateMap = borrowingService.extractIdMap(allParams, "startDateMap");
 		Map<String, String> limitDateMap = borrowingService.extractIdMap(allParams, "limitDateMap");
 		Map<String, String> serialMap = borrowingService.extractIdMap(allParams, "serialMap");
+		Map<String, String> leaseReturnDateMap = borrowingService.extractIdMap(allParams, "leaseReturnDate");
 
 		//サービス層でのバリデーション
 		BorrowingValidationResult result = borrowingService.validateBorrowing(
-				equipmentIdList, serialMap, staffNoMap, startDateMap, limitDateMap);
+				equipmentIdList, serialMap, staffNoMap, startDateMap, limitDateMap, leaseReturnDateMap);
 
 		// エラーがある場合、リダイレクトしてエラーメッセージを表示
 		if (!result.getErrorMessages().isEmpty()) {
@@ -100,7 +101,7 @@ public class BorrowingController {
 
 		try {
 			//貸出処理の実行
-			borrowingService.borrowingEquipment(equipmentIdList, staffNoMap, startDateMap, limitDateMap);
+			borrowingService.borrowingEquipment(equipmentIdList, staffNoMap, startDateMap, limitDateMap, leaseReturnDateMap);
 			redirectAttributes.addFlashAttribute("updateMessage", "貸出処理が完了しました。");
 		} catch (IllegalStateException e) {
 			//エラーが発生した場合の処理
@@ -110,6 +111,8 @@ public class BorrowingController {
 		}
 
 		redirectAttributes.addAttribute("name", name);
+		System.out.println(leaseReturnDateMap);
+		System.out.println("leaseReturnDateMap=" + leaseReturnDateMap);
 		return "redirect:/borrowing/view";
 	}
 }
