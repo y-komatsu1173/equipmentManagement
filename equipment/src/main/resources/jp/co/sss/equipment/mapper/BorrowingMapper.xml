@@ -20,7 +20,8 @@
 		limit_date AS
 		limitDate,
 		confirmed_date AS confirmedDate,
-		remarks AS remarks
+		remarks AS remarks,
+		lease_return_date AS leaseReturnDate
 		FROM
 		equip_detail_view
 		WHERE
