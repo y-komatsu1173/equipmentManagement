@@ -1,6 +1,7 @@
 package jp.co.sss.equipment.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,6 +21,9 @@ public class UserRegistService {
 
 	@Autowired
 	StaffCommonMapper staffCommonMapper;
+	
+	@Autowired
+	PasswordEncoder passwordEncoder;
 
 	/**
 	 *ユーザー登録処理
@@ -28,8 +32,16 @@ public class UserRegistService {
 	public void userRegistInsert(UserForm registform) {
 		//formからentityへコピー
 		StaffData staffData = BeanCopy.userCopyEntity(registform);
+		
+		//入力されたパスワードをハッシュ化
+		String hashPassword = passwordEncoder.encode(staffData.getPassword());
+		
+		//ハッシュ化したパスワードをentityにセット
+		staffData.setPassword(hashPassword);
+		
 		//論理削除フラグを0に
 		staffData.setDel("0");
+		
 		//登録
 		userRegistMapper.userRegistInsert(staffData);
 	}
