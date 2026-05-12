@@ -3,21 +3,45 @@
 
 <head>
 	<meta charset="UTF-8">
+	<link rel="stylesheet" th:href="@{/css/common.css}">
+	<link rel="stylesheet" th:href="@{/css/otpLayout.css}">
 	<title>ワンタイムパスコード入力</title>
 </head>
 
 <body>
+	<div th:replace="~{common/layout :: header}"></div>
 
-	<h2>ワンタイムパスコード入力</h2>
+	<div class="otp-container">
 
-	<!-- エラーメッセージ -->
-	<div style="color:red;" th:if="${error}" th:text="${error}"></div>
+		<div class="otp-card">
 
-	<form th:action="@{/otpCheck}" method="post">
-		<label>コード：</label>
-		<input type="text" name="otp" required>
-		<button type="submit">認証</button>
-	</form>
+			<h2>ワンタイムパスコード入力</h2>
+
+			<p class="otp-description">
+				登録メールアドレスへ送信されたコードを入力してください。
+			</p>
+
+			<!-- エラーメッセージ -->
+			<div class="error-message" th:if="${error}" th:text="${error}">
+			</div>
+
+			<form th:action="@{/otpCheck}" method="post">
+
+				<div class="form-group">
+					<label for="otp">認証コード</label>
+
+					<input type="text" id="otp" name="otp" maxlength="6" autocomplete="one-time-code" required>
+				</div>
+
+				<button type="submit" class="otp-button">
+					認証
+				</button>
+
+			</form>
+
+		</div>
+
+	</div>
 
 </body>
 
