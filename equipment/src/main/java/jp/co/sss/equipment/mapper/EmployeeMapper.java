@@ -19,4 +19,8 @@ public interface EmployeeMapper {
 	 */
 	StaffData findByEmpIdAndEmpPass(@Param(value = "empId") Integer empId, @Param(value = "empPass") String empPass);
 
+	/**
+	 * ハッシュ化したパスワード検索
+	 */
+	StaffData findByEmpId(Integer empId);
 }
