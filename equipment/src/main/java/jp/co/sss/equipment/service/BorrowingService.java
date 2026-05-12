@@ -59,7 +59,8 @@ public class BorrowingService {
 			Map<String, String> serialMap,
 			Map<String, String> staffNoMap,
 			Map<String, String> startDateMap,
-			Map<String, String> limitDateMap) {
+			Map<String, String> limitDateMap,
+			Map<String, String> leaseReturnDateMap) {
 
 		List<String> errorMessages = new ArrayList<>(); // エラーメッセージ格納用
 		Set<Integer> errorEquipmentIds = new HashSet<>(); // エラー備品ID格納用
@@ -116,6 +117,19 @@ public class BorrowingService {
 				}
 			}
 
+			// リース返却日チェック
+			String leaseReturnStr = leaseReturnDateMap.get(key);
+
+			if (limitDate != null && leaseReturnStr != null && !leaseReturnStr.isBlank()) {
+
+				//日付チェック　返却日がリース返却日を超えていないか
+				LocalDate leaseReturnDate = LocalDate.parse(leaseReturnStr);
+
+				if (limitDate.isAfter(leaseReturnDate)) {
+					rowErrors.add("　リース返却日を超える返却予定日は選択できません");
+				}
+			}
+
 			// --- エラーまとめ ---
 			if (!rowErrors.isEmpty()) {
 				errorEquipmentIds.add(id);
@@ -142,7 +156,8 @@ public class BorrowingService {
 			List<Integer> equipmentIdList,
 			Map<String, String> staffNoMap,
 			Map<String, String> startDateMap,
-			Map<String, String> limitDateMap) {
+			Map<String, String> limitDateMap,
+			Map<String, String> leaseReturnDateMap) {
 		for (Integer id : equipmentIdList) {
 			// キーは ID そのもの（文字列）になっているはず
 			String key = id.toString();
@@ -151,6 +166,7 @@ public class BorrowingService {
 			String staffStr = staffNoMap.get(key);
 			String startStr = startDateMap.get(key);
 			String limitStr = limitDateMap.get(key);
+			String leaseReturnStr = leaseReturnDateMap.get(key);
 
 			// 未入力がある場合弾く
 			if (staffStr == null || staffStr.isBlank()
@@ -161,6 +177,15 @@ public class BorrowingService {
 
 			LocalDate start = LocalDate.parse(startStr);
 			LocalDate limit = LocalDate.parse(limitStr);
+
+			// リース返却日チェック
+
+			if (leaseReturnStr != null && !leaseReturnStr.isBlank()) {
+				LocalDate leaseReturnDate = LocalDate.parse(leaseReturnStr);
+				if (limit.isAfter(leaseReturnDate)) {
+					throw new IllegalArgumentException("リース返却日を超える返却予定日は設定できません");
+				}
+			}
 
 			if (!start.isAfter(limit)) {
 				int updateCount = borrowingMapper.borrowingUpdate(
