@@ -85,7 +85,6 @@ public class IndexController {
 
 		// 戻る用に備品名をセット
 		model.addAttribute("nameForBack", detail.getEquipmentName());
-
 		return "index/individualDetail";
 	}
 }
