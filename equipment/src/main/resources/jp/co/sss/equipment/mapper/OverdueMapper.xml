@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="jp.co.sss.equipment.mapper.OverdueMapper">
+
+	<!-- 返却期限切れ一覧 -->
+	<select id="returnExpiredList"
+		resultType="jp.co.sss.equipment.dto.OverdueListDto">
+
+		SELECT
+		sd.stock_code,
+		sm.name AS product_name,
+		stm.name AS category_name,
+
+		CASE
+		WHEN sm.ownership_type = 1 THEN '会社保有'
+		WHEN sm.ownership_type = 2 THEN 'リース品'
+		END AS ownership_type,
+
+		sd.limit_date AS return_date,
+		stf.name AS staff_name
+
+		FROM stock_data sd
+
+		INNER JOIN stock_master sm
+		ON sd.stock_code = sm.stock_code
+
+		INNER JOIN stock_type_master stm
+		ON sm.stock_type = stm.stock_type
+
+		LEFT JOIN staff_data stf
+		ON sd.staff_no = stf.staff_no
+
+		WHERE sd.staff_no IS NOT NULL
+		AND sd.return_date IS NULL
+		AND sd.limit_date &lt;= CURDATE()
+
+		ORDER BY sd.limit_date ASC
+	</select>
+
+</mapper>
