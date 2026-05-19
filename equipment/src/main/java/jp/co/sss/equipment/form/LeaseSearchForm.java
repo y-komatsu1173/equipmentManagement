@@ -1,8 +1,11 @@
 package jp.co.sss.equipment.form;
 
+import lombok.Data;
+
 /**
  * リース一覧表示　条件検索用
  */
+@Data
 public class LeaseSearchForm {
 
 	/**カテゴリ*/
