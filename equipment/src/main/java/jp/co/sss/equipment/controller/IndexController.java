@@ -42,6 +42,18 @@ public class IndexController {
 		model.addAttribute("items", indexlist);//indexに情報を渡す　”items”をindex.htmlのth:eactに一致させる
 		StaffData user = (StaffData) session.getAttribute("user"); //セッションからユーザ情報を取得
 		model.addAttribute("loginUser", user);
+		
+		System.out.println("==========一覧画面==========");
+		for (EquipListViewDto dto : indexlist) {
+		    System.out.printf(
+		        "名称：%s / 貸出：%d / 在庫：%d / 不明：%d / 合計：%d%n",
+		        dto.getName(),
+		        dto.getLendingCount(),
+		        dto.getStockCount(),
+		        dto.getUnknownCount(),
+		        dto.getTotal()
+		    );
+		}
 
 		return "index/index"; //tenmplatsファルダーのindexのindex.htmlが呼出される
 	}
@@ -59,6 +71,25 @@ public class IndexController {
 		model.addAttribute("detailName", detailList.get(0)); //備品名が複数取得されるため１つ目だけ採取しHTMLに反映（１つだけのため）
 		model.addAttribute("itemDetail", detailList);
 		model.addAttribute("categoryName", name);
+		
+		System.out.println("==========貸出一覧==========");
+		System.out.println("【"+name+"】");
+		for (DetailListViewDto dto : detailList) {
+		    System.out.printf(
+		        "シリアルナンバー：%s / 使用者：%s / 貸出可否：%s / 貸出開始日：%s / 返却予定日：%s / 最終所在確認日：%s / 製品名：%s / メーカー：%s / 分類：%s / リース返却日：%s / 備考：%s%n",
+		        dto.getParentStockCode(),
+		        dto.getStaffName(),
+		        dto.getRentFlg(),
+		        dto.getStartDate(),
+		        dto.getLimitDate(),
+		        dto.getConfirmedDate(),
+		        dto.getProductName(),
+		        dto.getMaker(),
+		        dto.getOwnershipType(),
+		        dto.getLeaseReturnDate(),
+		        dto.getRemarks()
+		    );
+		}
 		return "index/detail";
 	}
 
