@@ -1,1 +1,291 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="jp.co.sss.equipment.mapper.LeaseMapper">
+
+	<!-- リース一覧 -->
+	<select id="leaseListSertch"
+		parameterType="jp.co.sss.equipment.form.LeaseSearchForm"
+		resultType="jp.co.sss.equipment.dto.LeaseListDto">
+
+		SELECT
+		sd.stock_code,
+		sm.lease_return_date AS lease_return_date,
+		sm.name
+		AS product_name,
+		stm.name AS category_name,
+
+		CASE
+		WHEN sd.staff_no IS NOT
+		NULL
+		AND sd.return_date IS NULL
+		THEN '貸出中'
+		ELSE '在庫'
+		END AS status_name,
+
+		sd.limit_date AS return_date,
+		stf.name AS staff_name
+
+		FROM stock_data sd
+
+		INNER JOIN stock_master sm
+		ON sd.stock_code = sm.stock_code
+
+		INNER JOIN
+		stock_type_master stm
+		ON sm.stock_type = stm.stock_type
+
+		LEFT JOIN
+		staff_data stf
+		ON sd.staff_no = stf.staff_no
+
+		WHERE sm.ownership_type = 2
+
+		<if test="categoryId != null">
+			AND sm.stock_type = #{categoryId}
+		</if>
+
+		<if test="status != null and status != ''">
+			<choose>
+				<when test="status == '貸出中'">
+					AND sd.staff_no IS NOT NULL
+					AND sd.return_date IS
+					NULL
+				</when>
+
+				<when test="status == '在庫'">
+					AND sd.staff_no IS NULL
+				</when>
+			</choose>
+		</if>
+
+		ORDER BY sm.lease_return_date ASC
+
+	</select>
+
+	<!-- 1ヶ月前通知 -->
+	<select id="findLeaseReturnAfterOneMonth"
+		resultType="jp.co.sss.equipment.dto.LeaseListDto">
+
+		SELECT
+		stf.mail,
+		stf.name AS staff_name,
+		sm.name AS
+		product_name,
+		sm.lease_return_date
+
+		FROM stock_data sd
+
+		INNER JOIN
+		stock_master sm
+		ON sd.stock_code = sm.stock_code
+
+		LEFT JOIN staff_data
+		stf
+		ON sd.staff_no = stf.staff_no
+
+		WHERE sm.ownership_type = 2
+
+		AND
+		DATE(sm.lease_return_date)
+		= DATE_ADD(CURDATE(), INTERVAL 1 MONTH)
+
+	</select>
+
+	<!-- 1週間前通知 -->
+	<select id="findLeaseReturnAfterOneWeek"
+		resultType="jp.co.sss.equipment.dto.LeaseListDto">
+
+		SELECT
+		stf.mail,
+		stf.name AS staff_name,
+		sm.name AS
+		product_name,
+		sm.lease_return_date
+
+		FROM stock_data sd
+
+		INNER JOIN
+		stock_master sm
+		ON sd.stock_code = sm.stock_code
+
+		LEFT JOIN staff_data
+		stf
+		ON sd.staff_no = stf.staff_no
+
+		WHERE sm.ownership_type = 2
+
+		AND
+		DATE(sm.lease_return_date)
+		= DATE_ADD(CURDATE(), INTERVAL 7 DAY)
+
+	</select>
+
+	<!-- 1日前通知 -->
+	<select id="findLeaseReturnAfterOneDay"
+		resultType="jp.co.sss.equipment.dto.LeaseListDto">
+
+		SELECT
+		stf.mail,
+		stf.name AS staff_name,
+		sm.name AS
+		product_name,
+		sm.lease_return_date
+
+		FROM stock_data sd
+
+		INNER JOIN
+		stock_master sm
+		ON sd.stock_code = sm.stock_code
+
+		LEFT JOIN staff_data
+		stf
+		ON sd.staff_no = stf.staff_no
+
+		WHERE sm.ownership_type = 2
+
+		AND
+		DATE(sm.lease_return_date)
+		= DATE_ADD(CURDATE(), INTERVAL 1 DAY)
+
+	</select>
+
+	<!-- ヘッダー通知一覧 -->
+	<select id="findLeaseAlerts" parameterType="java.lang.Integer"
+		resultType="jp.co.sss.equipment.dto.LeaseListDto">
+		SELECT
+		sd.stock_code,
+		sm.name AS product_name,
+		stm.name AS category_name,
+		sd.limit_date AS return_date,
+		sm.lease_return_date AS lease_return_date,
+		stf.name AS staff_name,
+
+		CASE
+		WHEN sm.ownership_type != 2
+		AND sd.staff_no IS NOT NULL
+		AND sd.return_date IS NULL
+		AND sd.limit_date &lt; CURDATE()
+		THEN '返却期限切れ'
+
+		WHEN sm.ownership_type != 2
+		AND sd.staff_no IS NOT NULL
+		AND sd.return_date IS NULL
+		AND sd.limit_date &lt;= DATE_ADD(CURDATE(), INTERVAL 7 DAY)
+		THEN '返却期限間近'
+
+		WHEN sm.ownership_type = 2
+		AND sm.lease_return_date &lt; CURDATE()
+		THEN 'リース返却期限切れ'
+
+		WHEN sm.ownership_type = 2
+		AND sm.lease_return_date &lt;= DATE_ADD(CURDATE(), INTERVAL 30 DAY)
+		THEN 'リース返却期限間近'
+		END AS alert_type,
+
+		DATEDIFF(sd.limit_date, CURDATE()) AS remaining_days,
+		DATEDIFF(sm.lease_return_date, CURDATE()) AS remaining_lease_days
+
+		FROM stock_data sd
+
+		INNER JOIN stock_master sm
+		ON sd.stock_code = sm.stock_code
+
+		INNER JOIN stock_type_master stm
+		ON sm.stock_type = stm.stock_type
+
+		LEFT JOIN staff_data stf
+		ON sd.staff_no = stf.staff_no
+
+		WHERE
+		(
+		sm.ownership_type = 2
+		AND sm.lease_return_date IS NOT NULL
+		AND sm.lease_return_date &lt;= DATE_ADD(CURDATE(), INTERVAL 30 DAY)
+		)
+		OR
+		(
+		sm.ownership_type != 2
+		AND sd.staff_no IS NOT NULL
+		AND sd.return_date IS NULL
+		AND sd.limit_date IS NOT NULL
+		AND sd.limit_date &lt;= DATE_ADD(CURDATE(), INTERVAL 7 DAY)
+
+		<if test="_parameter != null">
+			AND sd.staff_no = #{_parameter}
+		</if>
+		)
+
+		ORDER BY
+		CASE
+		WHEN sm.ownership_type != 2
+		AND sd.limit_date &lt; CURDATE()
+		THEN 1
+
+		WHEN sm.ownership_type != 2
+		AND sd.limit_date &lt;= DATE_ADD(CURDATE(), INTERVAL 7 DAY)
+		THEN 2
+
+		WHEN sm.ownership_type = 2
+		AND sm.lease_return_date &lt; CURDATE()
+		THEN 3
+
+		WHEN sm.ownership_type = 2
+		AND sm.lease_return_date &lt;= DATE_ADD(CURDATE(), INTERVAL 30 DAY)
+		THEN 4
+
+		ELSE 5
+		END,
+		sd.limit_date ASC,
+		sm.lease_return_date ASC
+	</select>
+
+	<!-- 一般ユーザー用ヘッダー通知一覧 -->
+	<select id="findUserLeaseAlerts"
+		parameterType="java.lang.Integer"
+		resultType="jp.co.sss.equipment.dto.LeaseListDto">
+
+		SELECT
+		sd.stock_code,
+		sm.name AS product_name,
+		stm.name AS category_name,
+		sd.limit_date AS return_date,
+		stf.name AS staff_name,
+
+		CASE
+		WHEN sd.limit_date &lt; CURDATE()
+		THEN '返却期限切れ'
+
+		WHEN sd.limit_date &lt;= DATE_ADD(CURDATE(), INTERVAL 7 DAY)
+		THEN '返却期限間近'
+		END AS alert_type,
+
+		DATEDIFF(sd.limit_date, CURDATE()) AS remaining_days
+
+		FROM stock_data sd
+
+		INNER JOIN stock_master sm
+		ON sd.stock_code = sm.stock_code
+
+		INNER JOIN stock_type_master stm
+		ON sm.stock_type = stm.stock_type
+
+		LEFT JOIN staff_data stf
+		ON sd.staff_no = stf.staff_no
+
+		WHERE
+		sm.ownership_type != 2
+		AND sd.staff_no = #{_parameter}
+		AND sd.return_date IS NULL
+		AND sd.limit_date IS NOT NULL
+		AND sd.limit_date &lt;= DATE_ADD(CURDATE(), INTERVAL 7 DAY)
+
+		ORDER BY
+		sd.limit_date ASC
+
+	</select>
+
+</mapper>
