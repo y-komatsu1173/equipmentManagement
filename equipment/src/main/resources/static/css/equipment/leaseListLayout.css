@@ -1,0 +1,97 @@
+@charset "UTF-8";
+
+body {
+    margin: 0;
+    padding: 90px 24px 24px;
+    background-color: #f5f7fa;
+    font-family: sans-serif;
+}
+
+form {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    flex-wrap: wrap;
+    padding: 16px 20px;
+    margin-bottom: 20px;
+    background-color: white;
+    border: 1px solid #dcdcdc;
+    border-radius: 8px;
+}
+
+form label {
+    font-weight: bold;
+    margin-right: 4px;
+}
+
+form select {
+    min-width: 150px;
+    padding: 7px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+form button[type="submit"] {
+    padding: 8px 24px;
+    border: none;
+    border-radius: 5px;
+    background-color: #2563eb;
+    color: white;
+    cursor: pointer;
+}
+
+.table-area {
+    max-height: 520px;
+    overflow-y: auto;
+    overflow-x: auto;
+    border: 1px solid #dcdcdc;
+    background-color: white;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: white;
+}
+
+table th,
+table td {
+    padding: 10px;
+    border: 1px solid #dcdcdc;
+    text-align: center;
+    white-space: nowrap;
+}
+
+table th {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    background-color: #e5e7eb;
+}
+
+a button {
+    margin-top: 20px;
+    padding: 10px 30px;
+    border: none;
+    border-radius: 5px;
+    background-color: #6b7280;
+    color: white;
+    cursor: pointer;
+}
+
+/* リース期限色分け：残す */
+.return-month {
+    background-color: #dbeafe !important;
+}
+
+.return-week {
+    background-color: #fff3cd !important;
+}
+
+.return-over {
+    background-color: #f8d7da !important;
+}
+
+td.return-over:first-child {
+    border-left: 5px solid red !important;
+}
