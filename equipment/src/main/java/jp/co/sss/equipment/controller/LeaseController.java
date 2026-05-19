@@ -38,6 +38,20 @@ public class LeaseController {
 		List<LeaseListDto> leaseList = leaseService.leaseListSertch(form);
 
 		model.addAttribute("leaseList", leaseList);
+		
+		 System.out.println("==========リース備品一覧==========");
+		    for (LeaseListDto dto : leaseList) {
+		        System.out.printf(
+		            "シリアル：%s / リース返却日：%s / 備品名：%s / カテゴリ：%s / 状態：%s / 返却期限：%s / 使用者：%s%n",
+		            dto.getStockCode(),
+		            dto.getLeaseReturnDate(),
+		            dto.getProductName(),
+		            dto.getCategoryName(),
+		            dto.getStatusName(),
+		            dto.getReturnDate(),
+		            dto.getStaffName()
+		        );
+		    }
 		return "index/leaseList";
 	}
 }
